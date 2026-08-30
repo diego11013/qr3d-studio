@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Primary Meta Tags -->
+  <title>Generador de Códigos QR para Imprimir en 3D | QR3D Studio (3MF y STL)</title>
+  <meta name="title" content="Generador de Códigos QR para Imprimir en 3D | QR3D Studio (3MF y STL)">
+  <meta name="description" content="Crea códigos QR 3D para imprimir: soportes de restaurante, llaveros y placas. Exporta gratis en .3MF multicolor (Bambu/Prusa) y .STL sin registro y 100% privado.">
+  <meta name="keywords" content="código QR para imprimir en 3D, QR llavero 3D, soporte QR 3D restaurante, generador QR 3MF multicolor, imprimir QR 3D, archivo 3MF multicolor, QR para Bambu Lab, QR wifi 3D, QR reseñas google 3d">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="QR3D Studio">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://qr3d.studio/">
+  <meta property="og:title" content="QR3D Studio — Generador de Códigos QR 3D en .3MF y .STL">
+  <meta property="og:description" content="Convierte enlaces, cartas de restaurante y redes WiFi en piezas 3D físicas con relieve. Exportación directa multicolor para Bambu Lab, Prusa y STL.">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="QR3D Studio — Generador de Códigos QR para Impresión 3D">
+  <meta name="twitter:description" content="Diseña soportes, llaveros y placas QR 3D listos para imprimir en tu navegador.">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "QR3D Studio",
+    "url": "https://qr3d.studio/",
+    "description": "Herramienta online para generar modelos 3D de códigos QR en formato .3MF multicolor y .STL para impresión 3D.",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-container">
+      <div class="logo">
+        <div class="logo-icon">🖨️</div>
+        <span>QR3D Studio</span>
+        <span class="badge-tag">3MF Multicolor</span>
+      </div>
+      <div class="trust-item" style="margin-bottom:0; background:none; border:none;">
+        <span>🔒 100% en tu navegador (Sin subir archivos)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="hero-title">Generador de Códigos QR para Impresión 3D</h1>
+      <p class="hero-desc">
+        Diseña soportes de sobremesa para restaurantes, llaveros y placas de pared con código QR en relieve.
+        Descarga el archivo <strong>.3MF con dos colores nativos</strong> para impresoras modernas (Bambu Lab, Prusa) o en <strong>.STL estándar</strong>.
+      </p>
+      
+      <div class="trust-badges">
+        <div class="trust-item">⚡ Sin registros ni esperas</div>
+        <div class="trust-item">🎨 Exportación .3MF con color embebido</div>
+        <div class="trust-item">🖐️ Compatible con Trackpad, Ratón y Táctil</div>
+        <div class="trust-item">📱 Compatible con cualquier smartphone</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Tool Workspace (Above the fold) -->
+  <main class="container">
+    <div class="studio-grid">
+      
+      <!-- Left Panel: Customization Controls -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><span>⚙️</span> Personaliza tu QR 3D</h2>
+          <span class="badge-tag" id="dimsBadge">72 × 90 × 3.8 mm</span>
+        </div>
+
+        <!-- 1. URL / Content Input -->
+        <div class="control-group">
+          <label class="control-label" for="qrInput">1. Enlace o Contenido del QR</label>
+          <div class="input-with-action">
+            <input type="text" id="qrInput" class="text-input" placeholder="https://tu-restaurante.com/carta o enlace de Google Reviews" value="https://ejemplo.com/menu">
+            <button type="button" id="wifiHelperBtn" class="action-btn-sm" title="Crear QR para WiFi">
+              <span>📶</span> WiFi
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Object Format (Stand, Keychain, Plaque) -->
+        <div class="control-group">
+          <label class="control-label">2. Formato del Objeto 3D</label>
+          <div class="format-grid">
+            <div class="format-card active" data-format="stand">
+              <div class="format-icon">🪑</div>
+              <div class="format-title">Soporte Mesa</div>
+              <div class="format-sub">Cartas y reseñas</div>
+            </div>
+            <div class="format-card" data-format="keychain">
+              <div class="format-icon">🔑</div>
+              <div class="format-title">Llavero</div>
+              <div class="format-sub">Con anilla</div>
+            </div>
+            <div class="format-card" data-format="plaque">
+              <div class="format-icon">🏷️</div>
+              <div class="format-title">Placa Pared</div>
+              <div class="format-sub">Pared o mostrador</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Dual Colors (Base & Relief) -->
+        <div class="control-group">
+          <label class="control-label">3. Colores de Filamento (Multicolor)</label>
+          <div class="color-picker-row">
+            <div class="color-box-picker">
+              <input type="color" id="baseColorInput" value="#FFFFFF">
+              <div class="color-box-info">
+                <span class="color-box-label">Color de la Base</span>
+                <span class="color-box-hex" id="baseColorHex">#FFFFFF</span>
+              </div>
+            </div>
+            <div class="color-box-picker">
+              <input type="color" id="reliefColorInput" value="#111827">
+              <div class="color-box-info">
+                <span class="color-box-label">Color del QR / Relieve</span>
+                <span class="color-box-hex" id="reliefColorHex">#111827</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Presets -->
+          <div class="presets-container">
+            <span class="presets-label">Paletas:</span>
+            <button type="button" class="color-preset-btn" data-base="#FFFFFF" data-relief="#111827">
+              <span class="preset-dual-dot"><span class="preset-half" style="background:#FFFFFF"></span><span class="preset-half" style="background:#111827"></span></span> Blanco/Negro
+            </button>
+            <button type="button" class="color-preset-btn" data-base="#1E293B" data-relief="#F59E0B">
+              <span class="preset-dual-dot"><span class="preset-half" style="background:#1E293B"></span><span class="preset-half" style="background:#F59E0B"></span></span> Azul/Oro
+            </button>
+            <button type="button" class="color-preset-btn" data-base="#FFFFFF" data-relief="#DC2626">
+              <span class="preset-dual-dot"><span class="preset-half" style="background:#FFFFFF"></span><span class="preset-half" style="background:#DC2626"></span></span> Blanco/Rojo
+            </button>
+            <button type="button" class="color-preset-btn" data-base="#111827" data-relief="#10B981">
+              <span class="preset-dual-dot"><span class="preset-half" style="background:#111827"></span><span class="preset-half" style="background:#10B981"></span></span> Negro/Verde
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Module Shape & Center Emoji -->
+        <div class="control-group">
+          <label class="control-label">4. Estilo de los Puntos y Logo Central</label>
+          <div class="toggle-pills" style="margin-bottom: 12px;">
+            <button type="button" class="shape-btn active" data-shape="square">Cuadrado</button>
+            <button type="button" class="shape-btn" data-shape="rounded">Redondeado</button>
+            <button type="button" class="shape-btn" data-shape="dots">Puntos 3D</button>
+          </div>
+
+          <!-- Quick Emoji Selector -->
+          <div class="emoji-selector-row">
+            <button type="button" class="emoji-btn active" data-emoji="🍽️" title="Restaurante / Carta (Cubiertos 3D)">🍽️</button>
+            <button type="button" class="emoji-btn" data-emoji="⭐" title="Reseñas Google (Estrella 3D)">⭐</button>
+            <button type="button" class="emoji-btn" data-emoji="📶" title="WiFi (Señal 3D)">📶</button>
+            <button type="button" class="emoji-btn" data-emoji="☕" title="Café (Taza 3D)">☕</button>
+            <button type="button" class="emoji-btn" data-emoji="📷" title="Instagram (Cámara 3D)">📷</button>
+            <button type="button" class="emoji-btn" data-emoji="🛍️" title="Tienda (Bolsa 3D)">🛍️</button>
+            <button type="button" class="emoji-btn" data-emoji="📍" title="Ubicación (Pin 3D)">📍</button>
+            <button type="button" class="emoji-btn" data-emoji="🔗" title="Enlace web (Link 3D)">🔗</button>
+          </div>
+          <div class="input-with-action">
+            <input type="text" id="customEmojiInput" class="text-input" placeholder="O escribe otro emoji..." maxlength="4">
+            <button type="button" id="clearEmojiBtn" class="action-btn-sm">Quitar</button>
+          </div>
+        </div>
+
+        <!-- 5. Bottom Embossed Text -->
+        <div class="control-group" style="margin-bottom: 0;">
+          <label class="control-label" for="bottomTextInput">5. Texto en Relieve (Inferior)</label>
+          <input type="text" id="bottomTextInput" class="text-input" placeholder="Ej: MENU DIGITAL o VALORANOS EN GOOGLE" value="MENU DIGITAL" maxlength="22">
+        </div>
+
+      </div>
+
+      <!-- Right Panel: Interactive 3D Viewport & Downloads -->
+      <div class="panel viewport-panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><span>👁️</span> Vista Previa 3D Interactiva</h2>
+          <span class="badge-tag" style="background:#0284c7; color:#fff; border:none;">Trackpad & Táctil</span>
+        </div>
+
+        <!-- 3D Canvas Viewport -->
+        <div class="viewport-container">
+          <canvas id="qrCanvas3d"></canvas>
+          
+          <!-- Viewport Top Overlay -->
+          <div class="viewport-overlay-top">
+            <span class="dimensions-badge">3MF Multi-Material</span>
+            <button type="button" class="reset-cam-btn" id="reset3dBtn">🔄 Centrar Vista</button>
+          </div>
+
+          <!-- On-Screen Floating Control Buttons for Laptop Trackpads & Touch -->
+          <div class="viewport-floating-controls">
+            <button type="button" class="viewport-ctrl-btn" id="btnAutoRotate" title="Rotación automática (Play / Pausa)">🔄</button>
+            <button type="button" class="viewport-ctrl-btn" id="btnRotateLeft" title="Girar izquierda">⬅️</button>
+            <button type="button" class="viewport-ctrl-btn" id="btnRotateRight" title="Girar derecha">➡️</button>
+            <button type="button" class="viewport-ctrl-btn" id="btnTiltUp" title="Inclinar arriba">⬆️</button>
+            <button type="button" class="viewport-ctrl-btn" id="btnTiltDown" title="Inclinar abajo">⬇️</button>
+            <button type="button" class="viewport-ctrl-btn" id="btnZoomIn" title="Acercar zoom (+)">➕</button>
+            <button type="button" class="viewport-ctrl-btn" id="btnZoomOut" title="Alejar zoom (-)">➖</button>
+          </div>
+
+          <!-- Viewport Bottom Overlay -->
+          <div class="viewport-overlay-bottom">
+            <span class="trackpad-hint-bar">🖐️ <strong>Trackpad:</strong> Desliza 2 dedos para girar · Pellizca para zoom</span>
+          </div>
+        </div>
+
+        <!-- Interactive Zoom Slider Bar -->
+        <div class="zoom-slider-bar">
+          <span class="zoom-label">🔍 Zoom:</span>
+          <button type="button" class="zoom-step-btn" id="btnZoomOutSlider" title="Alejar (Zoom -)">➖</button>
+          <input type="range" id="zoomSlider" min="90" max="500" value="220" step="2" title="Desliza para ajustar el tamaño en pantalla">
+          <button type="button" class="zoom-step-btn" id="btnZoomInSlider" title="Acercar (Zoom +)">➕</button>
+        </div>
+
+        <!-- 3D Download Action Buttons -->
+        <div class="download-section">
+          <button type="button" id="btnDownload3MF" class="btn-primary-download">
+            <span>⚡ Descargar .3MF (Multicolor con Color Nativo)</span>
+          </button>
+          
+          <button type="button" id="btnDownloadSTL" class="btn-secondary-download" style="padding: 12px;" title="Descargar modelo 3D combinado para cambio de filamento por pausa de capa">
+            <span>📦 Descargar .STL (Universal para cualquier impresora)</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- NEW SECTION: Dedicated 2D QR Code View & Vector Export -->
+    <div class="qr-2d-section">
+      <div class="qr-2d-grid">
+        <!-- 2D High-Resolution Canvas Preview -->
+        <div class="qr-2d-preview-wrapper">
+          <canvas id="qrCanvas2dFull" width="512" height="512"></canvas>
+        </div>
+
+        <!-- 2D Information & Export Actions -->
+        <div class="qr-2d-info-col">
+          <h3 class="qr-2d-title">
+            <span>📱</span> Código QR en 2D (Digital e Impresión Gráfica)
+          </h3>
+          <p class="qr-2d-desc">
+            Visualiza y descarga el mismo código QR con tus colores personalizados, forma de puntos y distintivo central.
+            Listo para imprimir en papel, incluir en cartas plastificadas, tarjetas de visita o publicar en redes sociales.
+          </p>
+
+          <div class="qr-2d-meta-row">
+            <span class="qr-meta-pill">🛡️ Corrección de error: Nivel H (30%)</span>
+            <span class="qr-meta-pill">📐 Formato Vectorial SVG</span>
+            <span class="qr-meta-pill">🖼️ Imagen PNG 1024 × 1024 px</span>
+            <span class="qr-meta-pill">⚡ Escaneo instantáneo</span>
+          </div>
+
+          <div class="qr-2d-actions-row">
+            <button type="button" id="btnDownloadPNG2D" class="btn-2d-download">
+              <span>🖼️ Descargar PNG (Alta Definición)</span>
+            </button>
+            <button type="button" id="btnDownloadSVG2D" class="btn-2d-download">
+              <span>📐 Descargar SVG (Vectorial Escalable)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monetization: Leaderboard Ad Placeholder -->
+    <div class="ad-slot-container ad-leaderboard">
+      <span class="ad-tag">ANUNCIO</span>
+      <p class="ad-desc">Espacio publicitario disponible · Banner Horizontal (728 × 90)</p>
+    </div>
+
+  </main>
+
+  <!-- Section: How it Works (3 Steps) -->
+  <section class="content-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Diseña y descarga tu QR 3D en 3 sencillos pasos</h2>
+        <p class="section-subtitle">Del navegador a tu impresora 3D en menos de 1 minuto, sin software de diseño complejo.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Configura el contenido y el soporte</h3>
+          <p class="step-desc">Pega tu enlace, menú de restaurante, reseña de Google o clave WiFi. Elige si necesitas un soporte inclinado de mesa, un llavero con anilla o una placa de pared.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Personaliza colores y revisa en 3D</h3>
+          <p class="step-desc">Selecciona los dos colores de filamento para la base y el relieve. Añade tu texto comercial e inspecciona el modelo en el visor 3D en tiempo real desde cualquier ángulo con tu trackpad o botones en pantalla.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Descarga en .3MF y manda a imprimir</h3>
+          <p class="step-desc">Descarga el archivo .3MF listo para Bambu Studio, OrcaSlicer o PrusaSlicer con los colores ya asignados a cada cuerpo, o el .STL para impresoras monocromáticas tradicionales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Use Cases -->
+  <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Ideas de uso profesionales para negocios y eventos</h2>
+        <p class="section-subtitle">Aumenta las conversiones de tu negocio físico con señalética 3D duradera, táctil y profesional.</p>
+      </div>
+
+      <div class="use-cases-grid">
+        <!-- Card 1 -->
+        <div class="use-case-card">
+          <div class="use-case-header">
+            <div class="use-case-icon">🍽️</div>
+            <div>
+              <h3 class="use-case-title">Restaurantes, Bares y Cafés</h3>
+              <span class="use-case-badge">Soporte de Mesa</span>
+            </div>
+          </div>
+          <p class="use-case-text">Menús digitales y cartas sin contacto en soportes lavables y elegantes que no se vuelan con el viento en terrazas ni se deterioran con líquidos.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="use-case-card">
+          <div class="use-case-header">
+            <div class="use-case-icon">⭐</div>
+            <div>
+              <h3 class="use-case-title">Reseñas de Google y TripAdvisor</h3>
+              <span class="use-case-badge">Mostrador y Caja</span>
+            </div>
+          </div>
+          <p class="use-case-text">Multiplica tus valoraciones de 5 estrellas en Google colocando un soporte llamativo junto al TPV para que el cliente opine justo al pagar.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="use-case-card">
+          <div class="use-case-header">
+            <div class="use-case-icon">📶</div>
+            <div>
+              <h3 class="use-case-title">Alojamientos Turísticos y Airbnb</h3>
+              <span class="use-case-badge">WiFi de Huéspedes</span>
+            </div>
+          </div>
+          <p class="use-case-text">Placas decorativas para la entrada o mesita de noche con conexión WiFi automática al enfocar la cámara, sin teclear contraseñas largas.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="use-case-card">
+          <div class="use-case-header">
+            <div class="use-case-icon">🔑</div>
+            <div>
+              <h3 class="use-case-title">Llaveros de Eventos y Networking</h3>
+              <span class="use-case-badge">Llavero Portátil</span>
+            </div>
+          </div>
+          <p class="use-case-text">Comparte tu perfil de LinkedIn, Instagram o tarjeta de contacto vCard en ferias y congresos llevando un llavero 3D indestructible.</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="use-case-card">
+          <div class="use-case-header">
+            <div class="use-case-icon">🏷️</div>
+            <div>
+              <h3 class="use-case-title">Placas de Pared y Pagos Rápidos</h3>
+              <span class="use-case-badge">Placa Adhesiva</span>
+            </div>
+          </div>
+          <p class="use-case-text">Códigos de pago rápido (Bizum, Mercado Pago, transferencias) y señalética para fijar en paredes, escaparates o mamparas de atención.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Monetization: In-Content Ad Placeholder -->
+  <div class="container">
+    <div class="ad-slot-container ad-content-banner">
+      <span class="ad-tag">ANUNCIO</span>
+      <p class="ad-desc">Espacio publicitario patrocinado · Formato Banner de Contenido</p>
+    </div>
+  </div>
+
+  <!-- Section: 3D Printing Technical Guide -->
+  <section class="content-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Guía Técnica de Impresión y Laminación 3D</h2>
+        <p class="section-subtitle">Consejos de configuración para conseguir códigos QR con contraste perfecto y lectura óptica instantánea.</p>
+      </div>
+
+      <div class="guide-container">
+        <div class="guide-cols">
+          <!-- Col 1: AMS / Multi-material -->
+          <div class="guide-block">
+            <h3 class="guide-block-title"><span>🎨</span> Impresoras Multicolor (Bambu AMS, Prusa MMU, Kobra)</h3>
+            <ul class="guide-list">
+              <li>✔️ Abre el archivo <strong>.3MF</strong> en Bambu Studio, OrcaSlicer o PrusaSlicer.</li>
+              <li>✔️ El archivo se carga como un ensamblaje con 2 piezas separadas: <strong>Base</strong> y <strong>Relieve QR</strong>.</li>
+              <li>✔️ Asigna el filamento de fondo (blanco/claro) a la base y el de contraste (negro/oscuro) al relieve.</li>
+              <li>✔️ Haz clic en Laminar e imprime sin necesidad de colorear manualmente caras ni geometrías.</li>
+            </ul>
+          </div>
+
+          <!-- Col 2: Single Extruder M600 -->
+          <div class="guide-block">
+            <h3 class="guide-block-title"><span>⚙️</span> Impresoras Monocromo (Ender 3, Neptune, Klipper)</h3>
+            <ul class="guide-list">
+              <li>✔️ Carga el archivo <strong>.STL</strong> o <strong>.3MF</strong> en tu laminador habitual (Cura, PrusaSlicer).</li>
+              <li>✔️ Localiza la capa exacta donde termina la base (aprox. a los 2.4 mm) y empieza el relieve.</li>
+              <li>✔️ Añade una pausa por altura de capa (comando <code>M600</code> o <em>Pause at height</em>).</li>
+              <li>✔️ Inicia con el color base; al pausar, cambia el carrete al color del QR y reanuda.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slicer Recommended Settings Bar -->
+        <div class="slicer-params-bar">
+          <div class="param-item">
+            <div class="param-name">Altura de Capa</div>
+            <div class="param-val">0.16 - 0.20 mm</div>
+          </div>
+          <div class="param-item">
+            <div class="param-name">Boquilla Recomendada</div>
+            <div class="param-val">0.4 mm (o 0.2 mm para QR densos)</div>
+          </div>
+          <div class="param-item">
+            <div class="param-name">Relleno (Infill)</div>
+            <div class="param-val">15% - 20% (Giroide / Grid)</div>
+          </div>
+          <div class="param-item">
+            <div class="param-name">Paredes / Perímetros</div>
+            <div class="param-val">3 perímetros mínimos</div>
+          </div>
+          <div class="param-item">
+            <div class="param-name">Material Recomendado</div>
+            <div class="param-val">PLA (Interior) / PETG (Terrazas)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: FAQ -->
+  <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Preguntas Frecuentes</h2>
+        <p class="section-subtitle">Resolvemos las dudas más habituales sobre la creación e impresión de códigos QR 3D.</p>
+      </div>
+
+      <div class="faq-list">
+        <!-- Q1 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Qué combinación de colores garantiza que el código QR se escanee sin problemas?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Para una lectura rápida con cualquier cámara de smartphone es imprescindible un alto contraste óptico. Las combinaciones más fiables son base blanca/clara con relieve negro/oscuro. Evita filamentos transparentes, con purpurina o combinaciones de bajo contraste (como rojo sobre naranja o gris sobre blanco).
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Con qué programas de laminación (slicers) son compatibles los archivos descargados?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Los archivos .3MF son compatibles nativamente con Bambu Studio, OrcaSlicer, PrusaSlicer y Ultimaker Cura. Los archivos .STL son compatibles con la totalidad de laminadores y plataformas de modelado 3D del mercado.
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Cuál es la diferencia entre descargar en formato .3MF y formato .STL?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            El formato .3MF almacena la geometría organizada en piezas separadas con información de color lista para impresoras multicolor (sistemas tipo AMS o MMU). El formato .STL entrega la malla geométrica combinada, ideal para impresoras monocromáticas tradicionales o cambios de filamento manuales por capa.
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Puedo imprimir estos modelos si mi impresora tiene un solo extrusor?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Sí. Dado que el diseño está configurado con la base en los primeros milímetros y el código QR en la parte superior, puedes programar una pausa de capa (M600) en tu laminador para cambiar el rollo de filamento manualmente justo antes de que empiece el relieve.
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Qué tipo de filamento debo elegir (PLA, PETG, ABS)?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            PLA es el material recomendado para interiores (llaveros, placas de oficina, cartas de restaurante cubiertas) por su facilidad de impresión y acabado nítido. PETG es ideal para exteriores o mesas de terraza, ya que resiste mejor la radiación solar, la humedad y el desgaste diario. ABS/ASA es adecuado para entornos industriales expuestos a altas temperaturas.
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Puedo utilizar los archivos generados para vender piezas impresas a mis clientes?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Sí. Los modelos geométricos generados son de libre disposición para proyectos personales y comerciales.
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Mis enlaces o contraseñas WiFi quedan almacenados en la web?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            No. La generación del código QR y el cálculo del modelo 3D se realizan íntegramente dentro de tu navegador web mediante JavaScript. Ningún dato es transmitido ni guardado en servidores externos.
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>¿Qué tamaño mínimo debe tener el QR impreso para que funcione correctamente?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Para códigos QR con enlaces cortos o redes WiFi estándar, un tamaño de 45 x 45 mm es suficiente. Si el código contiene enlaces extensos o parámetros complejos, se recomienda un tamaño de 60 x 60 mm a 75 x 75 mm para asegurar que cada módulo tenga suficiente resolución física de impresión.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="#top">Inicio</a>
+        <a href="#wifiHelperBtn">Generador WiFi</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Código Abierto</a>
+      </div>
+      <p>© 2026 QR3D Studio — Generador de Códigos QR para Impresión 3D. 100% Client-Side.</p>
+    </div>
+  </footer>
+
+  <!-- Modal: WiFi QR Helper -->
+  <div class="modal-overlay" id="wifiModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title"><span>📶</span> Configurar QR para Conexión WiFi</h3>
+        <button type="button" class="modal-close-icon" id="closeWifiBtn">✕</button>
+      </div>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
+        Al escanear este código con el móvil, los clientes o huéspedes se conectarán automáticamente a la red.
+      </p>
+      <div class="control-group">
+        <label class="control-label" for="wifiSsid">Nombre de la Red (SSID)</label>
+        <input type="text" id="wifiSsid" class="text-input" placeholder="Ej: WiFi_Restaurante_5G">
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="wifiPass">Contraseña</label>
+        <input type="text" id="wifiPass" class="text-input" placeholder="Clave de seguridad">
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="wifiType">Tipo de Cifrado</label>
+        <select id="wifiType" class="text-input">
+          <option value="WPA">WPA / WPA2 / WPA3 (Estándar)</option>
+          <option value="WEP">WEP (Antiguo)</option>
+          <option value="nopass">Red Abierta (Sin contraseña)</option>
+        </select>
+      </div>
+      <button type="button" id="applyWifiBtn" class="modal-action-btn">Aplicar a mi QR 3D</button>
+    </div>
+  </div>
+
+  <!-- Modal: Download Interstitial Ad Pop-up -->
+  <div class="modal-overlay" id="adModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title"><span>📥</span> Preparando tu archivo 3D...</h3>
+        <button type="button" class="modal-close-icon" id="adModalClose" title="Cerrar y continuar">✕</button>
+      </div>
+
+      <div class="modal-ad-slot">
+        <span class="ad-tag">ANUNCIO</span>
+        <p style="color:#cbd5e1; font-weight:600; margin:10px 0 4px;">Espacio Publicitario Interstitial (Pop-up de Descarga)</p>
+        <p style="font-size:0.8rem; color:#94a3b8;">Tu anuncio o banner de afiliación aquí (300 × 250)</p>
+      </div>
+
+      <p class="modal-countdown" id="adModalTimer">Descargando en 3s...</p>
+      
+      <button type="button" class="modal-action-btn" id="adModalDirectBtn" onclick="document.getElementById('adModalClose').click()">
+        ✕ Cerrar anuncio y descargar ya
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating Corner Ad Badge -->
+  <div class="ad-corner-badge" id="adCornerBadge">
+    <div class="ad-corner-header">
+      <span class="ad-tag">ANUNCIO</span>
+      <button type="button" class="ad-corner-close" id="closeCornerAdBtn" title="Cerrar">✕</button>
+    </div>
+    <p class="ad-corner-text">📢 ¿Buscas filamentos 3D de alta precisión? Espacio patrocinado disponible.</p>
+  </div>
+
+  <!-- Scripts -->
+  <script defer src="js/qr-core.js"></script>
+  <script defer src="js/geometry-builder.js"></script>
+  <script defer src="js/threemf-export.js"></script>
+  <script defer src="js/stl-export.js"></script>
+  <script defer src="js/viewer3d.js"></script>
+  <script defer src="js/app.js"></script>
+
+</body>
+</html>
