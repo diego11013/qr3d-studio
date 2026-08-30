@@ -1,7 +1,8 @@
 /**
  * QR3D Studio - Main Application Controller
- * Coordinates UI inputs, QR Generation, 3D Mesh Construction,
- * Real-time 3D Viewer, 2D QR HD Section, Trackpad, Zoom Slider, File Downloads, and Ad Modals.
+ * Coordinates UI inputs, 1-Click Quick Presets, Real-time Optical Contrast Checker,
+ * Dimension Sliders, i18n Language Toggle, 3D/2D Mesh Construction, Instant Downloads,
+ * and Legal Modals.
  */
 (function() {
   'use strict';
@@ -9,7 +10,7 @@
   // Application State
   const state = {
     text: 'https://ejemplo.com/menu',
-    objectFormat: 'stand', // 'stand', 'keychain', 'plaque'
+    objectFormat: 'stand', // 'stand', 'keychain', 'plaque', 'magnetic', 'countersunk'
     baseColor: '#FFFFFF',
     reliefColor: '#111827',
     moduleShape: 'square', // 'square', 'rounded', 'dots'
@@ -17,8 +18,7 @@
     bottomText: 'MENU DIGITAL',
     baseThickness: 2.4,
     reliefHeight: 1.4,
-    currentModelData: null,
-    pendingDownloadType: null
+    currentModelData: null
   };
 
   let viewer = null;
@@ -26,6 +26,9 @@
 
   // DOM Elements
   const el = {
+    langSwitchBtn: document.getElementById('langSwitchBtn'),
+    presetBtns: document.querySelectorAll('.quick-preset-btn'),
+
     qrInput: document.getElementById('qrInput'),
     wifiHelperBtn: document.getElementById('wifiHelperBtn'),
     wifiModal: document.getElementById('wifiModal'),
@@ -41,11 +44,17 @@
     reliefColorInput: document.getElementById('reliefColorInput'),
     reliefColorHex: document.getElementById('reliefColorHex'),
     colorPresets: document.querySelectorAll('.color-preset-btn'),
+    contrastBadge: document.getElementById('contrastBadge'),
 
     shapeBtns: document.querySelectorAll('.shape-btn'),
-    emojiBtns: document.querySelectorAll('.emblem-btn, .emoji-btn'),
+    emblemBtns: document.querySelectorAll('.emblem-btn'),
     customEmojiInput: document.getElementById('customEmojiInput'),
     clearEmojiBtn: document.getElementById('clearEmojiBtn'),
+
+    baseThickSlider: document.getElementById('baseThickSlider'),
+    baseThickVal: document.getElementById('baseThickVal'),
+    reliefHeightSlider: document.getElementById('reliefHeightSlider'),
+    reliefHeightVal: document.getElementById('reliefHeightVal'),
     bottomTextInput: document.getElementById('bottomTextInput'),
 
     canvas3d: document.getElementById('qrCanvas3d'),
@@ -53,7 +62,7 @@
     reset3dBtn: document.getElementById('reset3dBtn'),
     dimsBadge: document.getElementById('dimsBadge'),
 
-    // Floating On-Screen Viewport Buttons
+    // Viewport Floating Controls
     btnAutoRotate: document.getElementById('btnAutoRotate'),
     btnRotateLeft: document.getElementById('btnRotateLeft'),
     btnRotateRight: document.getElementById('btnRotateRight'),
@@ -67,23 +76,35 @@
     btnZoomOutSlider: document.getElementById('btnZoomOutSlider'),
     btnZoomInSlider: document.getElementById('btnZoomInSlider'),
 
+    // Download Buttons
     btnDownload3MF: document.getElementById('btnDownload3MF'),
     btnDownloadSTL: document.getElementById('btnDownloadSTL'),
     btnDownloadPNG2D: document.getElementById('btnDownloadPNG2D'),
     btnDownloadSVG2D: document.getElementById('btnDownloadSVG2D'),
+    downloadToast: document.getElementById('downloadToast'),
 
-    adModal: document.getElementById('adModal'),
-    adModalClose: document.getElementById('adModalClose'),
-    adModalTimer: document.getElementById('adModalTimer'),
-    adCornerBadge: document.getElementById('adCornerBadge'),
-    closeCornerAdBtn: document.getElementById('closeCornerAdBtn')
+    // Legal Modals
+    privacyModal: document.getElementById('privacyModal'),
+    termsModal: document.getElementById('termsModal'),
+    contactModal: document.getElementById('contactModal'),
+    openPrivacyBtn: document.getElementById('openPrivacyBtn'),
+    openTermsBtn: document.getElementById('openTermsBtn'),
+    openContactBtn: document.getElementById('openContactBtn'),
+    closePrivacyBtn: document.getElementById('closePrivacyBtn'),
+    closeTermsBtn: document.getElementById('closeTermsBtn'),
+    closeContactBtn: document.getElementById('closeContactBtn')
   };
 
   function init() {
-    // Initialize 3D Viewer
+    // 1. Initialize i18n
+    if (window.i18n) {
+      window.i18n.setLanguage(window.i18n.getLanguage());
+    }
+
+    // 2. Initialize 3D Viewer
     viewer = new window.QR3DViewer('qrCanvas3d');
 
-    // Sync Zoom slider with viewer changes (wheel, trackpad, pinch)
+    // Sync Zoom slider with viewer changes
     viewer.onZoomChange = function(distance) {
       if (el.zoomSlider) {
         el.zoomSlider.value = Math.round(distance);
@@ -95,6 +116,80 @@
   }
 
   function bindEvents() {
+    // Language Switcher
+    if (el.langSwitchBtn && window.i18n) {
+      el.langSwitchBtn.addEventListener('click', () => {
+        window.i18n.toggleLanguage();
+        updateContrastUI();
+      });
+    }
+
+    // 1-Click Quick Presets
+    el.presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        el.presetBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const preset = btn.dataset.preset;
+        if (preset === 'menu') {
+          state.text = 'https://ejemplo.com/menu';
+          state.objectFormat = 'stand';
+          state.centerEmoji = '🍽️';
+          state.bottomText = 'MENU DIGITAL';
+          state.baseColor = '#FFFFFF';
+          state.reliefColor = '#111827';
+        } else if (preset === 'reviews') {
+          state.text = 'https://g.page/r/tu-negocio/review';
+          state.objectFormat = 'stand';
+          state.centerEmoji = '⭐';
+          state.bottomText = 'VALORANOS EN GOOGLE';
+          state.baseColor = '#FFFFFF';
+          state.reliefColor = '#0071E3';
+        } else if (preset === 'wifi') {
+          state.text = 'WIFI:S:WiFi_Huespedes;T:WPA;P:clave123;;';
+          state.objectFormat = 'plaque';
+          state.centerEmoji = '📶';
+          state.bottomText = 'WIFI CLIENTES';
+          state.baseColor = '#161B22';
+          state.reliefColor = '#2997FF';
+        } else if (preset === 'instagram') {
+          state.text = 'https://instagram.com/tu_cuenta';
+          state.objectFormat = 'keychain';
+          state.centerEmoji = '📷';
+          state.bottomText = 'SIGUENOS';
+          state.baseColor = '#111827';
+          state.reliefColor = '#F59E0B';
+        } else if (preset === 'magnet') {
+          state.text = 'https://ejemplo.com';
+          state.objectFormat = 'magnetic';
+          state.centerEmoji = '⭐';
+          state.bottomText = 'ESCANEA AQUI';
+          state.baseColor = '#FFFFFF';
+          state.reliefColor = '#111827';
+        }
+
+        // Sync UI inputs with state
+        el.qrInput.value = state.text;
+        el.bottomTextInput.value = state.bottomText;
+        el.baseColorInput.value = state.baseColor;
+        el.baseColorHex.textContent = state.baseColor.toUpperCase();
+        el.reliefColorInput.value = state.reliefColor;
+        el.reliefColorHex.textContent = state.reliefColor.toUpperCase();
+
+        // Sync format cards
+        el.formatBtns.forEach(f => {
+          f.classList.toggle('active', f.dataset.format === state.objectFormat);
+        });
+
+        // Sync emblem buttons
+        el.emblemBtns.forEach(e => {
+          e.classList.toggle('active', e.dataset.emoji === state.centerEmoji);
+        });
+
+        updateAll();
+      });
+    });
+
     // Input text
     el.qrInput.addEventListener('input', e => {
       state.text = e.target.value.trim() || 'https://ejemplo.com';
@@ -110,17 +205,16 @@
         el.wifiModal.classList.remove('active');
       });
       el.applyWifiBtn.addEventListener('click', () => {
-        const ssid = el.wifiSsid.value.trim();
+        const ssid = el.wifiSsid.value.trim() || 'WiFi';
         const pass = el.wifiPass.value;
         const type = el.wifiType.value;
         const wifiString = `WIFI:S:${ssid};T:${type};P:${pass};;`;
         el.qrInput.value = wifiString;
         state.text = wifiString;
-        if (!state.bottomText) {
-          state.bottomText = 'WIFI ' + (ssid || 'CLIENTES');
-          el.bottomTextInput.value = state.bottomText;
-        }
+        state.bottomText = 'WIFI ' + ssid.toUpperCase();
+        el.bottomTextInput.value = state.bottomText;
         state.centerEmoji = '📶';
+        el.emblemBtns.forEach(b => b.classList.toggle('active', b.dataset.emoji === '📶'));
         el.wifiModal.classList.remove('active');
         updateAll();
       });
@@ -171,10 +265,10 @@
       });
     });
 
-    // Center Emoji Buttons
-    el.emojiBtns.forEach(btn => {
+    // Center Emblem Buttons
+    el.emblemBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        el.emojiBtns.forEach(b => b.classList.remove('active'));
+        el.emblemBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         state.centerEmoji = btn.dataset.emoji;
         el.customEmojiInput.value = '';
@@ -184,17 +278,33 @@
 
     el.customEmojiInput.addEventListener('input', e => {
       const val = e.target.value.trim();
-      el.emojiBtns.forEach(b => b.classList.remove('active'));
+      el.emblemBtns.forEach(b => b.classList.remove('active'));
       state.centerEmoji = val;
       updateAll();
     });
 
     el.clearEmojiBtn.addEventListener('click', () => {
-      el.emojiBtns.forEach(b => b.classList.remove('active'));
+      el.emblemBtns.forEach(b => b.classList.remove('active'));
       el.customEmojiInput.value = '';
       state.centerEmoji = '';
       updateAll();
     });
+
+    // Thickness Sliders
+    if (el.baseThickSlider) {
+      el.baseThickSlider.addEventListener('input', e => {
+        state.baseThickness = parseFloat(e.target.value);
+        if (el.baseThickVal) el.baseThickVal.textContent = state.baseThickness.toFixed(1) + ' mm';
+        update3D();
+      });
+    }
+    if (el.reliefHeightSlider) {
+      el.reliefHeightSlider.addEventListener('input', e => {
+        state.reliefHeight = parseFloat(e.target.value);
+        if (el.reliefHeightVal) el.reliefHeightVal.textContent = state.reliefHeight.toFixed(1) + ' mm';
+        update3D();
+      });
+    }
 
     // Bottom Text
     el.bottomTextInput.addEventListener('input', e => {
@@ -202,7 +312,7 @@
       update3D();
     });
 
-    // 3D Viewport Controls (Trackpad / Touch / Button shortcuts)
+    // 3D Viewport Controls
     if (el.reset3dBtn) {
       el.reset3dBtn.addEventListener('click', () => {
         viewer.resetView();
@@ -249,27 +359,20 @@
       el.btnZoomInSlider.addEventListener('click', () => viewer.zoomBy(-35));
     }
 
-    // Corner Ad Close
-    if (el.closeCornerAdBtn) {
-      el.closeCornerAdBtn.addEventListener('click', () => {
-        el.adCornerBadge.style.display = 'none';
-      });
-    }
-
-    // Downloads (3D & 2D)
-    el.btnDownload3MF.addEventListener('click', () => triggerDownloadWithAd('3mf'));
-    el.btnDownloadSTL.addEventListener('click', () => triggerDownloadWithAd('stl'));
+    // Direct 1-Click Instant Downloads (Zero-Friction)
+    el.btnDownload3MF.addEventListener('click', () => executeDirectDownload('3mf'));
+    el.btnDownloadSTL.addEventListener('click', () => executeDirectDownload('stl'));
     if (el.btnDownloadPNG2D) {
-      el.btnDownloadPNG2D.addEventListener('click', () => triggerDownloadWithAd('png'));
+      el.btnDownloadPNG2D.addEventListener('click', () => executeDirectDownload('png'));
     }
     if (el.btnDownloadSVG2D) {
-      el.btnDownloadSVG2D.addEventListener('click', () => triggerDownloadWithAd('svg'));
+      el.btnDownloadSVG2D.addEventListener('click', () => executeDirectDownload('svg'));
     }
 
-    // Ad Modal Close & Finish Download
-    el.adModalClose.addEventListener('click', () => {
-      closeAdAndExecuteDownload();
-    });
+    // Legal Modals
+    setupModal(el.openPrivacyBtn, el.privacyModal, el.closePrivacyBtn);
+    setupModal(el.openTermsBtn, el.termsModal, el.closeTermsBtn);
+    setupModal(el.openContactBtn, el.contactModal, el.closeContactBtn);
 
     // FAQ Accordion
     document.querySelectorAll('.faq-question').forEach(q => {
@@ -280,6 +383,22 @@
     });
   }
 
+  function setupModal(openBtn, modalEl, closeBtn) {
+    if (!openBtn || !modalEl) return;
+    openBtn.addEventListener('click', e => {
+      e.preventDefault();
+      modalEl.classList.add('active');
+    });
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modalEl.classList.remove('active');
+      });
+    }
+    modalEl.addEventListener('click', e => {
+      if (e.target === modalEl) modalEl.classList.remove('active');
+    });
+  }
+
   function updateAll() {
     // 1. Generate QR matrix
     qrMatrixObj = window.QRGenerator.generateMatrix(state.text, state.centerEmoji ? 'H' : 'Q');
@@ -287,8 +406,17 @@
     // 2. Render Full-Size 2D Canvas
     render2DCanvas();
 
-    // 3. Build & Render 3D Model
+    // 3. Update Optical Contrast UI
+    updateContrastUI();
+
+    // 4. Build & Render 3D Model
     update3D();
+  }
+
+  function updateContrastUI() {
+    if (window.ContrastChecker && el.contrastBadge) {
+      window.ContrastChecker.updateUI(el.contrastBadge, state.baseColor, state.reliefColor);
+    }
   }
 
   function render2DCanvas() {
@@ -305,10 +433,9 @@
   }
 
   function updateVisuals() {
-    // Update 2D Canvas
     render2DCanvas();
+    updateContrastUI();
 
-    // Update 3D Colors
     if (state.currentModelData) {
       viewer.updateModel(state.currentModelData, {
         baseColor: state.baseColor,
@@ -330,11 +457,9 @@
 
     state.currentModelData = modelData;
 
-    // Update dimensions badge
     const d = modelData.dimensions;
     el.dimsBadge.textContent = `${d.width} × ${d.height} × ${d.totalZ.toFixed(1)} mm`;
 
-    // Render in WebGL viewer
     viewer.updateModel(modelData, {
       baseColor: state.baseColor,
       reliefColor: state.reliefColor
@@ -346,54 +471,19 @@
   }
 
   /**
-   * Ad Modal Interstitial on Download
+   * Direct 1-Click Instant Download Execution
    */
-  function triggerDownloadWithAd(type) {
-    state.pendingDownloadType = type;
-    el.adModal.classList.add('active');
+  function executeDirectDownload(type) {
+    const cleanName = (state.bottomText || 'QR3D').replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase();
+    const filename = `qr3d_${state.objectFormat}_${cleanName}`;
 
-    let secondsLeft = 3;
-    el.adModalTimer.textContent = `Descargando en ${secondsLeft}s... (o haz clic en cerrar para descargar ya)`;
-
-    const timer = setInterval(() => {
-      secondsLeft--;
-      if (secondsLeft > 0) {
-        el.adModalTimer.textContent = `Descargando en ${secondsLeft}s...`;
-      } else {
-        clearInterval(timer);
-        closeAdAndExecuteDownload();
-      }
-    }, 1000);
-
-    el.adModal._activeTimer = timer;
-  }
-
-  function closeAdAndExecuteDownload() {
-    if (el.adModal._activeTimer) {
-      clearInterval(el.adModal._activeTimer);
-      el.adModal._activeTimer = null;
-    }
-    el.adModal.classList.remove('active');
-
-    const type = state.pendingDownloadType;
-    state.pendingDownloadType = null;
-
-    if (type) {
-      executeDownload(type);
-    }
-  }
-
-  function executeDownload(type) {
-    // Google Tag conversion tracking
+    // Google Ads conversion tracking
     if (typeof gtag === 'function') {
       gtag('event', 'generate_lead', {
         'event_category': 'Download',
         'event_label': type + '_' + state.objectFormat
       });
     }
-
-    const cleanName = (state.bottomText || 'QR3D').replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase();
-    const filename = `qr3d_${state.objectFormat}_${cleanName}`;
 
     if (type === '3mf') {
       const blob = window.ThreeMFExporter.generate3MF(state.currentModelData, {
@@ -405,7 +495,6 @@
       const blob = window.STLExporter.generateSTL(state.currentModelData);
       saveBlob(blob, `${filename}.stl`);
     } else if (type === 'png') {
-      // Create high-res 1024x1024 offscreen canvas for crisp PNG download
       const hdCanvas = document.createElement('canvas');
       window.QRGenerator.renderCanvas(hdCanvas, {
         matrixObj: qrMatrixObj,
@@ -429,6 +518,16 @@
       const blob = new Blob([svgStr], { type: 'image/svg+xml' });
       saveBlob(blob, `${filename}.svg`);
     }
+
+    showDownloadToast();
+  }
+
+  function showDownloadToast() {
+    if (!el.downloadToast) return;
+    el.downloadToast.classList.add('show');
+    setTimeout(() => {
+      el.downloadToast.classList.remove('show');
+    }, 3800);
   }
 
   function saveBlob(blob, filename) {

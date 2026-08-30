@@ -1,7 +1,12 @@
 /**
  * QR3D Studio - 3D Geometry Builder
- * Generates solid, manifold 3D meshes for 3D printing (Stand, Keychain, Wall Plaque)
- * with distinctive module shapes (Square, Rounded, Dots) and 3D center emblems.
+ * Generates solid, manifold 3D meshes for 3D printing:
+ * - Stand (Soporte de mesa)
+ * - Keychain (Llavero con anilla)
+ * - Plaque (Placa plana)
+ * - Magnetic (Placa con cajeados para imanes de neodimio)
+ * - Countersunk (Placa con agujeros avellanados para tornillos)
+ * Supports dynamic base thickness and relief height.
  */
 (function(window) {
   'use strict';
@@ -89,7 +94,7 @@
     }
 
     /**
-     * Adds an axis-aligned box
+     * Adds an axis-aligned solid box
      */
     addBox(xMin, xMax, yMin, yMax, zMin, zMax) {
       const v0 = this.addVertex(xMin, yMin, zMin);
@@ -117,14 +122,13 @@
     }
 
     /**
-     * Adds an 8-sided chamfered / rounded rectangular prism for 'rounded' QR shape
+     * Adds an 8-sided chamfered / rounded rectangular prism
      */
     addRoundedBox(xMin, xMax, yMin, yMax, chamfer, zMin, zMax) {
       const c = Math.min(chamfer, (xMax - xMin) * 0.35);
       const x0 = xMin + c, x1 = xMax - c;
       const y0 = yMin + c, y1 = yMax - c;
 
-      // 8 vertices on bottom polygon
       const b0 = this.addVertex(x0, yMin, zMin);
       const b1 = this.addVertex(x1, yMin, zMin);
       const b2 = this.addVertex(xMax, y0, zMin);
@@ -134,7 +138,6 @@
       const b6 = this.addVertex(xMin, y1, zMin);
       const b7 = this.addVertex(xMin, y0, zMin);
 
-      // 8 vertices on top polygon
       const t0 = this.addVertex(x0, yMin, zMax);
       const t1 = this.addVertex(x1, yMin, zMax);
       const t2 = this.addVertex(xMax, y0, zMax);
@@ -144,7 +147,6 @@
       const t6 = this.addVertex(xMin, y1, zMax);
       const t7 = this.addVertex(xMin, y0, zMax);
 
-      // Bottom cap (fan)
       const bCenter = this.addVertex((xMin + xMax) / 2, (yMin + yMax) / 2, zMin);
       this.addTriangle(bCenter, b1, b0);
       this.addTriangle(bCenter, b2, b1);
@@ -155,7 +157,6 @@
       this.addTriangle(bCenter, b7, b6);
       this.addTriangle(bCenter, b0, b7);
 
-      // Top cap (fan)
       const tCenter = this.addVertex((xMin + xMax) / 2, (yMin + yMax) / 2, zMax);
       this.addTriangle(tCenter, t0, t1);
       this.addTriangle(tCenter, t1, t2);
@@ -166,7 +167,6 @@
       this.addTriangle(tCenter, t6, t7);
       this.addTriangle(tCenter, t7, t0);
 
-      // 8 Side walls
       this.addQuad(b0, b1, t1, t0);
       this.addQuad(b1, b2, t2, t1);
       this.addQuad(b2, b3, t3, t2);
@@ -196,11 +196,8 @@
 
       for (let i = 0; i < segments; i++) {
         const next = (i + 1) % segments;
-        // Bottom cap
         this.addTriangle(botCenter, botRing[next], botRing[i]);
-        // Top cap
         this.addTriangle(topCenter, topRing[i], topRing[next]);
-        // Side wall
         this.addQuad(botRing[i], botRing[next], topRing[next], topRing[i]);
       }
     }
@@ -223,13 +220,9 @@
 
       for (let i = 0; i < segments; i++) {
         const next = (i + 1) % segments;
-        // Bottom ring
         this.addQuad(botOut[next], botOut[i], botIn[i], botIn[next]);
-        // Top ring
         this.addQuad(topOut[i], topOut[next], topIn[next], topIn[i]);
-        // Outer wall
         this.addQuad(botOut[i], botOut[next], topOut[next], topOut[i]);
-        // Inner wall
         this.addQuad(botIn[next], botIn[i], topIn[i], topIn[next]);
       }
     }
@@ -292,16 +285,16 @@
      * Builds base mesh and relief mesh based on user parameters
      */
     build3DModel: function(options) {
-      const format = options.objectFormat || 'stand'; // 'stand', 'keychain', 'plaque'
+      const format = options.objectFormat || 'stand'; // 'stand', 'keychain', 'plaque', 'magnetic', 'countersunk'
       const baseMesh = new MeshBuilder();
       const reliefMesh = new MeshBuilder();
 
-      const baseThickness = options.baseThickness || 2.4;
-      const reliefHeight = options.reliefHeight || 1.4;
+      const baseThickness = Math.max(1.6, Math.min(6.0, options.baseThickness !== undefined ? options.baseThickness : 2.4));
+      const reliefHeight = Math.max(0.6, Math.min(3.0, options.reliefHeight !== undefined ? options.reliefHeight : 1.4));
       const totalZ = baseThickness + reliefHeight;
       const shape = options.moduleShape || 'square'; // 'square', 'rounded', 'dots'
 
-      // Dimensions per format
+      // Base dimensions based on format
       let plateW = 72;
       let plateH = 90;
       let qrAreaSize = 58;
@@ -316,7 +309,7 @@
         qrMarginX = 4;
         qrMarginY = 14;
         textLineY = 8;
-      } else if (format === 'plaque') {
+      } else if (format === 'plaque' || format === 'magnetic' || format === 'countersunk') {
         plateW = 75;
         plateH = 92;
         qrAreaSize = 60;
@@ -325,11 +318,10 @@
         textLineY = 14;
       }
 
-      // 1. Build Base Mesh
+      // 1. Build Base Mesh according to selected format
       if (format === 'keychain') {
-        // Main plate
+        // Keychain: Main plate + Ring tab
         baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
-        // Top Ring tab with hole
         const ringCenterX = plateW / 2;
         const ringCenterY = plateH + 7;
         const ringOuterR = 7;
@@ -337,35 +329,58 @@
         baseMesh.addHollowCylinder(ringCenterX, ringCenterY, ringOuterR, ringInnerR, 0, baseThickness, 24);
         baseMesh.addBox(ringCenterX - ringOuterR, ringCenterX + ringOuterR, plateH - 2, plateH + 2, 0, baseThickness);
       } else if (format === 'stand') {
-        // Main front plate
+        // Desk Stand: Front plate + integrated angled rear kickstand foot
         baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
-
-        // Rear integrated kickstand foot / wedge
         const footLength = 32;
         const legWidth = 14;
         baseMesh.addBox(8, 8 + legWidth, 0, footLength, -footLength * 0.35, 0);
         baseMesh.addBox(plateW - 8 - legWidth, plateW - 8, 0, footLength, -footLength * 0.35, 0);
         baseMesh.addBox(8, plateW - 8, 0, 8, -footLength * 0.35, 0);
-      } else {
-        // Plaque
+      } else if (format === 'magnetic') {
+        // Magnetic Fridge Plate: Flat plate with 4 rear pockets for 6x2mm neodymium magnets
         baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
-        // Decorative border frame
+        // Beveled border
+        const borderWidth = 2.0;
+        baseMesh.addBox(0, plateW, 0, borderWidth, baseThickness, baseThickness + 0.5);
+        baseMesh.addBox(0, plateW, plateH - borderWidth, plateH, baseThickness, baseThickness + 0.5);
+        baseMesh.addBox(0, borderWidth, 0, plateH, baseThickness, baseThickness + 0.5);
+        baseMesh.addBox(plateW - borderWidth, plateW, 0, plateH, baseThickness, baseThickness + 0.5);
+
+        // 4 Neodymium magnet pocket rings on rear
+        const magR = 3.3; // 6.6mm diameter for 6mm magnets
+        const magMargin = 9;
+        baseMesh.addHollowCylinder(magMargin, magMargin, magR + 1.2, magR, -1.8, 0, 18);
+        baseMesh.addHollowCylinder(plateW - magMargin, magMargin, magR + 1.2, magR, -1.8, 0, 18);
+        baseMesh.addHollowCylinder(magMargin, plateH - magMargin, magR + 1.2, magR, -1.8, 0, 18);
+        baseMesh.addHollowCylinder(plateW - magMargin, plateH - magMargin, magR + 1.2, magR, -1.8, 0, 18);
+      } else if (format === 'countersunk') {
+        // Plaque with 4 Countersunk Screw Holes (M3/M4 flush mount)
+        baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
+        const borderWidth = 2.0;
+        baseMesh.addBox(0, plateW, 0, borderWidth, baseThickness, baseThickness + 0.5);
+        baseMesh.addBox(0, plateW, plateH - borderWidth, plateH, baseThickness, baseThickness + 0.5);
+        baseMesh.addBox(0, borderWidth, 0, plateH, baseThickness, baseThickness + 0.5);
+        baseMesh.addBox(plateW - borderWidth, plateW, 0, plateH, baseThickness, baseThickness + 0.5);
+
+        // 4 Conical Countersunk Screw Rings
+        const holeR = 2.1; // for M3 screw
+        const chamferR = 3.8; // for screw head
+        const screwMargin = 6.5;
+        baseMesh.addHollowCylinder(screwMargin, screwMargin, chamferR, holeR, baseThickness, baseThickness + 0.6, 18);
+        baseMesh.addHollowCylinder(plateW - screwMargin, screwMargin, chamferR, holeR, baseThickness, baseThickness + 0.6, 18);
+        baseMesh.addHollowCylinder(screwMargin, plateH - screwMargin, chamferR, holeR, baseThickness, baseThickness + 0.6, 18);
+        baseMesh.addHollowCylinder(plateW - screwMargin, plateH - screwMargin, chamferR, holeR, baseThickness, baseThickness + 0.6, 18);
+      } else {
+        // Standard Wall Plaque
+        baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
         const borderWidth = 2.5;
         baseMesh.addBox(0, plateW, 0, borderWidth, baseThickness, baseThickness + 0.6);
         baseMesh.addBox(0, plateW, plateH - borderWidth, plateH, baseThickness, baseThickness + 0.6);
         baseMesh.addBox(0, borderWidth, 0, plateH, baseThickness, baseThickness + 0.6);
         baseMesh.addBox(plateW - borderWidth, plateW, 0, plateH, baseThickness, baseThickness + 0.6);
-
-        // Mounting hole indicators
-        const holeR = 2.2;
-        const holeMargin = 5.5;
-        baseMesh.addCylinder(holeMargin, holeMargin, holeR, baseThickness, baseThickness + 0.6, 16);
-        baseMesh.addCylinder(plateW - holeMargin, holeMargin, holeR, baseThickness, baseThickness + 0.6, 16);
-        baseMesh.addCylinder(holeMargin, plateH - holeMargin, holeR, baseThickness, baseThickness + 0.6, 16);
-        baseMesh.addCylinder(plateW - holeMargin, plateH - holeMargin, holeR, baseThickness, baseThickness + 0.6, 16);
       }
 
-      // 2. Build Relief Geometry (QR modules + Center Logo Emblem + Bottom Text)
+      // 2. Build Relief Geometry (QR modules + Center Emblem + Bottom Text)
       const matrixObj = options.matrixObj || window.QRGenerator.generateMatrix(options.text, options.centerEmoji ? 'H' : 'Q');
       const matrix = matrixObj.matrix;
       const count = matrixObj.size;
@@ -388,22 +403,19 @@
           const my = qrMarginY + (count - 1 - r) * moduleSize;
 
           if (shape === 'dots') {
-            // Distinct cylindrical 3D dots
             const rad = moduleSize * 0.44;
             reliefMesh.addCylinder(mx + moduleSize / 2, my + moduleSize / 2, rad, baseThickness, totalZ, 12);
           } else if (shape === 'rounded') {
-            // Distinct 3D chamfered / rounded pebble prism
             const chamfer = moduleSize * 0.28;
             reliefMesh.addRoundedBox(mx, mx + moduleSize, my, my + moduleSize, chamfer, baseThickness, totalZ);
           } else {
-            // Crisp classic 3D square cube
             const gap = moduleSize * 0.03;
             reliefMesh.addBox(mx + gap, mx + moduleSize - gap, my + gap, my + moduleSize - gap, baseThickness, totalZ);
           }
         }
       }
 
-      // 3. Center Emblem / 3D Logo Badge
+      // 3. Center 3D Embossed Emblem / Logo
       if (hasCenter) {
         const qrCenterX = qrMarginX + qrAreaSize / 2;
         const qrCenterY = qrMarginY + qrAreaSize / 2;
@@ -415,51 +427,40 @@
         // Raised outer relief border ring
         reliefMesh.addHollowCylinder(qrCenterX, qrCenterY, badgeRadius, badgeRadius - 1.0, baseThickness, totalZ + 0.25, 24);
 
-        // 3D Embossed Center Icon based on selected emoji
+        // 3D Embossed Icon
         if (emoji === '⭐') {
-          // 3D Star
           reliefMesh.addStar(qrCenterX, qrCenterY, badgeRadius * 0.65, badgeRadius * 0.28, baseThickness, totalZ + 0.35);
         } else if (emoji === '🍽️') {
-          // 3D Fork & Knife
           const iconR = badgeRadius * 0.55;
-          // Fork (Left)
           reliefMesh.addBox(qrCenterX - iconR * 0.7, qrCenterX - iconR * 0.45, qrCenterY - iconR * 0.8, qrCenterY + iconR * 0.1, baseThickness, totalZ + 0.35);
           reliefMesh.addBox(qrCenterX - iconR * 0.85, qrCenterX - iconR * 0.3, qrCenterY + iconR * 0.1, qrCenterY + iconR * 0.8, baseThickness, totalZ + 0.35);
-          // Knife (Right)
           reliefMesh.addBox(qrCenterX + iconR * 0.45, qrCenterX + iconR * 0.7, qrCenterY - iconR * 0.8, qrCenterY + iconR * 0.8, baseThickness, totalZ + 0.35);
         } else if (emoji === '📶') {
-          // 3D WiFi Signal Arcs
           const iconR = badgeRadius * 0.65;
           reliefMesh.addCylinder(qrCenterX, qrCenterY - iconR * 0.4, iconR * 0.16, baseThickness, totalZ + 0.35, 12);
           reliefMesh.addHollowCylinder(qrCenterX, qrCenterY - iconR * 0.4, iconR * 0.5, iconR * 0.36, baseThickness, totalZ + 0.35, 16);
           reliefMesh.addHollowCylinder(qrCenterX, qrCenterY - iconR * 0.4, iconR * 0.85, iconR * 0.71, baseThickness, totalZ + 0.35, 18);
         } else if (emoji === '☕') {
-          // 3D Coffee Cup
           const iconR = badgeRadius * 0.55;
           reliefMesh.addBox(qrCenterX - iconR * 0.6, qrCenterX + iconR * 0.4, qrCenterY - iconR * 0.6, qrCenterY + iconR * 0.4, baseThickness, totalZ + 0.35);
           reliefMesh.addBox(qrCenterX + iconR * 0.35, qrCenterX + iconR * 0.75, qrCenterY - iconR * 0.3, qrCenterY + iconR * 0.2, baseThickness, totalZ + 0.35);
         } else if (emoji === '📷') {
-          // 3D Camera
           const iconR = badgeRadius * 0.55;
           reliefMesh.addBox(qrCenterX - iconR * 0.75, qrCenterX + iconR * 0.75, qrCenterY - iconR * 0.5, qrCenterY + iconR * 0.4, baseThickness, totalZ + 0.35);
           reliefMesh.addCylinder(qrCenterX, qrCenterY, iconR * 0.32, baseThickness, totalZ + 0.45, 16);
         } else if (emoji === '📍') {
-          // 3D Map Pin
           const iconR = badgeRadius * 0.55;
           reliefMesh.addCylinder(qrCenterX, qrCenterY + iconR * 0.2, iconR * 0.5, baseThickness, totalZ + 0.35, 16);
           reliefMesh.addBox(qrCenterX - iconR * 0.25, qrCenterX + iconR * 0.25, qrCenterY - iconR * 0.7, qrCenterY + iconR * 0.2, baseThickness, totalZ + 0.35);
         } else if (emoji === '🛍️') {
-          // 3D Shopping Bag
           const iconR = badgeRadius * 0.55;
           reliefMesh.addBox(qrCenterX - iconR * 0.65, qrCenterX + iconR * 0.65, qrCenterY - iconR * 0.7, qrCenterY + iconR * 0.3, baseThickness, totalZ + 0.35);
           reliefMesh.addHollowCylinder(qrCenterX, qrCenterY + iconR * 0.3, iconR * 0.35, iconR * 0.22, baseThickness, totalZ + 0.35, 16);
         } else if (emoji === '🔗') {
-          // 3D Link
           const iconR = badgeRadius * 0.55;
           reliefMesh.addHollowCylinder(qrCenterX - iconR * 0.25, qrCenterY, iconR * 0.45, iconR * 0.25, baseThickness, totalZ + 0.35, 16);
           reliefMesh.addHollowCylinder(qrCenterX + iconR * 0.25, qrCenterY, iconR * 0.45, iconR * 0.25, baseThickness, totalZ + 0.35, 16);
         } else {
-          // Generic Custom Symbol: 3D Raised Star Shield
           reliefMesh.addStar(qrCenterX, qrCenterY, badgeRadius * 0.58, badgeRadius * 0.26, baseThickness, totalZ + 0.35);
         }
       }
