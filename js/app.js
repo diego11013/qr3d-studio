@@ -384,6 +384,14 @@
   }
 
   function executeDownload(type) {
+    // Google Tag conversion tracking
+    if (typeof gtag === 'function') {
+      gtag('event', 'generate_lead', {
+        'event_category': 'Download',
+        'event_label': type + '_' + state.objectFormat
+      });
+    }
+
     const cleanName = (state.bottomText || 'QR3D').replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase();
     const filename = `qr3d_${state.objectFormat}_${cleanName}`;
 
