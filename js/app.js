@@ -43,7 +43,7 @@
     colorPresets: document.querySelectorAll('.color-preset-btn'),
 
     shapeBtns: document.querySelectorAll('.shape-btn'),
-    emojiBtns: document.querySelectorAll('.emoji-btn'),
+    emojiBtns: document.querySelectorAll('.emblem-btn, .emoji-btn'),
     customEmojiInput: document.getElementById('customEmojiInput'),
     clearEmojiBtn: document.getElementById('clearEmojiBtn'),
     bottomTextInput: document.getElementById('bottomTextInput'),

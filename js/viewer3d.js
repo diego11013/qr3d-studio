@@ -1,8 +1,8 @@
 /**
  * QR3D Studio - WebGL 3D Interactive Viewer
- * Features: Mathematically verified ModelView matrix transformations,
- * accurate camera distance & zoom handling, true bounding-box centering,
- * high-DPI resolution rendering, Trackpad gestures, and zoom slider support.
+ * Features: Apple-grade touch gesture handling (full iOS Safari vertical gesture lock prevention),
+ * multi-touch pinch zoom, verified ModelView matrix transformations, bounding-box auto-framing,
+ * and high-DPI resolution rendering.
  */
 (function(window) {
   'use strict';
@@ -117,16 +117,16 @@
 
     void main() {
       vec3 normal = normalize(vNormal);
-      vec3 lightDir1 = normalize(vec3(0.5, 0.8, 1.0));
-      vec3 lightDir2 = normalize(vec3(-0.5, -0.3, 0.5));
+      vec3 lightDir1 = normalize(vec3(0.4, 0.7, 1.0));
+      vec3 lightDir2 = normalize(vec3(-0.4, -0.2, 0.6));
       vec3 viewDir = normalize(-vPosition);
 
       // Ambient
-      float ambient = 0.40;
+      float ambient = 0.42;
 
       // Diffuse lights
-      float diff1 = max(dot(normal, lightDir1), 0.0) * 0.50;
-      float diff2 = max(dot(normal, lightDir2), 0.0) * 0.18;
+      float diff1 = max(dot(normal, lightDir1), 0.0) * 0.48;
+      float diff2 = max(dot(normal, lightDir2), 0.0) * 0.16;
 
       // Specular highlight
       vec3 halfDir = normalize(lightDir1 + viewDir);
@@ -194,9 +194,9 @@
       this.gl = this.canvas.getContext('webgl', { antialias: true, alpha: true }) ||
                 this.canvas.getContext('experimental-webgl');
       
-      this.rotX = 0.40; // Initial angle
+      this.rotX = 0.40;
       this.rotY = -0.32;
-      this.distance = 220; // Verified distance
+      this.distance = 220;
       this.defaultDistance = 220;
       this.isDragging = false;
       this.lastPointerX = 0;
@@ -224,6 +224,12 @@
       if (!gl) {
         console.warn("WebGL not supported");
         return;
+      }
+
+      // Lock touch action to prevent mobile browser scroll hijacking
+      this.canvas.style.touchAction = 'none';
+      if (this.canvas.parentElement) {
+        this.canvas.parentElement.style.touchAction = 'none';
       }
 
       // Compile Shaders
@@ -256,8 +262,64 @@
     initEvents() {
       const c = this.canvas;
 
-      // 1. Pointer Events API (Handles Mouse, Trackpad clicks, Touch with capture)
+      // 1. Unified Touch Event Handlers with explicit preventDefault for mobile/iPhone
+      c.addEventListener('touchstart', e => {
+        e.preventDefault();
+        if (e.touches.length === 1) {
+          this.isDragging = true;
+          this.lastPointerX = e.touches[0].clientX;
+          this.lastPointerY = e.touches[0].clientY;
+        } else if (e.touches.length === 2) {
+          this.isDragging = false;
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          this.touchDistanceStart = Math.hypot(dx, dy);
+        }
+      }, { passive: false });
+
+      c.addEventListener('touchmove', e => {
+        e.preventDefault(); // Crucial on iOS: prevents page scroll from hijacking vertical swipes!
+        if (e.touches.length === 1 && this.isDragging) {
+          const dx = e.touches[0].clientX - this.lastPointerX;
+          const dy = e.touches[0].clientY - this.lastPointerY;
+          this.rotY += dx * 0.012;
+          this.rotX += dy * 0.012;
+          this.rotX = Math.max(-Math.PI * 0.45, Math.min(Math.PI * 0.45, this.rotX));
+          this.lastPointerX = e.touches[0].clientX;
+          this.lastPointerY = e.touches[0].clientY;
+          this.requestRender();
+        } else if (e.touches.length === 2 && this.touchDistanceStart > 0) {
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          const currentDist = Math.hypot(dx, dy);
+          const diff = this.touchDistanceStart - currentDist;
+          this.setDistance(this.distance + diff * 0.55);
+          this.touchDistanceStart = currentDist;
+          this.requestRender();
+        }
+      }, { passive: false });
+
+      c.addEventListener('touchend', e => {
+        e.preventDefault();
+        if (e.touches.length === 0) {
+          this.isDragging = false;
+          this.touchDistanceStart = 0;
+        } else if (e.touches.length === 1) {
+          this.isDragging = true;
+          this.lastPointerX = e.touches[0].clientX;
+          this.lastPointerY = e.touches[0].clientY;
+          this.touchDistanceStart = 0;
+        }
+      }, { passive: false });
+
+      c.addEventListener('touchcancel', () => {
+        this.isDragging = false;
+        this.touchDistanceStart = 0;
+      });
+
+      // 2. Mouse / Pointer Events API for Desktop & Trackpads
       c.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'touch') return; // Handled by touch events
         c.setPointerCapture(e.pointerId);
         this.isDragging = true;
         this.lastPointerX = e.clientX;
@@ -265,6 +327,7 @@
       });
 
       c.addEventListener('pointermove', e => {
+        if (e.pointerType === 'touch') return;
         if (!this.isDragging) return;
         const dx = e.clientX - this.lastPointerX;
         const dy = e.clientY - this.lastPointerY;
@@ -276,23 +339,24 @@
         this.requestRender();
       });
 
-      const endDrag = e => {
+      const endPointerDrag = e => {
+        if (e.pointerType === 'touch') return;
         try { c.releasePointerCapture(e.pointerId); } catch (_) {}
         this.isDragging = false;
       };
 
-      c.addEventListener('pointerup', endDrag);
-      c.addEventListener('pointercancel', endDrag);
+      c.addEventListener('pointerup', endPointerDrag);
+      c.addEventListener('pointercancel', endPointerDrag);
 
-      // 2. Trackpad Two-Finger & Wheel Gestures
+      // 3. Trackpad Two-Finger & Wheel Gestures
       c.addEventListener('wheel', e => {
         e.preventDefault();
 
         if (e.ctrlKey) {
-          // Trackpad Pinch-to-Zoom Gesture
+          // Trackpad Pinch-to-Zoom
           this.setDistance(this.distance + e.deltaY * 0.6);
         } else {
-          // Trackpad Two-Finger Drag / Swipe: Smooth Orbit Rotation
+          // Trackpad Two-Finger Drag / Swipe
           if (Math.abs(e.deltaX) > 0 || Math.abs(e.deltaY) > 0) {
             this.rotY -= e.deltaX * 0.007;
             this.rotX -= e.deltaY * 0.007;
@@ -301,31 +365,6 @@
         }
         this.requestRender();
       }, { passive: false });
-
-      // 3. Multi-Touch Pinch Zoom
-      c.addEventListener('touchstart', e => {
-        if (e.touches.length === 2) {
-          const dx = e.touches[0].clientX - e.touches[1].clientX;
-          const dy = e.touches[0].clientY - e.touches[1].clientY;
-          this.touchDistanceStart = Math.hypot(dx, dy);
-        }
-      }, { passive: true });
-
-      c.addEventListener('touchmove', e => {
-        if (e.touches.length === 2 && this.touchDistanceStart > 0) {
-          const dx = e.touches[0].clientX - e.touches[1].clientX;
-          const dy = e.touches[0].clientY - e.touches[1].clientY;
-          const currentDist = Math.hypot(dx, dy);
-          const diff = this.touchDistanceStart - currentDist;
-          this.setDistance(this.distance + diff * 0.6);
-          this.touchDistanceStart = currentDist;
-          this.requestRender();
-        }
-      }, { passive: true });
-
-      c.addEventListener('touchend', () => {
-        this.touchDistanceStart = 0;
-      });
 
       // Window resize
       window.addEventListener('resize', () => {
@@ -347,10 +386,9 @@
       const b = this.bounds;
       const aspect = (this.canvas.clientWidth || 400) / (this.canvas.clientHeight || 400);
 
-      const fovY = Math.PI / 4; // 45 deg
+      const fovY = Math.PI / 4;
       const fovX = 2 * Math.atan(Math.tan(fovY / 2) * aspect);
 
-      // Fit height and width with ~50% margin
       const distY = (b.sizeY / 2) / Math.tan(fovY / 2);
       const distX = (b.sizeX / 2) / Math.tan(fovX / 2);
       const distZ = (b.sizeZ / 2) / Math.tan(fovY / 2);
@@ -482,7 +520,7 @@
       const gl = this.gl;
       if (!gl) return;
 
-      // High-DPI support
+      // High-DPI Retina support
       const dpr = window.devicePixelRatio || 1;
       const displayWidth = Math.floor(this.canvas.clientWidth * dpr);
       const displayHeight = Math.floor(this.canvas.clientHeight * dpr);
@@ -502,7 +540,7 @@
       Mat4.perspective(proj, Math.PI / 4, aspect, 1, 2500);
       gl.uniformMatrix4fv(this.uniformProj, false, proj);
 
-      // Construct Model-View Matrix with true camera distance translation
+      // Construct Model-View Matrix
       const mv = Mat4.create();
       Mat4.translate(mv, mv, [0, 0, -this.distance]);
       Mat4.rotateX(mv, mv, this.rotX);

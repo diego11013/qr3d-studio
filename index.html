@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Google AdSense -->
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1165188622425250" crossorigin="anonymous"></script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18417759272"></script>
@@ -13,7 +13,7 @@
     gtag('config', 'AW-18417759272');
   </script>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   
   <!-- SEO Primary Meta Tags -->
   <title>Generador de Códigos QR para Imprimir en 3D | QR3D Studio (3MF y STL)</title>
@@ -25,7 +25,7 @@
 
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://qr3d.studio/">
+  <meta property="og:url" content="https://qr3dstudio.online/">
   <meta property="og:title" content="QR3D Studio — Generador de Códigos QR 3D en .3MF y .STL">
   <meta property="og:description" content="Convierte enlaces, cartas de restaurante y redes WiFi en piezas 3D físicas con relieve. Exportación directa multicolor para Bambu Lab, Prusa y STL.">
 
@@ -43,7 +43,7 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "QR3D Studio",
-    "url": "https://qr3d.studio/",
+    "url": "https://qr3dstudio.online/",
     "description": "Herramienta online para generar modelos 3D de códigos QR en formato .3MF multicolor y .STL para impresión 3D.",
     "applicationCategory": "DesignApplication",
     "operatingSystem": "All",
@@ -61,12 +61,24 @@
   <header>
     <div class="container nav-container">
       <div class="logo">
-        <div class="logo-icon">🖨️</div>
+        <div class="logo-icon-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+        </div>
         <span>QR3D Studio</span>
         <span class="badge-tag">3MF Multicolor</span>
       </div>
       <div class="trust-item" style="margin-bottom:0; background:none; border:none;">
-        <span>🔒 100% en tu navegador (Sin subir archivos)</span>
+        <span class="trust-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </span>
+        <span>100% en tu navegador (Sin servidores)</span>
       </div>
     </div>
   </header>
@@ -76,15 +88,38 @@
     <div class="container">
       <h1 class="hero-title">Generador de Códigos QR para Impresión 3D</h1>
       <p class="hero-desc">
-        Diseña soportes de sobremesa para restaurantes, llaveros y placas de pared con código QR en relieve.
-        Descarga el archivo <strong>.3MF con dos colores nativos</strong> para impresoras modernas (Bambu Lab, Prusa) o en <strong>.STL estándar</strong>.
+        Diseña soportes de sobremesa para hostelería, llaveros y placas con relieve táctil.
+        Exportación nativa en <strong>.3MF multicolor con dos cuerpos</strong> para Bambu Lab AMS y Prusa MMU, o en <strong>.STL universal</strong>.
       </p>
       
       <div class="trust-badges">
-        <div class="trust-item">⚡ Sin registros ni esperas</div>
-        <div class="trust-item">🎨 Exportación .3MF con color embebido</div>
-        <div class="trust-item">🖐️ Compatible con Trackpad, Ratón y Táctil</div>
-        <div class="trust-item">📱 Compatible con cualquier smartphone</div>
+        <div class="trust-item">
+          <span class="trust-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </span>
+          Sin registros ni esperas
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+              <path d="M2 12h20"/>
+            </svg>
+          </span>
+          Color embebido en el archivo
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+              <line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </span>
+          Gestos táctiles & Trackpad
+        </div>
       </div>
     </div>
   </section>
@@ -96,7 +131,15 @@
       <!-- Left Panel: Customization Controls -->
       <div class="panel">
         <div class="panel-header">
-          <h2 class="panel-title"><span>⚙️</span> Personaliza tu QR 3D</h2>
+          <h2 class="panel-title">
+            <span class="title-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+            </span>
+            Personaliza tu QR 3D
+          </h2>
           <span class="badge-tag" id="dimsBadge">72 × 90 × 3.8 mm</span>
         </div>
 
@@ -106,7 +149,13 @@
           <div class="input-with-action">
             <input type="text" id="qrInput" class="text-input" placeholder="https://tu-restaurante.com/carta o enlace de Google Reviews" value="https://ejemplo.com/menu">
             <button type="button" id="wifiHelperBtn" class="action-btn-sm" title="Crear QR para WiFi">
-              <span>📶</span> WiFi
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                <line x1="12" y1="20" x2="12.01" y2="20"/>
+              </svg>
+              WiFi
             </button>
           </div>
         </div>
@@ -115,18 +164,37 @@
         <div class="control-group">
           <label class="control-label">2. Formato del Objeto 3D</label>
           <div class="format-grid">
+            <!-- Stand -->
             <div class="format-card active" data-format="stand">
-              <div class="format-icon">🪑</div>
+              <svg class="format-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19h16"/>
+                <path d="M5 19L8 5h8l3 14"/>
+                <path d="M10 12h4"/>
+              </svg>
               <div class="format-title">Soporte Mesa</div>
               <div class="format-sub">Cartas y reseñas</div>
             </div>
+
+            <!-- Keychain -->
             <div class="format-card" data-format="keychain">
-              <div class="format-icon">🔑</div>
+              <svg class="format-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="7" r="4"/>
+                <path d="M10 11v9a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2v-9"/>
+                <line x1="10" y1="16" x2="14" y2="16"/>
+              </svg>
               <div class="format-title">Llavero</div>
               <div class="format-sub">Con anilla</div>
             </div>
+
+            <!-- Plaque -->
             <div class="format-card" data-format="plaque">
-              <div class="format-icon">🏷️</div>
+              <svg class="format-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2"/>
+                <circle cx="6" cy="7" r="1"/>
+                <circle cx="18" cy="7" r="1"/>
+                <circle cx="6" cy="17" r="1"/>
+                <circle cx="18" cy="17" r="1"/>
+              </svg>
               <div class="format-title">Placa Pared</div>
               <div class="format-sub">Pared o mostrador</div>
             </div>
@@ -171,26 +239,98 @@
           </div>
         </div>
 
-        <!-- 4. Module Shape & Center Emoji -->
+        <!-- 4. Module Shape & Center Icon -->
         <div class="control-group">
-          <label class="control-label">4. Estilo de los Puntos y Logo Central</label>
+          <label class="control-label">4. Estilo de los Puntos e Icono Central</label>
           <div class="toggle-pills" style="margin-bottom: 12px;">
-            <button type="button" class="shape-btn active" data-shape="square">Cuadrado</button>
-            <button type="button" class="shape-btn" data-shape="rounded">Redondeado</button>
-            <button type="button" class="shape-btn" data-shape="dots">Puntos 3D</button>
+            <button type="button" class="shape-btn active" data-shape="square">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+              </svg>
+              Cuadrado
+            </button>
+            <button type="button" class="shape-btn" data-shape="rounded">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="3" y="3" width="7" height="7" rx="2.5"/>
+                <rect x="14" y="3" width="7" height="7" rx="2.5"/>
+                <rect x="3" y="14" width="7" height="7" rx="2.5"/>
+                <rect x="14" y="14" width="7" height="7" rx="2.5"/>
+              </svg>
+              Redondeado
+            </button>
+            <button type="button" class="shape-btn" data-shape="dots">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="6.5" cy="6.5" r="3.5"/>
+                <circle cx="17.5" cy="6.5" r="3.5"/>
+                <circle cx="6.5" cy="17.5" r="3.5"/>
+                <circle cx="17.5" cy="17.5" r="3.5"/>
+              </svg>
+              Puntos 3D
+            </button>
           </div>
 
-          <!-- Quick Emoji Selector -->
+          <!-- Minimalist Vector Emblem Selector -->
           <div class="emoji-selector-row">
-            <button type="button" class="emoji-btn active" data-emoji="🍽️" title="Restaurante / Carta (Cubiertos 3D)">🍽️</button>
-            <button type="button" class="emoji-btn" data-emoji="⭐" title="Reseñas Google (Estrella 3D)">⭐</button>
-            <button type="button" class="emoji-btn" data-emoji="📶" title="WiFi (Señal 3D)">📶</button>
-            <button type="button" class="emoji-btn" data-emoji="☕" title="Café (Taza 3D)">☕</button>
-            <button type="button" class="emoji-btn" data-emoji="📷" title="Instagram (Cámara 3D)">📷</button>
-            <button type="button" class="emoji-btn" data-emoji="🛍️" title="Tienda (Bolsa 3D)">🛍️</button>
-            <button type="button" class="emoji-btn" data-emoji="📍" title="Ubicación (Pin 3D)">📍</button>
-            <button type="button" class="emoji-btn" data-emoji="🔗" title="Enlace web (Link 3D)">🔗</button>
+            <!-- Restaurant / Cutlery -->
+            <button type="button" class="emblem-btn active" data-emoji="🍽️" title="Restaurante / Carta">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2v20M18 7a4 4 0 0 1-4-4V2"/><path d="M4 2v6a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V2M7 11v11"/>
+              </svg>
+            </button>
+
+            <!-- Star / Reviews -->
+            <button type="button" class="emblem-btn" data-emoji="⭐" title="Reseñas Google">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </button>
+
+            <!-- WiFi -->
+            <button type="button" class="emblem-btn" data-emoji="📶" title="WiFi">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+              </svg>
+            </button>
+
+            <!-- Coffee -->
+            <button type="button" class="emblem-btn" data-emoji="☕" title="Café">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+              </svg>
+            </button>
+
+            <!-- Camera / Instagram -->
+            <button type="button" class="emblem-btn" data-emoji="📷" title="Instagram / Cámara">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>
+              </svg>
+            </button>
+
+            <!-- Shopping Bag -->
+            <button type="button" class="emblem-btn" data-emoji="🛍️" title="Comercio / Tienda">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+            </button>
+
+            <!-- Location Pin -->
+            <button type="button" class="emblem-btn" data-emoji="📍" title="Ubicación">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </button>
+
+            <!-- Link -->
+            <button type="button" class="emblem-btn" data-emoji="🔗" title="Enlace web">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+              </svg>
+            </button>
           </div>
+
           <div class="input-with-action">
             <input type="text" id="customEmojiInput" class="text-input" placeholder="O escribe otro emoji..." maxlength="4">
             <button type="button" id="clearEmojiBtn" class="action-btn-sm">Quitar</button>
@@ -208,53 +348,120 @@
       <!-- Right Panel: Interactive 3D Viewport & Downloads -->
       <div class="panel viewport-panel">
         <div class="panel-header">
-          <h2 class="panel-title"><span>👁️</span> Vista Previa 3D Interactiva</h2>
-          <span class="badge-tag" style="background:#0284c7; color:#fff; border:none;">Trackpad & Táctil</span>
+          <h2 class="panel-title">
+            <span class="title-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </span>
+            Vista Previa 3D Interactiva
+          </h2>
+          <span class="badge-tag" style="background:rgba(0, 113, 227, 0.15); color:#2997ff;">Gesto Táctil & Trackpad</span>
         </div>
 
-        <!-- 3D Canvas Viewport -->
+        <!-- 3D Canvas Viewport (touch-action locked for smooth swipe) -->
         <div class="viewport-container">
           <canvas id="qrCanvas3d"></canvas>
           
           <!-- Viewport Top Overlay -->
           <div class="viewport-overlay-top">
             <span class="dimensions-badge">3MF Multi-Material</span>
-            <button type="button" class="reset-cam-btn" id="reset3dBtn">🔄 Centrar Vista</button>
+            <button type="button" class="reset-cam-btn" id="reset3dBtn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l6.73-5.19"/>
+              </svg>
+              Centrar Vista
+            </button>
           </div>
 
-          <!-- On-Screen Floating Control Buttons for Laptop Trackpads & Touch -->
+          <!-- On-Screen Floating Control Buttons -->
           <div class="viewport-floating-controls">
-            <button type="button" class="viewport-ctrl-btn" id="btnAutoRotate" title="Rotación automática (Play / Pausa)">🔄</button>
-            <button type="button" class="viewport-ctrl-btn" id="btnRotateLeft" title="Girar izquierda">⬅️</button>
-            <button type="button" class="viewport-ctrl-btn" id="btnRotateRight" title="Girar derecha">➡️</button>
-            <button type="button" class="viewport-ctrl-btn" id="btnTiltUp" title="Inclinar arriba">⬆️</button>
-            <button type="button" class="viewport-ctrl-btn" id="btnTiltDown" title="Inclinar abajo">⬇️</button>
-            <button type="button" class="viewport-ctrl-btn" id="btnZoomIn" title="Acercar zoom (+)">➕</button>
-            <button type="button" class="viewport-ctrl-btn" id="btnZoomOut" title="Alejar zoom (-)">➖</button>
+            <button type="button" class="viewport-ctrl-btn" id="btnAutoRotate" title="Rotación automática (Play / Pausa)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l6.73-5.19"/>
+              </svg>
+            </button>
+            <button type="button" class="viewport-ctrl-btn" id="btnRotateLeft" title="Girar izquierda">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+            <button type="button" class="viewport-ctrl-btn" id="btnRotateRight" title="Girar derecha">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+            <button type="button" class="viewport-ctrl-btn" id="btnTiltUp" title="Inclinar arriba">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"/>
+              </svg>
+            </button>
+            <button type="button" class="viewport-ctrl-btn" id="btnTiltDown" title="Inclinar abajo">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <button type="button" class="viewport-ctrl-btn" id="btnZoomIn" title="Acercar zoom (+)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+            <button type="button" class="viewport-ctrl-btn" id="btnZoomOut" title="Alejar zoom (-)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
           </div>
 
           <!-- Viewport Bottom Overlay -->
           <div class="viewport-overlay-bottom">
-            <span class="trackpad-hint-bar">🖐️ <strong>Trackpad:</strong> Desliza 2 dedos para girar · Pellizca para zoom</span>
+            <span class="trackpad-hint-bar">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8M6 14.5V11a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v6c0 5 3.5 9 8.5 9h2c4 0 7.5-3 7.5-7.5V13a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2"/>
+              </svg>
+              Desliza en cualquier dirección para rotar en 3D
+            </span>
           </div>
         </div>
 
         <!-- Interactive Zoom Slider Bar -->
         <div class="zoom-slider-bar">
-          <span class="zoom-label">🔍 Zoom:</span>
-          <button type="button" class="zoom-step-btn" id="btnZoomOutSlider" title="Alejar (Zoom -)">➖</button>
+          <span class="zoom-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            Zoom:
+          </span>
+          <button type="button" class="zoom-step-btn" id="btnZoomOutSlider" title="Alejar (Zoom -)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
           <input type="range" id="zoomSlider" min="90" max="500" value="220" step="2" title="Desliza para ajustar el tamaño en pantalla">
-          <button type="button" class="zoom-step-btn" id="btnZoomInSlider" title="Acercar (Zoom +)">➕</button>
+          <button type="button" class="zoom-step-btn" id="btnZoomInSlider" title="Acercar (Zoom +)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
         </div>
 
         <!-- 3D Download Action Buttons -->
         <div class="download-section">
           <button type="button" id="btnDownload3MF" class="btn-primary-download">
-            <span>⚡ Descargar .3MF (Multicolor con Color Nativo)</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            Descargar .3MF (Multicolor con Color Nativo)
           </button>
           
           <button type="button" id="btnDownloadSTL" class="btn-secondary-download" style="padding: 12px;" title="Descargar modelo 3D combinado para cambio de filamento por pausa de capa">
-            <span>📦 Descargar .STL (Universal para cualquier impresora)</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+            Descargar .STL (Universal para cualquier impresora)
           </button>
         </div>
 
@@ -273,7 +480,15 @@
         <!-- 2D Information & Export Actions -->
         <div class="qr-2d-info-col">
           <h3 class="qr-2d-title">
-            <span>📱</span> Código QR en 2D (Digital e Impresión Gráfica)
+            <span class="title-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+                <path d="M14 14h3v3h-3zM17 17h3v3h-3zM14 20h3v-3M20 14h-3v3"/>
+              </svg>
+            </span>
+            Código QR en 2D (Digital e Impresión Gráfica)
           </h3>
           <p class="qr-2d-desc">
             Visualiza y descarga el mismo código QR con tus colores personalizados, forma de puntos y distintivo central.
@@ -289,10 +504,20 @@
 
           <div class="qr-2d-actions-row">
             <button type="button" id="btnDownloadPNG2D" class="btn-2d-download">
-              <span>🖼️ Descargar PNG (Alta Definición)</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              Descargar PNG (Alta Definición)
             </button>
             <button type="button" id="btnDownloadSVG2D" class="btn-2d-download">
-              <span>📐 Descargar SVG (Vectorial Escalable)</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+              Descargar SVG (Vectorial Escalable)
             </button>
           </div>
         </div>
@@ -325,7 +550,7 @@
         <div class="step-card">
           <div class="step-number">2</div>
           <h3 class="step-title">Personaliza colores y revisa en 3D</h3>
-          <p class="step-desc">Selecciona los dos colores de filamento para la base y el relieve. Añade tu texto comercial e inspecciona el modelo en el visor 3D en tiempo real desde cualquier ángulo con tu trackpad o botones en pantalla.</p>
+          <p class="step-desc">Selecciona los dos colores de filamento para la base y el relieve. Añade tu texto comercial e inspecciona el modelo en el visor 3D en tiempo real desde cualquier ángulo con tu trackpad o gestos táctiles.</p>
         </div>
 
         <div class="step-card">
@@ -338,7 +563,7 @@
   </section>
 
   <!-- Section: Use Cases -->
-  <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+  <section class="content-section" style="background: rgba(22, 27, 34, 0.3);">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Ideas de uso profesionales para negocios y eventos</h2>
@@ -349,7 +574,11 @@
         <!-- Card 1 -->
         <div class="use-case-card">
           <div class="use-case-header">
-            <div class="use-case-icon">🍽️</div>
+            <div class="use-case-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2v20M18 7a4 4 0 0 1-4-4V2"/><path d="M4 2v6a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V2M7 11v11"/>
+              </svg>
+            </div>
             <div>
               <h3 class="use-case-title">Restaurantes, Bares y Cafés</h3>
               <span class="use-case-badge">Soporte de Mesa</span>
@@ -361,7 +590,11 @@
         <!-- Card 2 -->
         <div class="use-case-card">
           <div class="use-case-header">
-            <div class="use-case-icon">⭐</div>
+            <div class="use-case-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
             <div>
               <h3 class="use-case-title">Reseñas de Google y TripAdvisor</h3>
               <span class="use-case-badge">Mostrador y Caja</span>
@@ -373,7 +606,11 @@
         <!-- Card 3 -->
         <div class="use-case-card">
           <div class="use-case-header">
-            <div class="use-case-icon">📶</div>
+            <div class="use-case-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+              </svg>
+            </div>
             <div>
               <h3 class="use-case-title">Alojamientos Turísticos y Airbnb</h3>
               <span class="use-case-badge">WiFi de Huéspedes</span>
@@ -385,7 +622,11 @@
         <!-- Card 4 -->
         <div class="use-case-card">
           <div class="use-case-header">
-            <div class="use-case-icon">🔑</div>
+            <div class="use-case-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="7" r="4"/><path d="M10 11v9a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2v-9"/><line x1="10" y1="16" x2="14" y2="16"/>
+              </svg>
+            </div>
             <div>
               <h3 class="use-case-title">Llaveros de Eventos y Networking</h3>
               <span class="use-case-badge">Llavero Portátil</span>
@@ -397,7 +638,11 @@
         <!-- Card 5 -->
         <div class="use-case-card">
           <div class="use-case-header">
-            <div class="use-case-icon">🏷️</div>
+            <div class="use-case-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="6" cy="7" r="1"/><circle cx="18" cy="7" r="1"/><circle cx="6" cy="17" r="1"/><circle cx="18" cy="17" r="1"/>
+              </svg>
+            </div>
             <div>
               <h3 class="use-case-title">Placas de Pared y Pagos Rápidos</h3>
               <span class="use-case-badge">Placa Adhesiva</span>
@@ -429,23 +674,38 @@
         <div class="guide-cols">
           <!-- Col 1: AMS / Multi-material -->
           <div class="guide-block">
-            <h3 class="guide-block-title"><span>🎨</span> Impresoras Multicolor (Bambu AMS, Prusa MMU, Kobra)</h3>
+            <h3 class="guide-block-title">
+              <span class="title-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
+                </svg>
+              </span>
+              Impresoras Multicolor (Bambu AMS, Prusa MMU, Kobra)
+            </h3>
             <ul class="guide-list">
-              <li>✔️ Abre el archivo <strong>.3MF</strong> en Bambu Studio, OrcaSlicer o PrusaSlicer.</li>
-              <li>✔️ El archivo se carga como un ensamblaje con 2 piezas separadas: <strong>Base</strong> y <strong>Relieve QR</strong>.</li>
-              <li>✔️ Asigna el filamento de fondo (blanco/claro) a la base y el de contraste (negro/oscuro) al relieve.</li>
-              <li>✔️ Haz clic en Laminar e imprime sin necesidad de colorear manualmente caras ni geometrías.</li>
+              <li><span class="check-bullet">✓</span> <span>Abre el archivo <strong>.3MF</strong> en Bambu Studio, OrcaSlicer o PrusaSlicer.</span></li>
+              <li><span class="check-bullet">✓</span> <span>El archivo se carga como un ensamblaje con 2 piezas separadas: <strong>Base</strong> y <strong>Relieve QR</strong>.</span></li>
+              <li><span class="check-bullet">✓</span> <span>Asigna el filamento de fondo (blanco/claro) a la base y el de contraste (negro/oscuro) al relieve.</span></li>
+              <li><span class="check-bullet">✓</span> <span>Haz clic en Laminar e imprime sin necesidad de colorear manualmente caras ni geometrías.</span></li>
             </ul>
           </div>
 
           <!-- Col 2: Single Extruder M600 -->
           <div class="guide-block">
-            <h3 class="guide-block-title"><span>⚙️</span> Impresoras Monocromo (Ender 3, Neptune, Klipper)</h3>
+            <h3 class="guide-block-title">
+              <span class="title-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+              </span>
+              Impresoras Monocromo (Ender 3, Neptune, Klipper)
+            </h3>
             <ul class="guide-list">
-              <li>✔️ Carga el archivo <strong>.STL</strong> o <strong>.3MF</strong> en tu laminador habitual (Cura, PrusaSlicer).</li>
-              <li>✔️ Localiza la capa exacta donde termina la base (aprox. a los 2.4 mm) y empieza el relieve.</li>
-              <li>✔️ Añade una pausa por altura de capa (comando <code>M600</code> o <em>Pause at height</em>).</li>
-              <li>✔️ Inicia con el color base; al pausar, cambia el carrete al color del QR y reanuda.</li>
+              <li><span class="check-bullet">✓</span> <span>Carga el archivo <strong>.STL</strong> o <strong>.3MF</strong> en tu laminador habitual (Cura, PrusaSlicer).</span></li>
+              <li><span class="check-bullet">✓</span> <span>Localiza la capa exacta donde termina la base (aprox. a los 2.4 mm) y empieza el relieve.</span></li>
+              <li><span class="check-bullet">✓</span> <span>Añade una pausa por altura de capa (comando <code>M600</code> o <em>Pause at height</em>).</span></li>
+              <li><span class="check-bullet">✓</span> <span>Inicia con el color base; al pausar, cambia el carrete al color del QR y reanuda.</span></li>
             </ul>
           </div>
         </div>
@@ -458,19 +718,19 @@
           </div>
           <div class="param-item">
             <div class="param-name">Boquilla Recomendada</div>
-            <div class="param-val">0.4 mm (o 0.2 mm para QR densos)</div>
+            <div class="param-val">0.4 mm (o 0.2 mm)</div>
           </div>
           <div class="param-item">
             <div class="param-name">Relleno (Infill)</div>
-            <div class="param-val">15% - 20% (Giroide / Grid)</div>
+            <div class="param-val">15% - 20% Giroide</div>
           </div>
           <div class="param-item">
             <div class="param-name">Paredes / Perímetros</div>
-            <div class="param-val">3 perímetros mínimos</div>
+            <div class="param-val">3 perímetros</div>
           </div>
           <div class="param-item">
             <div class="param-name">Material Recomendado</div>
-            <div class="param-val">PLA (Interior) / PETG (Terrazas)</div>
+            <div class="param-val">PLA / PETG</div>
           </div>
         </div>
       </div>
@@ -478,11 +738,11 @@
   </section>
 
   <!-- Section: FAQ -->
-  <section class="content-section" style="background: rgba(30, 41, 59, 0.3);">
+  <section class="content-section" style="background: rgba(22, 27, 34, 0.3);">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Preguntas Frecuentes</h2>
-        <p class="section-subtitle">Resolvemos las dudas más habituales sobre la creación e impresión de códigos QR 3D.</p>
+        <p class="section-subtitle">Todo sobre la creación, compatibilidad y laminación de códigos QR 3D.</p>
       </div>
 
       <div class="faq-list">
@@ -490,7 +750,9 @@
         <div class="faq-item">
           <div class="faq-question">
             <span>¿Qué combinación de colores garantiza que el código QR se escanee sin problemas?</span>
-            <span class="faq-icon">+</span>
+            <svg class="faq-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
           </div>
           <div class="faq-answer">
             Para una lectura rápida con cualquier cámara de smartphone es imprescindible un alto contraste óptico. Las combinaciones más fiables son base blanca/clara con relieve negro/oscuro. Evita filamentos transparentes, con purpurina o combinaciones de bajo contraste (como rojo sobre naranja o gris sobre blanco).
@@ -501,7 +763,9 @@
         <div class="faq-item">
           <div class="faq-question">
             <span>¿Con qué programas de laminación (slicers) son compatibles los archivos descargados?</span>
-            <span class="faq-icon">+</span>
+            <svg class="faq-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
           </div>
           <div class="faq-answer">
             Los archivos .3MF son compatibles nativamente con Bambu Studio, OrcaSlicer, PrusaSlicer y Ultimaker Cura. Los archivos .STL son compatibles con la totalidad de laminadores y plataformas de modelado 3D del mercado.
@@ -512,7 +776,9 @@
         <div class="faq-item">
           <div class="faq-question">
             <span>¿Cuál es la diferencia entre descargar en formato .3MF y formato .STL?</span>
-            <span class="faq-icon">+</span>
+            <svg class="faq-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
           </div>
           <div class="faq-answer">
             El formato .3MF almacena la geometría organizada en piezas separadas con información de color lista para impresoras multicolor (sistemas tipo AMS o MMU). El formato .STL entrega la malla geométrica combinada, ideal para impresoras monocromáticas tradicionales o cambios de filamento manuales por capa.
@@ -523,7 +789,9 @@
         <div class="faq-item">
           <div class="faq-question">
             <span>¿Puedo imprimir estos modelos si mi impresora tiene un solo extrusor?</span>
-            <span class="faq-icon">+</span>
+            <svg class="faq-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
           </div>
           <div class="faq-answer">
             Sí. Dado que el diseño está configurado con la base en los primeros milímetros y el código QR en la parte superior, puedes programar una pausa de capa (M600) en tu laminador para cambiar el rollo de filamento manualmente justo antes de que empiece el relieve.
@@ -534,7 +802,9 @@
         <div class="faq-item">
           <div class="faq-question">
             <span>¿Qué tipo de filamento debo elegir (PLA, PETG, ABS)?</span>
-            <span class="faq-icon">+</span>
+            <svg class="faq-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
           </div>
           <div class="faq-answer">
             PLA es el material recomendado para interiores (llaveros, placas de oficina, cartas de restaurante cubiertas) por su facilidad de impresión y acabado nítido. PETG es ideal para exteriores o mesas de terraza, ya que resiste mejor la radiación solar, la humedad y el desgaste diario. ABS/ASA es adecuado para entornos industriales expuestos a altas temperaturas.
@@ -544,33 +814,13 @@
         <!-- Q6 -->
         <div class="faq-item">
           <div class="faq-question">
-            <span>¿Puedo utilizar los archivos generados para vender piezas impresas a mis clientes?</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            Sí. Los modelos geométricos generados son de libre disposición para proyectos personales y comerciales.
-          </div>
-        </div>
-
-        <!-- Q7 -->
-        <div class="faq-item">
-          <div class="faq-question">
             <span>¿Mis enlaces o contraseñas WiFi quedan almacenados en la web?</span>
-            <span class="faq-icon">+</span>
+            <svg class="faq-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
           </div>
           <div class="faq-answer">
             No. La generación del código QR y el cálculo del modelo 3D se realizan íntegramente dentro de tu navegador web mediante JavaScript. Ningún dato es transmitido ni guardado en servidores externos.
-          </div>
-        </div>
-
-        <!-- Q8 -->
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>¿Qué tamaño mínimo debe tener el QR impreso para que funcione correctamente?</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            Para códigos QR con enlaces cortos o redes WiFi estándar, un tamaño de 45 x 45 mm es suficiente. Si el código contiene enlaces extensos o parámetros complejos, se recomienda un tamaño de 60 x 60 mm a 75 x 75 mm para asegurar que cada módulo tenga suficiente resolución física de impresión.
           </div>
         </div>
       </div>
@@ -583,7 +833,7 @@
       <div class="footer-links">
         <a href="#top">Inicio</a>
         <a href="#wifiHelperBtn">Generador WiFi</a>
-        <a href="https://github.com" target="_blank" rel="noopener">Código Abierto</a>
+        <a href="https://qr3dstudio.online/ads.txt">ads.txt</a>
       </div>
       <p>© 2026 QR3D Studio — Generador de Códigos QR para Impresión 3D. 100% Client-Side.</p>
     </div>
@@ -593,11 +843,18 @@
   <div class="modal-overlay" id="wifiModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3 class="modal-title"><span>📶</span> Configurar QR para Conexión WiFi</h3>
+        <h3 class="modal-title">
+          <span class="title-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+            </svg>
+          </span>
+          Configurar QR para Conexión WiFi
+        </h3>
         <button type="button" class="modal-close-icon" id="closeWifiBtn">✕</button>
       </div>
-      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
-        Al escanear este código con el móvil, los clientes o huéspedes se conectarán automáticamente a la red.
+      <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:16px;">
+        Al escanear este código con la cámara del smartphone, los clientes o huéspedes se conectarán automáticamente a la red.
       </p>
       <div class="control-group">
         <label class="control-label" for="wifiSsid">Nombre de la Red (SSID)</label>
@@ -623,14 +880,14 @@
   <div class="modal-overlay" id="adModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3 class="modal-title"><span>📥</span> Preparando tu archivo 3D...</h3>
+        <h3 class="modal-title">Preparando tu archivo...</h3>
         <button type="button" class="modal-close-icon" id="adModalClose" title="Cerrar y continuar">✕</button>
       </div>
 
       <div class="modal-ad-slot">
         <span class="ad-tag">ANUNCIO</span>
-        <p style="color:#cbd5e1; font-weight:600; margin:10px 0 4px;">Espacio Publicitario Interstitial (Pop-up de Descarga)</p>
-        <p style="font-size:0.8rem; color:#94a3b8;">Tu anuncio o banner de afiliación aquí (300 × 250)</p>
+        <p style="color:#f5f5f7; font-weight:600; margin:10px 0 4px;">Espacio Publicitario Interstitial (Pop-up de Descarga)</p>
+        <p style="font-size:0.8rem; color:#86868b;">Tu anuncio o banner de afiliación aquí (300 × 250)</p>
       </div>
 
       <p class="modal-countdown" id="adModalTimer">Descargando en 3s...</p>
