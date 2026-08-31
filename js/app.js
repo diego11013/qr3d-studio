@@ -1,79 +1,550 @@
 /**
- * Controlador principal de la interfaz y eventos
+ * QR3D Studio - Main Application Controller
+ * Coordinates UI inputs, 1-Click Quick Presets, Real-time Optical Contrast Checker,
+ * Dimension Sliders, i18n Language Toggle, 3D/2D Mesh Construction, Instant Downloads,
+ * and Legal Modals.
  */
-document.addEventListener('DOMContentLoaded', () => {
-  const viewer = new Viewer3D('qrCanvas3d');
-  
-  const qrInput = document.getElementById('qrInput');
-  const baseColorInput = document.getElementById('baseColorInput');
-  const reliefColorInput = document.getElementById('reliefColorInput');
-  const bottomTextInput = document.getElementById('bottomTextInput');
-  const textSizeSlider = document.getElementById('textSizeSlider');
-  const textSizeVal = document.getElementById('textSizeVal');
-  const resetTextSizeBtn = document.getElementById('resetTextSizeBtn');
+(function() {
+  'use strict';
 
-  function update() {
-    const data = {
-      text: bottomTextInput.value,
-      baseColor: baseColorInput.value,
-      reliefColor: reliefColorInput.value,
-      url: qrInput.value
-    };
-    viewer.render(data);
-  }
+  // Application State
+  const state = {
+    text: 'https://ejemplo.com/menu',
+    objectFormat: 'stand', // 'stand', 'keychain', 'plaque', 'magnetic', 'countersunk'
+    baseColor: '#FFFFFF',
+    reliefColor: '#111827',
+    moduleShape: 'square', // 'square', 'rounded', 'dots'
+    centerEmoji: '🍽️',
+    bottomText: 'MENU DIGITAL',
+    baseThickness: 2.4,
+    reliefHeight: 1.4,
+    currentModelData: null
+  };
 
-  bottomTextInput.addEventListener('input', () => {
-    const lines = bottomTextInput.value.split('\n');
-    if (lines.length > 2) {
-      bottomTextInput.value = lines.slice(0, 2).join('\n');
+  let viewer = null;
+  let qrMatrixObj = null;
+
+  // DOM Elements
+  const el = {
+    langSwitchBtn: document.getElementById('langSwitchBtn'),
+    presetBtns: document.querySelectorAll('.quick-preset-btn'),
+
+    qrInput: document.getElementById('qrInput'),
+    wifiHelperBtn: document.getElementById('wifiHelperBtn'),
+    wifiModal: document.getElementById('wifiModal'),
+    wifiSsid: document.getElementById('wifiSsid'),
+    wifiPass: document.getElementById('wifiPass'),
+    wifiType: document.getElementById('wifiType'),
+    applyWifiBtn: document.getElementById('applyWifiBtn'),
+    closeWifiBtn: document.getElementById('closeWifiBtn'),
+
+    formatBtns: document.querySelectorAll('.format-card'),
+    baseColorInput: document.getElementById('baseColorInput'),
+    baseColorHex: document.getElementById('baseColorHex'),
+    reliefColorInput: document.getElementById('reliefColorInput'),
+    reliefColorHex: document.getElementById('reliefColorHex'),
+    colorPresets: document.querySelectorAll('.color-preset-btn'),
+    contrastBadge: document.getElementById('contrastBadge'),
+
+    shapeBtns: document.querySelectorAll('.shape-btn'),
+    emblemBtns: document.querySelectorAll('.emblem-btn'),
+    customEmojiInput: document.getElementById('customEmojiInput'),
+    clearEmojiBtn: document.getElementById('clearEmojiBtn'),
+
+    baseThickSlider: document.getElementById('baseThickSlider'),
+    baseThickVal: document.getElementById('baseThickVal'),
+    reliefHeightSlider: document.getElementById('reliefHeightSlider'),
+    reliefHeightVal: document.getElementById('reliefHeightVal'),
+    bottomTextInput: document.getElementById('bottomTextInput'),
+
+    canvas3d: document.getElementById('qrCanvas3d'),
+    canvas2dFull: document.getElementById('qrCanvas2dFull'),
+    reset3dBtn: document.getElementById('reset3dBtn'),
+    dimsBadge: document.getElementById('dimsBadge'),
+
+    // Viewport Floating Controls
+    btnAutoRotate: document.getElementById('btnAutoRotate'),
+    btnRotateLeft: document.getElementById('btnRotateLeft'),
+    btnRotateRight: document.getElementById('btnRotateRight'),
+    btnTiltUp: document.getElementById('btnTiltUp'),
+    btnTiltDown: document.getElementById('btnTiltDown'),
+    btnZoomIn: document.getElementById('btnZoomIn'),
+    btnZoomOut: document.getElementById('btnZoomOut'),
+
+    // Zoom Slider & Step Buttons
+    zoomSlider: document.getElementById('zoomSlider'),
+    btnZoomOutSlider: document.getElementById('btnZoomOutSlider'),
+    btnZoomInSlider: document.getElementById('btnZoomInSlider'),
+
+    // Download Buttons
+    btnDownload3MF: document.getElementById('btnDownload3MF'),
+    btnDownloadSTL: document.getElementById('btnDownloadSTL'),
+    btnDownloadPNG2D: document.getElementById('btnDownloadPNG2D'),
+    btnDownloadSVG2D: document.getElementById('btnDownloadSVG2D'),
+    downloadToast: document.getElementById('downloadToast'),
+
+    // Legal Modals
+    privacyModal: document.getElementById('privacyModal'),
+    termsModal: document.getElementById('termsModal'),
+    contactModal: document.getElementById('contactModal'),
+    openPrivacyBtn: document.getElementById('openPrivacyBtn'),
+    openTermsBtn: document.getElementById('openTermsBtn'),
+    openContactBtn: document.getElementById('openContactBtn'),
+    closePrivacyBtn: document.getElementById('closePrivacyBtn'),
+    closeTermsBtn: document.getElementById('closeTermsBtn'),
+    closeContactBtn: document.getElementById('closeContactBtn')
+  };
+
+  function init() {
+    // 1. Initialize i18n
+    if (window.i18n) {
+      window.i18n.setLanguage(window.i18n.getLanguage());
     }
-    update();
-  });
 
-  textSizeSlider.addEventListener('input', (e) => {
-    textSizeVal.textContent = `Escala: ${e.target.value}%`;
-    update();
-  });
+    // 2. Initialize 3D Viewer
+    viewer = new window.QR3DViewer('qrCanvas3d');
 
-  resetTextSizeBtn.addEventListener('click', () => {
-    textSizeSlider.value = 100;
-    textSizeVal.textContent = 'Escala: Auto (100%)';
-    update();
-  });
+    // Sync Zoom slider with viewer changes
+    viewer.onZoomChange = function(distance) {
+      if (el.zoomSlider) {
+        el.zoomSlider.value = Math.round(distance);
+      }
+    };
 
-  baseColorInput.addEventListener('input', (e) => {
-    document.getElementById('baseColorHex').textContent = e.target.value.toUpperCase();
-    update();
-  });
-
-  reliefColorInput.addEventListener('input', (e) => {
-    document.getElementById('reliefColorHex').textContent = e.target.value.toUpperCase();
-    update();
-  });
-
-  document.getElementById('btnDownload3MF').addEventListener('click', () => {
-    exportTo3MF({ width: 72, height: 90, baseThick: 2.4 });
-    showToast();
-  });
-
-  document.getElementById('btnDownloadSTL').addEventListener('click', () => {
-    exportToSTL({ width: 72, height: 90, baseThick: 2.4 });
-    showToast();
-  });
-
-  function showToast() {
-    const toast = document.getElementById('downloadToast');
-    toast.style.display = 'flex';
-    setTimeout(() => toast.style.display = 'none', 3000);
+    bindEvents();
+    updateAll();
   }
 
-  // Preset buttons
-  document.querySelectorAll('.quick-preset-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.quick-preset-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
+  function bindEvents() {
+    // Language Switcher
+    if (el.langSwitchBtn && window.i18n) {
+      el.langSwitchBtn.addEventListener('click', () => {
+        window.i18n.toggleLanguage();
+        updateContrastUI();
+      });
+    }
 
-  update();
-});
+    // 1-Click Quick Presets
+    el.presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        el.presetBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const preset = btn.dataset.preset;
+        if (preset === 'menu') {
+          state.text = 'https://ejemplo.com/menu';
+          state.objectFormat = 'stand';
+          state.centerEmoji = '🍽️';
+          state.bottomText = 'MENU DIGITAL';
+          state.baseColor = '#FFFFFF';
+          state.reliefColor = '#111827';
+        } else if (preset === 'reviews') {
+          state.text = 'https://g.page/r/tu-negocio/review';
+          state.objectFormat = 'stand';
+          state.centerEmoji = '⭐';
+          state.bottomText = 'VALORANOS EN GOOGLE';
+          state.baseColor = '#FFFFFF';
+          state.reliefColor = '#0071E3';
+        } else if (preset === 'wifi') {
+          state.text = 'WIFI:S:WiFi_Huespedes;T:WPA;P:clave123;;';
+          state.objectFormat = 'plaque';
+          state.centerEmoji = '📶';
+          state.bottomText = 'WIFI CLIENTES';
+          state.baseColor = '#161B22';
+          state.reliefColor = '#2997FF';
+        } else if (preset === 'instagram') {
+          state.text = 'https://instagram.com/tu_cuenta';
+          state.objectFormat = 'keychain';
+          state.centerEmoji = '📷';
+          state.bottomText = 'SIGUENOS';
+          state.baseColor = '#111827';
+          state.reliefColor = '#F59E0B';
+        } else if (preset === 'magnet') {
+          state.text = 'https://ejemplo.com';
+          state.objectFormat = 'magnetic';
+          state.centerEmoji = '⭐';
+          state.bottomText = 'ESCANEA AQUI';
+          state.baseColor = '#FFFFFF';
+          state.reliefColor = '#111827';
+        }
+
+        // Sync UI inputs with state
+        el.qrInput.value = state.text;
+        el.bottomTextInput.value = state.bottomText;
+        el.baseColorInput.value = state.baseColor;
+        el.baseColorHex.textContent = state.baseColor.toUpperCase();
+        el.reliefColorInput.value = state.reliefColor;
+        el.reliefColorHex.textContent = state.reliefColor.toUpperCase();
+
+        // Sync format cards
+        el.formatBtns.forEach(f => {
+          f.classList.toggle('active', f.dataset.format === state.objectFormat);
+        });
+
+        // Sync emblem buttons
+        el.emblemBtns.forEach(e => {
+          e.classList.toggle('active', e.dataset.emoji === state.centerEmoji);
+        });
+
+        updateAll();
+      });
+    });
+
+    // Input text
+    el.qrInput.addEventListener('input', e => {
+      state.text = e.target.value.trim() || 'https://ejemplo.com';
+      updateAll();
+    });
+
+    // WiFi Helper Modal
+    if (el.wifiHelperBtn) {
+      el.wifiHelperBtn.addEventListener('click', () => {
+        el.wifiModal.classList.add('active');
+      });
+      el.closeWifiBtn.addEventListener('click', () => {
+        el.wifiModal.classList.remove('active');
+      });
+      el.applyWifiBtn.addEventListener('click', () => {
+        const ssid = el.wifiSsid.value.trim() || 'WiFi';
+        const pass = el.wifiPass.value;
+        const type = el.wifiType.value;
+        const wifiString = `WIFI:S:${ssid};T:${type};P:${pass};;`;
+        el.qrInput.value = wifiString;
+        state.text = wifiString;
+        state.bottomText = 'WIFI ' + ssid.toUpperCase();
+        el.bottomTextInput.value = state.bottomText;
+        state.centerEmoji = '📶';
+        el.emblemBtns.forEach(b => b.classList.toggle('active', b.dataset.emoji === '📶'));
+        el.wifiModal.classList.remove('active');
+        updateAll();
+      });
+    }
+
+    // Format selection
+    el.formatBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        el.formatBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.objectFormat = btn.dataset.format;
+        update3D();
+      });
+    });
+
+    // Colors
+    el.baseColorInput.addEventListener('input', e => {
+      state.baseColor = e.target.value;
+      el.baseColorHex.textContent = e.target.value.toUpperCase();
+      updateVisuals();
+    });
+    el.reliefColorInput.addEventListener('input', e => {
+      state.reliefColor = e.target.value;
+      el.reliefColorHex.textContent = e.target.value.toUpperCase();
+      updateVisuals();
+    });
+
+    // Color Presets
+    el.colorPresets.forEach(preset => {
+      preset.addEventListener('click', () => {
+        state.baseColor = preset.dataset.base;
+        state.reliefColor = preset.dataset.relief;
+        el.baseColorInput.value = state.baseColor;
+        el.baseColorHex.textContent = state.baseColor.toUpperCase();
+        el.reliefColorInput.value = state.reliefColor;
+        el.reliefColorHex.textContent = state.reliefColor.toUpperCase();
+        updateVisuals();
+      });
+    });
+
+    // Module Shapes (Square, Rounded, Dots)
+    el.shapeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        el.shapeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.moduleShape = btn.dataset.shape;
+        updateAll();
+      });
+    });
+
+    // Center Emblem Buttons
+    el.emblemBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        el.emblemBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.centerEmoji = btn.dataset.emoji;
+        el.customEmojiInput.value = '';
+        updateAll();
+      });
+    });
+
+    el.customEmojiInput.addEventListener('input', e => {
+      const val = e.target.value.trim();
+      el.emblemBtns.forEach(b => b.classList.remove('active'));
+      state.centerEmoji = val;
+      updateAll();
+    });
+
+    el.clearEmojiBtn.addEventListener('click', () => {
+      el.emblemBtns.forEach(b => b.classList.remove('active'));
+      el.customEmojiInput.value = '';
+      state.centerEmoji = '';
+      updateAll();
+    });
+
+    // Thickness Sliders
+    if (el.baseThickSlider) {
+      el.baseThickSlider.addEventListener('input', e => {
+        state.baseThickness = parseFloat(e.target.value);
+        if (el.baseThickVal) el.baseThickVal.textContent = state.baseThickness.toFixed(1) + ' mm';
+        update3D();
+      });
+    }
+    if (el.reliefHeightSlider) {
+      el.reliefHeightSlider.addEventListener('input', e => {
+        state.reliefHeight = parseFloat(e.target.value);
+        if (el.reliefHeightVal) el.reliefHeightVal.textContent = state.reliefHeight.toFixed(1) + ' mm';
+        update3D();
+      });
+    }
+
+    // Bottom Text
+    el.bottomTextInput.addEventListener('input', e => {
+      state.bottomText = e.target.value;
+      update3D();
+    });
+
+    // 3D Viewport Controls
+    if (el.reset3dBtn) {
+      el.reset3dBtn.addEventListener('click', () => {
+        viewer.resetView();
+        if (el.zoomSlider) el.zoomSlider.value = viewer.distance;
+      });
+    }
+
+    if (el.btnAutoRotate) {
+      el.btnAutoRotate.addEventListener('click', () => {
+        const isAuto = viewer.toggleAutoRotate();
+        el.btnAutoRotate.classList.toggle('active', isAuto);
+      });
+    }
+
+    if (el.btnRotateLeft) {
+      el.btnRotateLeft.addEventListener('click', () => viewer.rotateBy(-0.25, 0));
+    }
+    if (el.btnRotateRight) {
+      el.btnRotateRight.addEventListener('click', () => viewer.rotateBy(0.25, 0));
+    }
+    if (el.btnTiltUp) {
+      el.btnTiltUp.addEventListener('click', () => viewer.rotateBy(0, -0.18));
+    }
+    if (el.btnTiltDown) {
+      el.btnTiltDown.addEventListener('click', () => viewer.rotateBy(0, 0.18));
+    }
+    if (el.btnZoomIn) {
+      el.btnZoomIn.addEventListener('click', () => viewer.zoomBy(-35));
+    }
+    if (el.btnZoomOut) {
+      el.btnZoomOut.addEventListener('click', () => viewer.zoomBy(35));
+    }
+
+    // Zoom Slider & Step Buttons
+    if (el.zoomSlider) {
+      el.zoomSlider.addEventListener('input', e => {
+        viewer.setDistance(parseFloat(e.target.value));
+      });
+    }
+    if (el.btnZoomOutSlider) {
+      el.btnZoomOutSlider.addEventListener('click', () => viewer.zoomBy(35));
+    }
+    if (el.btnZoomInSlider) {
+      el.btnZoomInSlider.addEventListener('click', () => viewer.zoomBy(-35));
+    }
+
+    // Direct 1-Click Instant Downloads (Zero-Friction)
+    el.btnDownload3MF.addEventListener('click', () => executeDirectDownload('3mf'));
+    el.btnDownloadSTL.addEventListener('click', () => executeDirectDownload('stl'));
+    if (el.btnDownloadPNG2D) {
+      el.btnDownloadPNG2D.addEventListener('click', () => executeDirectDownload('png'));
+    }
+    if (el.btnDownloadSVG2D) {
+      el.btnDownloadSVG2D.addEventListener('click', () => executeDirectDownload('svg'));
+    }
+
+    // Legal Modals
+    setupModal(el.openPrivacyBtn, el.privacyModal, el.closePrivacyBtn);
+    setupModal(el.openTermsBtn, el.termsModal, el.closeTermsBtn);
+    setupModal(el.openContactBtn, el.contactModal, el.closeContactBtn);
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+  }
+
+  function setupModal(openBtn, modalEl, closeBtn) {
+    if (!openBtn || !modalEl) return;
+    openBtn.addEventListener('click', e => {
+      e.preventDefault();
+      modalEl.classList.add('active');
+    });
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modalEl.classList.remove('active');
+      });
+    }
+    modalEl.addEventListener('click', e => {
+      if (e.target === modalEl) modalEl.classList.remove('active');
+    });
+  }
+
+  function updateAll() {
+    // 1. Generate QR matrix
+    qrMatrixObj = window.QRGenerator.generateMatrix(state.text, state.centerEmoji ? 'H' : 'Q');
+
+    // 2. Render Full-Size 2D Canvas
+    render2DCanvas();
+
+    // 3. Update Optical Contrast UI
+    updateContrastUI();
+
+    // 4. Build & Render 3D Model
+    update3D();
+  }
+
+  function updateContrastUI() {
+    if (window.ContrastChecker && el.contrastBadge) {
+      window.ContrastChecker.updateUI(el.contrastBadge, state.baseColor, state.reliefColor);
+    }
+  }
+
+  function render2DCanvas() {
+    if (el.canvas2dFull) {
+      window.QRGenerator.renderCanvas(el.canvas2dFull, {
+        matrixObj: qrMatrixObj,
+        bgColor: state.baseColor,
+        fgColor: state.reliefColor,
+        shape: state.moduleShape,
+        centerEmoji: state.centerEmoji,
+        canvasSize: 512
+      });
+    }
+  }
+
+  function updateVisuals() {
+    render2DCanvas();
+    updateContrastUI();
+
+    if (state.currentModelData) {
+      viewer.updateModel(state.currentModelData, {
+        baseColor: state.baseColor,
+        reliefColor: state.reliefColor
+      });
+    }
+  }
+
+  function update3D() {
+    const modelData = window.GeometryBuilder.build3DModel({
+      objectFormat: state.objectFormat,
+      matrixObj: qrMatrixObj,
+      baseThickness: state.baseThickness,
+      reliefHeight: state.reliefHeight,
+      moduleShape: state.moduleShape,
+      centerEmoji: state.centerEmoji,
+      bottomText: state.bottomText
+    });
+
+    state.currentModelData = modelData;
+
+    const d = modelData.dimensions;
+    el.dimsBadge.textContent = `${d.width} × ${d.height} × ${d.totalZ.toFixed(1)} mm`;
+
+    viewer.updateModel(modelData, {
+      baseColor: state.baseColor,
+      reliefColor: state.reliefColor
+    });
+
+    if (el.zoomSlider) {
+      el.zoomSlider.value = Math.round(viewer.distance);
+    }
+  }
+
+  /**
+   * Direct 1-Click Instant Download Execution
+   */
+  function executeDirectDownload(type) {
+    const cleanName = (state.bottomText || 'QR3D').replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase();
+    const filename = `qr3d_${state.objectFormat}_${cleanName}`;
+
+    // Google Ads conversion tracking
+    if (typeof gtag === 'function') {
+      gtag('event', 'generate_lead', {
+        'event_category': 'Download',
+        'event_label': type + '_' + state.objectFormat
+      });
+    }
+
+    if (type === '3mf') {
+      const blob = window.ThreeMFExporter.generate3MF(state.currentModelData, {
+        baseColor: state.baseColor,
+        reliefColor: state.reliefColor
+      });
+      saveBlob(blob, `${filename}_multicolor.3mf`);
+    } else if (type === 'stl') {
+      const blob = window.STLExporter.generateSTL(state.currentModelData);
+      saveBlob(blob, `${filename}.stl`);
+    } else if (type === 'png') {
+      const hdCanvas = document.createElement('canvas');
+      window.QRGenerator.renderCanvas(hdCanvas, {
+        matrixObj: qrMatrixObj,
+        bgColor: state.baseColor,
+        fgColor: state.reliefColor,
+        shape: state.moduleShape,
+        centerEmoji: state.centerEmoji,
+        canvasSize: 1024
+      });
+      hdCanvas.toBlob(blob => {
+        saveBlob(blob, `${filename}_hd.png`);
+      });
+    } else if (type === 'svg') {
+      const svgStr = window.QRGenerator.generateSVG({
+        matrixObj: qrMatrixObj,
+        bgColor: state.baseColor,
+        fgColor: state.reliefColor,
+        shape: state.moduleShape,
+        centerEmoji: state.centerEmoji
+      });
+      const blob = new Blob([svgStr], { type: 'image/svg+xml' });
+      saveBlob(blob, `${filename}.svg`);
+    }
+
+    showDownloadToast();
+  }
+
+  function showDownloadToast() {
+    if (!el.downloadToast) return;
+    el.downloadToast.classList.add('show');
+    setTimeout(() => {
+      el.downloadToast.classList.remove('show');
+    }, 3800);
+  }
+
+  function saveBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  // Start app on DOMContentLoaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
