@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
-  <rect width="192" height="192" rx="42" fill="#000000"/>
-  <rect x="2" y="2" width="188" height="188" rx="40" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
-  <g transform="translate(46, 46) scale(4.16)" fill="none" stroke="#2997ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-    <polyline points="2 17 12 22 22 17"/>
-    <polyline points="2 12 12 17 22 12"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>

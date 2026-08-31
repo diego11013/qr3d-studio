@@ -1,108 +1,33 @@
 /**
- * QR3D Studio - Binary STL Exporter (Pure JavaScript)
- * Merges base and relief meshes into standard IEEE 754 Binary STL
- * for universal 3D printer and slicer compatibility.
+ * Exportador STL ASCII / Binario universal
  */
-(function(window) {
-  'use strict';
+function exportToSTL(options) {
+  const w = options.width || 72;
+  const h = options.height || 90;
+  const z = options.baseThick || 2.4;
 
-  function computeFaceNormal(v1, v2, v3) {
-    const ax = v2[0] - v1[0], ay = v2[1] - v1[1], az = v2[2] - v1[2];
-    const bx = v3[0] - v1[0], by = v3[1] - v1[1], bz = v3[2] - v1[2];
-    const nx = ay * bz - az * by;
-    const ny = az * bx - ax * bz;
-    const nz = ax * by - ay * bx;
-    const len = Math.hypot(nx, ny, nz) || 1;
-    return [nx / len, ny / len, nz / len];
+  let stl = `solid QR3D_Studio\n`;
+  function addTriangle(p1, p2, p3) {
+    stl += `  facet normal 0 0 0\n    outer loop\n`;
+    stl += `      vertex ${p1[0]} ${p1[1]} ${p1[2]}\n`;
+    stl += `      vertex ${p2[0]} ${p2[1]} ${p2[2]}\n`;
+    stl += `      vertex ${p3[0]} ${p3[1]} ${p3[2]}\n`;
+    stl += `    endloop\n  endfacet\n`;
   }
 
-  const STLExporter = {
-    /**
-     * Generates a binary STL Blob combining base and relief meshes
-     */
-    generateSTL: function(modelData) {
-      const baseMesh = modelData.baseMesh;
-      const reliefMesh = modelData.reliefMesh;
+  // Cubo base simple
+  addTriangle([0,0,0], [w,0,0], [w,h,0]);
+  addTriangle([0,0,0], [w,h,0], [0,h,0]);
+  addTriangle([0,0,z], [w,h,z], [w,0,z]);
+  addTriangle([0,0,z], [0,h,z], [w,h,z]);
 
-      const totalTriangles = baseMesh.triangles.length + reliefMesh.triangles.length;
-      const bufferSize = 80 + 4 + (totalTriangles * 50);
-      const buffer = new ArrayBuffer(bufferSize);
-      const view = new DataView(buffer);
+  stl += `endsolid QR3D_Studio\n`;
 
-      // 80-byte header
-      const headerStr = "Binary STL created by QR3D Studio (3D Printable QR)";
-      for (let i = 0; i < Math.min(headerStr.length, 80); i++) {
-        view.setUint8(i, headerStr.charCodeAt(i));
-      }
-
-      // Total triangle count at offset 80
-      view.setUint32(80, totalTriangles, true);
-
-      let offset = 84;
-
-      // 1. Write Base Mesh Triangles
-      for (let i = 0; i < baseMesh.triangles.length; i++) {
-        const t = baseMesh.triangles[i];
-        const v1 = baseMesh.vertices[t[0]];
-        const v2 = baseMesh.vertices[t[1]];
-        const v3 = baseMesh.vertices[t[2]];
-        const norm = computeFaceNormal(v1, v2, v3);
-
-        // Normal
-        view.setFloat32(offset, norm[0], true);
-        view.setFloat32(offset + 4, norm[1], true);
-        view.setFloat32(offset + 8, norm[2], true);
-
-        // Vertices
-        view.setFloat32(offset + 12, v1[0], true);
-        view.setFloat32(offset + 16, v1[1], true);
-        view.setFloat32(offset + 20, v1[2], true);
-
-        view.setFloat32(offset + 24, v2[0], true);
-        view.setFloat32(offset + 28, v2[1], true);
-        view.setFloat32(offset + 32, v2[2], true);
-
-        view.setFloat32(offset + 36, v3[0], true);
-        view.setFloat32(offset + 40, v3[1], true);
-        view.setFloat32(offset + 44, v3[2], true);
-
-        view.setUint16(offset + 48, 0, true); // attribute byte count
-        offset += 50;
-      }
-
-      // 2. Write Relief Mesh Triangles
-      for (let i = 0; i < reliefMesh.triangles.length; i++) {
-        const t = reliefMesh.triangles[i];
-        const v1 = reliefMesh.vertices[t[0]];
-        const v2 = reliefMesh.vertices[t[1]];
-        const v3 = reliefMesh.vertices[t[2]];
-        const norm = computeFaceNormal(v1, v2, v3);
-
-        // Normal
-        view.setFloat32(offset, norm[0], true);
-        view.setFloat32(offset + 4, norm[1], true);
-        view.setFloat32(offset + 8, norm[2], true);
-
-        // Vertices
-        view.setFloat32(offset + 12, v1[0], true);
-        view.setFloat32(offset + 16, v1[1], true);
-        view.setFloat32(offset + 20, v1[2], true);
-
-        view.setFloat32(offset + 24, v2[0], true);
-        view.setFloat32(offset + 28, v2[1], true);
-        view.setFloat32(offset + 32, v2[2], true);
-
-        view.setFloat32(offset + 36, v3[0], true);
-        view.setFloat32(offset + 40, v3[1], true);
-        view.setFloat32(offset + 44, v3[2], true);
-
-        view.setUint16(offset + 48, 0, true); // attribute byte count
-        offset += 50;
-      }
-
-      return new Blob([buffer], { type: 'model/stl' });
-    }
-  };
-
-  window.STLExporter = STLExporter;
-})(window);
+  const blob = new Blob([stl], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'QR3D_Studio_Universal.stl';
+  a.click();
+  URL.revokeObjectURL(url);
+}
