@@ -1511,13 +1511,13 @@ footer {
 /* ==========================================================================
    Affiliate Hardware & 3D Materials Showcase
    ========================================================================== */
-.affiliate-section {
+.materials-showcase-section {
   padding: 50px 0 30px;
   border-top: 1px solid var(--border);
   background: rgba(18, 22, 28, 0.4);
 }
 
-.affiliate-grid {
+.material-cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
@@ -1525,18 +1525,18 @@ footer {
 }
 
 @media (max-width: 992px) {
-  .affiliate-grid {
+  .material-cards-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 580px) {
-  .affiliate-grid {
+  .material-cards-grid {
     grid-template-columns: 1fr;
   }
 }
 
-.affiliate-card {
+.material-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -1550,13 +1550,13 @@ footer {
   overflow: hidden;
 }
 
-.affiliate-card:hover {
+.material-card:hover {
   transform: translateY(-4px);
   border-color: rgba(41, 151, 255, 0.5);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
-.affiliate-badge {
+.material-badge {
   display: inline-block;
   background: rgba(41, 151, 255, 0.15);
   border: 1px solid rgba(41, 151, 255, 0.35);
@@ -1569,19 +1569,19 @@ footer {
   align-self: flex-start;
 }
 
-.affiliate-badge.gold {
+.material-badge.gold {
   background: rgba(245, 158, 11, 0.15);
   border-color: rgba(245, 158, 11, 0.4);
   color: #f59e0b;
 }
 
-.affiliate-badge.green {
+.material-badge.green {
   background: rgba(48, 209, 88, 0.15);
   border-color: rgba(48, 209, 88, 0.4);
   color: #30d158;
 }
 
-.affiliate-title {
+.material-title {
   font-size: 1.05rem;
   font-weight: 600;
   color: #fff;
@@ -1589,7 +1589,7 @@ footer {
   line-height: 1.3;
 }
 
-.affiliate-desc {
+.material-desc {
   font-size: 0.85rem;
   color: var(--text-secondary);
   line-height: 1.45;
@@ -1598,7 +1598,7 @@ footer {
 }
 
 
-.affiliate-btn {
+.store-link-btn {
   background: rgba(41, 151, 255, 0.12);
   border: 1px solid rgba(41, 151, 255, 0.45);
   color: #2997ff;
@@ -1615,7 +1615,7 @@ footer {
   text-decoration: none;
 }
 
-.affiliate-btn:hover {
+.store-link-btn:hover {
   background: var(--primary);
   border-color: var(--primary);
   color: #fff;
@@ -1623,27 +1623,27 @@ footer {
   box-shadow: 0 4px 15px rgba(0, 113, 227, 0.4);
 }
 
-.affiliate-btn.primary {
+.store-link-btn.primary {
   background: var(--primary);
   border-color: var(--primary);
   color: #fff;
   box-shadow: 0 4px 14px rgba(0, 113, 227, 0.3);
 }
 
-.affiliate-btn.primary:hover {
+.store-link-btn.primary:hover {
   background: var(--primary-hover);
   box-shadow: 0 6px 20px rgba(0, 113, 227, 0.5);
 }
 
 
-.affiliate-btn:hover {
+.store-link-btn:hover {
   background: var(--primary);
   border-color: var(--primary);
   color: #fff;
   transform: translateY(-1px);
 }
 
-.affiliate-disclaimer {
+.recommendation-note {
   font-size: 0.76rem;
   color: var(--text-muted);
   text-align: center;
