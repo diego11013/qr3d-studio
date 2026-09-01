@@ -1,12 +1,17 @@
 /**
- * QR3D Studio - Internationalization Engine (ES / EN)
- * Complete bilingual dictionary for Spanish and English with instant DOM reactivity.
+ * QR3D Studio - Complete Internationalization Engine (ES / EN)
+ * Complete bilingual dictionary for Spanish and English with instant DOM reactivity,
+ * dynamic placeholder updating, and bilingual SEO metadata support.
  */
 (function(window) {
   'use strict';
 
   const translations = {
     es: {
+      // Document SEO Metadata
+      "meta.page_title": "Generador de Códigos QR para Impresión 3D | QR3D Studio (3MF y STL)",
+      "meta.page_desc": "Crea códigos QR 3D para imprimir: soportes de restaurante, llaveros, placas magnéticas y de pared con textos superior e inferior multi-renglón. Exporta gratis en .3MF multicolor (Bambu/Prusa) y .STL.",
+
       // Header & Navigation
       "app.title": "QR3D Studio",
       "app.badge": "3MF Multicolor",
@@ -16,96 +21,9 @@
       // Hero
       "hero.title": "Generador de Códigos QR para Impresión 3D",
       "hero.desc": "Diseña soportes de sobremesa, llaveros, placas magnéticas y de pared con relieve táctil. Exportación nativa en <strong>.3MF multicolor con dos cuerpos</strong> para Bambu Lab AMS y Prusa MMU, o en <strong>.STL universal</strong>.",
+      "hero.cta_btn": "⚡ Crear mi QR 3D ahora",
       "hero.badge1": "Sin registros ni esperas",
       "hero.badge2": "Color embebido en el archivo",
-            // Hero CTA
-      "hero.cta_btn": "⚡ Crear mi QR 3D ahora",
-
-      // Inspiration Gallery
-      "gallery.title": "🎨 Galería de Inspiración: Diseños Profesionales",
-      "gallery.desc": "Explora acabados de impresión 3D reales. Haz clic en cualquier diseño para cargarlo automáticamente en el configurador interactivo.",
-      "gallery.item1_title": "Menú Restaurante en Acero & Madera",
-      "gallery.item1_badge": "Soporte de Mesa",
-      "gallery.item1_btn": "Cargar este diseño",
-      "gallery.item2_title": "Placa de Reseñas Google 5★",
-      "gallery.item2_badge": "Mostrador & TPV",
-      "gallery.item2_btn": "Cargar este diseño",
-      "gallery.item3_title": "Llavero Portátil de Redes & Eventos",
-      "gallery.item3_badge": "Llavero con Anilla",
-      "gallery.item3_btn": "Cargar este diseño",
-      "gallery.item4_title": "Placa Magnética WiFi de Huéspedes",
-      "gallery.item4_badge": "Imán para Nevera",
-      "gallery.item4_btn": "Cargar este diseño",
-
-      // Slicer Compatibility
-      "compat.heading": "Compatibilidad Nativa con Laminadores:",
-      "compat.bambu": "Bambu Studio (AMS)",
-      "compat.orca": "OrcaSlicer",
-      "compat.prusa": "PrusaSlicer (MMU)",
-      "compat.cura": "Ultimaker Cura",
-
-      // SEO Tutorials Hub
-      "tutorials.title": "📚 Guías Rápidas y Tutoriales de Impresión 3D",
-      "tutorials.desc": "Aprende a optimizar tus tiempos de impresión, cambios de filamento y calibración para escaneo perfecto.",
-      "tut1.title": "Cómo imprimir códigos QR en 2 colores con Bambu Lab AMS",
-      "tut1.desc": "Paso a paso para importar archivos .3MF multicolor sin colorear caras manualmente y configurar el orden de capas.",
-      "tut2.title": "Cambio de filamento manual por pausa de capa (Comando M600)",
-      "tut2.desc": "Imprime códigos QR profesionales en cualquier impresora monocromática tradicional (Ender 3, Neptune, Kobra).",
-      "tut3.title": "Guía de montaje de imanes de neodimio en placas 3D",
-      "tut3.desc": "Consejos de tolerancia y pegado para imanes de 6×2 mm y 10×2 mm en neveras, pizarras y expositores metálicos.",
-
-      // Viral Share
-      "btn.share_snapshot": "📸 Compartir Render 3D",
-      "share.modal_title": "Compartir tu Diseño 3D",
-      "share.modal_desc": "Comparte una captura de alta calidad de tu diseño en foros y redes sociales de impresión 3D:",
-      "share.reddit": "Compartir en Reddit (r/3Dprinting / r/BambuLab)",
-      "share.x": "Compartir en X (Twitter)",
-      "share.whatsapp": "Enviar por WhatsApp",
-      "share.download_img": "Descargar Imagen del Render HD",
-            // Hero CTA
-      "hero.cta_btn": "⚡ Start Designing 3D QR Now",
-
-      // Inspiration Gallery
-      "gallery.title": "🎨 Inspiration Gallery: Professional 3D Designs",
-      "gallery.desc": "Explore real 3D printing finishes. Click any design to instantly load it into the interactive configurator.",
-      "gallery.item1_title": "Restaurant Menu in Steel & Walnut",
-      "gallery.item1_badge": "Desk Stand",
-      "gallery.item1_btn": "Load this design",
-      "gallery.item2_title": "Google Reviews 5★ Plaque",
-      "gallery.item2_badge": "Counter & POS",
-      "gallery.item2_btn": "Load this design",
-      "gallery.item3_title": "Portable Social & Event Keychain",
-      "gallery.item3_badge": "Ring Keychain",
-      "gallery.item3_btn": "Load this design",
-      "gallery.item4_title": "Guest WiFi Magnetic Fridge Sign",
-      "gallery.item4_badge": "Fridge Magnet",
-      "gallery.item4_btn": "Load this design",
-
-      // Slicer Compatibility
-      "compat.heading": "Native Slicer Compatibility:",
-      "compat.bambu": "Bambu Studio (AMS)",
-      "compat.orca": "OrcaSlicer",
-      "compat.prusa": "PrusaSlicer (MMU)",
-      "compat.cura": "Ultimaker Cura",
-
-      // SEO Tutorials Hub
-      "tutorials.title": "📚 Quick Guides & 3D Printing Tutorials",
-      "tutorials.desc": "Learn how to optimize printing times, filament swaps, and optical scanning calibration.",
-      "tut1.title": "How to 3D print dual-color QR codes with Bambu Lab AMS",
-      "tut1.desc": "Step-by-step guide to import multi-color .3MF files with zero manual face painting required.",
-      "tut2.title": "Manual filament change with pause at height (M600 command)",
-      "tut2.desc": "Print professional dual-color QR codes on standard single-extruder 3D printers (Ender 3, Neptune).",
-      "tut3.title": "Neodymium magnet press-fit guide for 3D plaques",
-      "tut3.desc": "Tolerance and adhesion tips for 6×2 mm and 10×2 mm magnets on fridges and metal displays.",
-
-      // Viral Share
-      "btn.share_snapshot": "📸 Share 3D Snapshot",
-      "share.modal_title": "Share your 3D Design",
-      "share.modal_desc": "Share a high-quality snapshot of your custom 3D design on printing communities and social networks:",
-      "share.reddit": "Share on Reddit (r/3Dprinting / r/BambuLab)",
-      "share.x": "Share on X (Twitter)",
-      "share.whatsapp": "Share via WhatsApp",
-      "share.download_img": "Download HD Render Snapshot",
       "hero.badge3": "Gestos táctiles & Trackpad",
 
       // Presets Bar
@@ -164,7 +82,7 @@
       "label.text_section": "6. Textos en Relieve 3D (Superior, Inferior y Renglones)",
       "label.top_text": "Texto Superior (Arriba del QR):",
       "placeholder.top_text": "Ej: ESCANÉAME o SÍGUENOS",
-      "label.bottom_text": "Texto Inferior (Abajo del QR - Puedes usar saltos de línea):",
+      "label.bottom_text": "Texto Inferior (Abajo del QR - Soporta saltos de línea):",
       "placeholder.bottom_text": "Ej: MENÚ DIGITAL\nRESTAURANTE",
       "label.text_size": "Tamaño de Letra:",
 
@@ -176,9 +94,15 @@
       "hint.touch": "Desliza en cualquier dirección para rotar en 3D",
       "label.zoom": "Zoom:",
 
-      // Downloads
+      // Downloads & Slicer Compatibility
       "btn.download_3mf": "Descargar .3MF (Multicolor con Color Nativo)",
-      "btn.download_stl": "Descargar .STL (Universal para cualquier impresora)",
+      "btn.download_stl": "Descargar .STL",
+      "btn.share_snapshot": "📸 Compartir Render",
+      "compat.heading": "Compatibilidad Nativa con Laminadores:",
+      "compat.bambu": "Bambu Studio (AMS)",
+      "compat.orca": "OrcaSlicer",
+      "compat.prusa": "PrusaSlicer (MMU)",
+      "compat.cura": "Ultimaker Cura",
       "download.toast": "¡Descarga iniciada con éxito! Ya puedes abrir el archivo en tu laminador.",
 
       // 2D QR Section
@@ -191,14 +115,33 @@
       "btn.download_png": "Descargar PNG (Alta Definición)",
       "btn.download_svg": "Descargar SVG (Vectorial Escalable)",
 
-      // Recommendations / Supplies
-            // Hardware & Affiliate Showcase
+      // Inspiration Gallery
+      "gallery.title": "🎨 Galería de Inspiración: Diseños Profesionales",
+      "gallery.desc": "Explora acabados de impresión 3D reales. Haz clic en cualquier diseño para cargarlo automáticamente en el configurador interactivo.",
+      "gallery.item1_title": "Menú Restaurante en Acero & Madera",
+      "gallery.item1_badge": "Soporte de Mesa",
+      "gallery.item1_desc": "Diseño biselado con tenedor y cuchillo en relieve, ideal para cartas táctiles en terrazas y barras.",
+      "gallery.item1_btn": "⚡ Cargar este diseño",
+      "gallery.item2_title": "Placa de Reseñas Google 5★",
+      "gallery.item2_badge": "Mostrador & TPV",
+      "gallery.item2_desc": "Contraste blanco y azul royal con estrellas decorativas para maximizar opiniones de 5 estrellas al cobrar.",
+      "gallery.item2_btn": "⚡ Cargar este diseño",
+      "gallery.item3_title": "Llavero Portátil de Redes & Eventos",
+      "gallery.item3_badge": "Llavero con Anilla",
+      "gallery.item3_desc": "Formato de bolsillo en negro y oro para compartir Instagram o tarjeta de contacto en ferias y networking.",
+      "gallery.item3_btn": "⚡ Cargar este diseño",
+      "gallery.item4_title": "Placa Magnética WiFi de Huéspedes",
+      "gallery.item4_badge": "Imán para Nevera",
+      "gallery.item4_desc": "Con cajeados para imanes de neodimio, listo para colocar en la nevera de alojamientos turísticos y Airbnb.",
+      "gallery.item4_btn": "⚡ Cargar este diseño",
+
+      // Materials & Supplies Showcase
       "materials.section_title": "🛒 Impresoras 3D y Filamentos Recomendados",
       "materials.section_desc": "Equipamiento probado y materiales con contraste óptico garantizado para fabricar tus códigos QR 3D con acabado profesional.",
-      "materials.printer1_badge": "★ Mejor Opción Multicolor",
+      "materials.printer1_badge": "★ Opción #1 Multicolor",
       "materials.printer1_title": "Bambu Lab A1 / A1 Mini (con AMS)",
-      "materials.printer1_desc": "La combinación ideal para imprimir archivos .3MF multicolor en 2 colores de forma 100% automática sin pintar a mano.",
-      "materials.printer1_btn": "Ver Oferta en Tienda Oficial",
+      "materials.printer1_desc": "La combinación ideal para imprimir archivos .3MF multicolor en 2 colores de forma 100% automática sin pintar caras a mano.",
+      "materials.printer1_btn": "Ver Oferta en Amazon",
       "materials.printer2_badge": "⚡ Mejor Calidad / Precio",
       "materials.printer2_title": "Creality Ender 3 V3 / Kobra",
       "materials.printer2_desc": "Impresora rápida y fiable para placas y llaveros monocolor con cambio de filamento por pausa de capa (M600).",
@@ -212,34 +155,6 @@
       "materials.magnets_desc": "Ajuste perfecto a presión para el formato de placa magnética en neveras, pizarras y expositores metálicos.",
       "materials.magnets_btn": "Ver Kit de Imanes",
       "materials.disclaimer": "* Enlaces recomendados: al adquirir materiales a través de estos enlaces apoyas el mantenimiento gratuito de QR3D Studio sin coste extra para ti.",
-            // Hardware & Affiliate Showcase
-      "materials.section_title": "🛒 Recommended 3D Printers & Filaments",
-      "materials.section_desc": "Tested hardware and high-opacity materials guaranteed for effortless camera scanning and professional 3D finishes.",
-      "materials.printer1_badge": "★ Best Multi-Color Pick",
-      "materials.printer1_title": "Bambu Lab A1 / A1 Mini (with AMS)",
-      "materials.printer1_desc": "The ultimate setup to print dual-color .3MF files automatically with zero manual color painting required.",
-      "materials.printer1_btn": "View on Official Store",
-      "materials.printer2_badge": "⚡ Best Value Pick",
-      "materials.printer2_title": "Creality Ender 3 V3 / Kobra",
-      "materials.printer2_desc": "Fast and reliable 3D printer for single-color stands and keychains using layer filament change (M600).",
-      "materials.printer2_btn": "View on Amazon",
-      "materials.filament_badge": "🔬 100% Optical Contrast",
-      "materials.filament_title": "Snow White & Jet Black PLA+ Duo",
-      "materials.filament_desc": "High-opacity filaments engineered to eliminate light bleed and ensure instant smartphone camera scanning.",
-      "materials.filament_btn": "View Pack on Amazon",
-      "materials.magnets_badge": "🧲 Strong Magnetic Fit",
-      "materials.magnets_title": "N52 Neodymium Magnets (6×2 mm)",
-      "materials.magnets_desc": "Snug press-fit for the magnetic fridge format on refrigerators, whiteboards, and metal counters.",
-      "materials.magnets_btn": "View Magnet Kit",
-      "materials.disclaimer": "* Recommended links: purchasing materials through these links supports the free development of QR3D Studio at no extra cost to you.",
-      "supplies.title": "🛠️ Materiales Recomendados para Imprimir Códigos QR",
-      "supplies.desc": "Selección de filamentos de alto contraste y accesorios ideales para acabados profesionales.",
-      "supplies.card1_title": "Filamentos PLA+ Alta Opacidad",
-      "supplies.card1_desc": "Máximo contraste óptico entre blanco y negro para escaneo instantáneo con smartphones en cualquier condición de luz.",
-      "supplies.card2_title": "Imanes de Neodimio (6×2 mm / 10×2 mm)",
-      "supplies.card2_desc": "Ajuste perfecto a presión para el formato de placa magnética en neveras, pizarras o estanterías metálicas.",
-      "supplies.card3_title": "Kits de Anillas para Llaveros",
-      "supplies.card3_desc": "Anillas de acero niquelado de 25 mm resistentes al desgaste diario listas para montar en tus llaveros QR 3D.",
 
       // 3 Steps
       "steps.heading": "Diseña y descarga tu QR 3D en 3 sencillos pasos",
@@ -284,6 +199,23 @@
       "guide.single_3": "Añade una pausa por altura de capa (comando M600 o Pause at height).",
       "guide.single_4": "Inicia con el color base; al pausar, cambia el carrete al color del QR y reanuda.",
 
+      // Slicer Parameter Names
+      "param.layer_height": "Altura de Capa",
+      "param.nozzle": "Boquilla",
+      "param.infill": "Relleno (Infill)",
+      "param.walls": "Paredes",
+      "param.material": "Material",
+
+      // SEO Tutorials Hub
+      "tutorials.title": "📚 Guías Rápidas y Tutoriales de Impresión 3D",
+      "tutorials.desc": "Aprende a optimizar tus tiempos de impresión, cambios de filamento y calibración para escaneo perfecto.",
+      "tut1.title": "Cómo imprimir códigos QR en 2 colores con Bambu Lab AMS",
+      "tut1.desc": "Paso a paso para importar archivos .3MF multicolor sin colorear caras manualmente y configurar el orden de capas.",
+      "tut2.title": "Cambio de filamento manual por pausa de capa (Comando M600)",
+      "tut2.desc": "Imprime códigos QR profesionales en cualquier impresora monocromática tradicional (Ender 3, Neptune, Kobra).",
+      "tut3.title": "Guía de montaje de imanes de neodimio en placas 3D",
+      "tut3.desc": "Consejos de tolerancia y pegado para imanes de 6×2 mm y 10×2 mm en neveras, pizarras y expositores metálicos.",
+
       // FAQ
       "faq.heading": "Preguntas Frecuentes",
       "faq.subheading": "Todo sobre la creación, compatibilidad y laminación de códigos QR 3D.",
@@ -300,6 +232,28 @@
       "faq.q6": "¿Mis enlaces o contraseñas WiFi quedan almacenados en la web?",
       "faq.a6": "No. La generación del código QR y el cálculo del modelo 3D se realizan íntegramente dentro de tu navegador web mediante JavaScript. Ningún dato es transmitido ni guardado en servidores externos.",
 
+      // Modals: WiFi, Share, Terms, Contact
+      "wifi_modal.title": "Configurar QR para Conexión WiFi",
+      "wifi_modal.desc": "Al escanear este código con la cámara del smartphone, los clientes o huéspedes se conectarán automáticamente a la red.",
+      "wifi_modal.ssid": "Nombre de la Red (SSID)",
+      "wifi_modal.pass": "Contraseña",
+      "wifi_modal.type": "Tipo de Cifrado",
+      "wifi_modal.apply": "Aplicar a mi QR 3D",
+
+      "share.modal_title": "Compartir tu Diseño 3D",
+      "share.modal_desc": "Comparte una captura de alta calidad de tu diseño en foros y comunidades de impresión 3D:",
+      "share.download_img": "💾 Descargar Imagen del Render HD",
+
+      "legal.terms_title": "Términos de Uso",
+      "legal.terms_h1": "1. Licencia de Uso",
+      "legal.terms_p1": "Los modelos geométricos 3D generados en formatos .3MF, .STL, PNG y SVG son de libre disposición. Eres libre de imprimir, compartir y comercializar físicamente las piezas impresas a tus clientes sin abonar regalías.",
+      "legal.terms_h2": "2. Responsabilidad de Escaneo y Calibración",
+      "legal.terms_p2": "La legibilidad óptica del código QR físico depende de factores externos como la calibración de tu impresora 3D, el contraste de los filamentos seleccionados y la iluminación ambiental. QR3D Studio proporciona herramientas de ayuda visual pero no garantiza el escaneo en impresiones defectuosas.",
+
+      "legal.contact_title": "Contacto y Feedback",
+      "legal.contact_p1": "¿Tienes sugerencias, ideas de nuevos formatos para impresión 3D o consultas comerciales?",
+      "legal.contact_p2": "O abrir un ticket / issue en nuestro repositorio de código abierto en GitHub.",
+
       // Legal & Footer
       "legal.privacy": "Política de Privacidad",
       "legal.terms": "Términos de Uso",
@@ -309,6 +263,10 @@
     },
 
     en: {
+      // Document SEO Metadata
+      "meta.page_title": "3D Printable QR Code Generator | QR3D Studio (3MF & STL)",
+      "meta.page_desc": "Design 3D printable QR codes: restaurant stands, keychains, magnetic fridge plates, and wall plaques with multi-line text. Free export in multi-color .3MF (Bambu/Prusa) and universal .STL.",
+
       // Header & Navigation
       "app.title": "QR3D Studio",
       "app.badge": "3MF Multi-Color",
@@ -318,96 +276,9 @@
       // Hero
       "hero.title": "3D Printable QR Code Generator",
       "hero.desc": "Design tabletop stands, keychains, magnetic fridge plates, and wall plaques with tactile relief. Native export in <strong>dual-body multi-color .3MF</strong> for Bambu Lab AMS and Prusa MMU, or universal <strong>.STL</strong>.",
+      "hero.cta_btn": "⚡ Start Designing 3D QR Now",
       "hero.badge1": "No signup required",
       "hero.badge2": "Embedded native color",
-            // Hero CTA
-      "hero.cta_btn": "⚡ Crear mi QR 3D ahora",
-
-      // Inspiration Gallery
-      "gallery.title": "🎨 Galería de Inspiración: Diseños Profesionales",
-      "gallery.desc": "Explora acabados de impresión 3D reales. Haz clic en cualquier diseño para cargarlo automáticamente en el configurador interactivo.",
-      "gallery.item1_title": "Menú Restaurante en Acero & Madera",
-      "gallery.item1_badge": "Soporte de Mesa",
-      "gallery.item1_btn": "Cargar este diseño",
-      "gallery.item2_title": "Placa de Reseñas Google 5★",
-      "gallery.item2_badge": "Mostrador & TPV",
-      "gallery.item2_btn": "Cargar este diseño",
-      "gallery.item3_title": "Llavero Portátil de Redes & Eventos",
-      "gallery.item3_badge": "Llavero con Anilla",
-      "gallery.item3_btn": "Cargar este diseño",
-      "gallery.item4_title": "Placa Magnética WiFi de Huéspedes",
-      "gallery.item4_badge": "Imán para Nevera",
-      "gallery.item4_btn": "Cargar este diseño",
-
-      // Slicer Compatibility
-      "compat.heading": "Compatibilidad Nativa con Laminadores:",
-      "compat.bambu": "Bambu Studio (AMS)",
-      "compat.orca": "OrcaSlicer",
-      "compat.prusa": "PrusaSlicer (MMU)",
-      "compat.cura": "Ultimaker Cura",
-
-      // SEO Tutorials Hub
-      "tutorials.title": "📚 Guías Rápidas y Tutoriales de Impresión 3D",
-      "tutorials.desc": "Aprende a optimizar tus tiempos de impresión, cambios de filamento y calibración para escaneo perfecto.",
-      "tut1.title": "Cómo imprimir códigos QR en 2 colores con Bambu Lab AMS",
-      "tut1.desc": "Paso a paso para importar archivos .3MF multicolor sin colorear caras manualmente y configurar el orden de capas.",
-      "tut2.title": "Cambio de filamento manual por pausa de capa (Comando M600)",
-      "tut2.desc": "Imprime códigos QR profesionales en cualquier impresora monocromática tradicional (Ender 3, Neptune, Kobra).",
-      "tut3.title": "Guía de montaje de imanes de neodimio en placas 3D",
-      "tut3.desc": "Consejos de tolerancia y pegado para imanes de 6×2 mm y 10×2 mm en neveras, pizarras y expositores metálicos.",
-
-      // Viral Share
-      "btn.share_snapshot": "📸 Compartir Render 3D",
-      "share.modal_title": "Compartir tu Diseño 3D",
-      "share.modal_desc": "Comparte una captura de alta calidad de tu diseño en foros y redes sociales de impresión 3D:",
-      "share.reddit": "Compartir en Reddit (r/3Dprinting / r/BambuLab)",
-      "share.x": "Compartir en X (Twitter)",
-      "share.whatsapp": "Enviar por WhatsApp",
-      "share.download_img": "Descargar Imagen del Render HD",
-            // Hero CTA
-      "hero.cta_btn": "⚡ Start Designing 3D QR Now",
-
-      // Inspiration Gallery
-      "gallery.title": "🎨 Inspiration Gallery: Professional 3D Designs",
-      "gallery.desc": "Explore real 3D printing finishes. Click any design to instantly load it into the interactive configurator.",
-      "gallery.item1_title": "Restaurant Menu in Steel & Walnut",
-      "gallery.item1_badge": "Desk Stand",
-      "gallery.item1_btn": "Load this design",
-      "gallery.item2_title": "Google Reviews 5★ Plaque",
-      "gallery.item2_badge": "Counter & POS",
-      "gallery.item2_btn": "Load this design",
-      "gallery.item3_title": "Portable Social & Event Keychain",
-      "gallery.item3_badge": "Ring Keychain",
-      "gallery.item3_btn": "Load this design",
-      "gallery.item4_title": "Guest WiFi Magnetic Fridge Sign",
-      "gallery.item4_badge": "Fridge Magnet",
-      "gallery.item4_btn": "Load this design",
-
-      // Slicer Compatibility
-      "compat.heading": "Native Slicer Compatibility:",
-      "compat.bambu": "Bambu Studio (AMS)",
-      "compat.orca": "OrcaSlicer",
-      "compat.prusa": "PrusaSlicer (MMU)",
-      "compat.cura": "Ultimaker Cura",
-
-      // SEO Tutorials Hub
-      "tutorials.title": "📚 Quick Guides & 3D Printing Tutorials",
-      "tutorials.desc": "Learn how to optimize printing times, filament swaps, and optical scanning calibration.",
-      "tut1.title": "How to 3D print dual-color QR codes with Bambu Lab AMS",
-      "tut1.desc": "Step-by-step guide to import multi-color .3MF files with zero manual face painting required.",
-      "tut2.title": "Manual filament change with pause at height (M600 command)",
-      "tut2.desc": "Print professional dual-color QR codes on standard single-extruder 3D printers (Ender 3, Neptune).",
-      "tut3.title": "Neodymium magnet press-fit guide for 3D plaques",
-      "tut3.desc": "Tolerance and adhesion tips for 6×2 mm and 10×2 mm magnets on fridges and metal displays.",
-
-      // Viral Share
-      "btn.share_snapshot": "📸 Share 3D Snapshot",
-      "share.modal_title": "Share your 3D Design",
-      "share.modal_desc": "Share a high-quality snapshot of your custom 3D design on printing communities and social networks:",
-      "share.reddit": "Share on Reddit (r/3Dprinting / r/BambuLab)",
-      "share.x": "Share on X (Twitter)",
-      "share.whatsapp": "Share via WhatsApp",
-      "share.download_img": "Download HD Render Snapshot",
       "hero.badge3": "Touch Gestures & Trackpad",
 
       // Presets Bar
@@ -478,9 +349,15 @@
       "hint.touch": "Swipe in any direction to rotate in 3D",
       "label.zoom": "Zoom:",
 
-      // Downloads
+      // Downloads & Slicer Compatibility
       "btn.download_3mf": "Download .3MF (Multi-Color with Native Color)",
-      "btn.download_stl": "Download .STL (Universal for any 3D printer)",
+      "btn.download_stl": "Download .STL",
+      "btn.share_snapshot": "📸 Share 3D Snapshot",
+      "compat.heading": "Native Slicer Compatibility:",
+      "compat.bambu": "Bambu Studio (AMS)",
+      "compat.orca": "OrcaSlicer",
+      "compat.prusa": "PrusaSlicer (MMU)",
+      "compat.cura": "Ultimaker Cura",
       "download.toast": "Download started successfully! Open the file in your slicer.",
 
       // 2D QR Section
@@ -493,34 +370,33 @@
       "btn.download_png": "Download PNG (High Definition)",
       "btn.download_svg": "Download SVG (Scalable Vector)",
 
-      // Recommendations / Supplies
-            // Hardware & Affiliate Showcase
-      "materials.section_title": "🛒 Impresoras 3D y Filamentos Recomendados",
-      "materials.section_desc": "Equipamiento probado y materiales con contraste óptico garantizado para fabricar tus códigos QR 3D con acabado profesional.",
-      "materials.printer1_badge": "★ Mejor Opción Multicolor",
-      "materials.printer1_title": "Bambu Lab A1 / A1 Mini (con AMS)",
-      "materials.printer1_desc": "La combinación ideal para imprimir archivos .3MF multicolor en 2 colores de forma 100% automática sin pintar a mano.",
-      "materials.printer1_btn": "Ver Oferta en Tienda Oficial",
-      "materials.printer2_badge": "⚡ Mejor Calidad / Precio",
-      "materials.printer2_title": "Creality Ender 3 V3 / Kobra",
-      "materials.printer2_desc": "Impresora rápida y fiable para placas y llaveros monocolor con cambio de filamento por pausa de capa (M600).",
-      "materials.printer2_btn": "Ver en Amazon",
-      "materials.filament_badge": "🔬 Contraste Óptico 100%",
-      "materials.filament_title": "Pack Dúo PLA+ Blanco Nieve y Negro",
-      "materials.filament_desc": "Filamentos de alta opacidad diseñados para evitar transparencias y asegurar lectura óptica instantánea en cámaras.",
-      "materials.filament_btn": "Ver Pack en Amazon",
-      "materials.magnets_badge": "🧲 Fijación Magnética",
-      "materials.magnets_title": "Imanes de Neodimio N52 (6×2 mm)",
-      "materials.magnets_desc": "Ajuste perfecto a presión para el formato de placa magnética en neveras, pizarras y expositores metálicos.",
-      "materials.magnets_btn": "Ver Kit de Imanes",
-      "materials.disclaimer": "* Enlaces recomendados: al adquirir materiales a través de estos enlaces apoyas el mantenimiento gratuito de QR3D Studio sin coste extra para ti.",
-            // Hardware & Affiliate Showcase
+      // Inspiration Gallery
+      "gallery.title": "🎨 Inspiration Gallery: Professional 3D Designs",
+      "gallery.desc": "Explore real 3D printing finishes. Click any design to instantly load it into the interactive configurator.",
+      "gallery.item1_title": "Restaurant Menu in Steel & Walnut",
+      "gallery.item1_badge": "Desk Stand",
+      "gallery.item1_desc": "Beveled plate with embossed cutlery emblem, ideal for tactile touchless menus on outdoor patios and counters.",
+      "gallery.item1_btn": "⚡ Load this design",
+      "gallery.item2_title": "Google Reviews 5★ Plaque",
+      "gallery.item2_badge": "Counter & POS",
+      "gallery.item2_desc": "High-contrast white & royal blue with decorative stars to maximize 5-star Google ratings at checkout.",
+      "gallery.item2_btn": "⚡ Load this design",
+      "gallery.item3_title": "Portable Social & Event Keychain",
+      "gallery.item3_badge": "Ring Keychain",
+      "gallery.item3_desc": "Pocket format in black and gold to share Instagram or contact vCard at trade shows and networking events.",
+      "gallery.item3_btn": "⚡ Load this design",
+      "gallery.item4_title": "Guest WiFi Magnetic Fridge Sign",
+      "gallery.item4_badge": "Fridge Magnet",
+      "gallery.item4_desc": "With neodymium magnet pockets, ready to mount on refrigerators in Airbnb rentals and boutique hotels.",
+      "gallery.item4_btn": "⚡ Load this design",
+
+      // Materials & Supplies Showcase
       "materials.section_title": "🛒 Recommended 3D Printers & Filaments",
       "materials.section_desc": "Tested hardware and high-opacity materials guaranteed for effortless camera scanning and professional 3D finishes.",
-      "materials.printer1_badge": "★ Best Multi-Color Pick",
+      "materials.printer1_badge": "★ #1 Multi-Color Pick",
       "materials.printer1_title": "Bambu Lab A1 / A1 Mini (with AMS)",
       "materials.printer1_desc": "The ultimate setup to print dual-color .3MF files automatically with zero manual color painting required.",
-      "materials.printer1_btn": "View on Official Store",
+      "materials.printer1_btn": "View on Amazon",
       "materials.printer2_badge": "⚡ Best Value Pick",
       "materials.printer2_title": "Creality Ender 3 V3 / Kobra",
       "materials.printer2_desc": "Fast and reliable 3D printer for single-color stands and keychains using layer filament change (M600).",
@@ -534,14 +410,6 @@
       "materials.magnets_desc": "Snug press-fit for the magnetic fridge format on refrigerators, whiteboards, and metal counters.",
       "materials.magnets_btn": "View Magnet Kit",
       "materials.disclaimer": "* Recommended links: purchasing materials through these links supports the free development of QR3D Studio at no extra cost to you.",
-      "supplies.title": "🛠️ Recommended 3D Printing Supplies",
-      "supplies.desc": "High-contrast filaments and essential hardware for professional results.",
-      "supplies.card1_title": "High-Opacity PLA+ Filaments",
-      "supplies.card1_desc": "Maximum optical contrast between white and black for instant smartphone scanning.",
-      "supplies.card2_title": "Neodymium Magnets (6×2 mm / 10×2 mm)",
-      "supplies.card2_desc": "Snug fit for the magnetic plate format on fridges, whiteboards, or metal counters.",
-      "supplies.card3_title": "Keyring Hardware Kits",
-      "supplies.card3_desc": "Durable 25 mm nickel-plated steel rings ready to attach to your 3D QR keychains.",
 
       // 3 Steps
       "steps.heading": "Design and download your 3D QR in 3 easy steps",
@@ -586,6 +454,23 @@
       "guide.single_3": "Add a pause at height command (M600 or Pause at height script).",
       "guide.single_4": "Start printing with base color; on pause, swap filament to the contrast color and resume.",
 
+      // Slicer Parameter Names
+      "param.layer_height": "Layer Height",
+      "param.nozzle": "Nozzle Diameter",
+      "param.infill": "Infill Pattern",
+      "param.walls": "Wall Perimeters",
+      "param.material": "Filament Type",
+
+      // SEO Tutorials Hub
+      "tutorials.title": "📚 Quick Guides & 3D Printing Tutorials",
+      "tutorials.desc": "Learn how to optimize printing times, filament swaps, and optical scanning calibration.",
+      "tut1.title": "How to 3D print dual-color QR codes with Bambu Lab AMS",
+      "tut1.desc": "Step-by-step guide to import multi-color .3MF files with zero manual face painting required.",
+      "tut2.title": "Manual filament change with pause at height (M600 command)",
+      "tut2.desc": "Print professional dual-color QR codes on standard single-extruder 3D printers (Ender 3, Neptune).",
+      "tut3.title": "Neodymium magnet press-fit guide for 3D plaques",
+      "tut3.desc": "Tolerance and adhesion tips for 6×2 mm and 10×2 mm magnets on fridges and metal displays.",
+
       // FAQ
       "faq.heading": "Frequently Asked Questions",
       "faq.subheading": "Everything about creating, compatibility, and 3D printing QR codes.",
@@ -602,6 +487,28 @@
       "faq.q6": "Are my WiFi passwords or links stored on any server?",
       "faq.a6": "No. QR generation and 3D model calculations occur entirely inside your web browser via JavaScript. No data is transmitted or saved to external servers.",
 
+      // Modals: WiFi, Share, Terms, Contact
+      "wifi_modal.title": "Configure QR for WiFi Connection",
+      "wifi_modal.desc": "When customers or guests scan this code with their smartphone camera, they will connect automatically to the WiFi network.",
+      "wifi_modal.ssid": "Network Name (SSID)",
+      "wifi_modal.pass": "Password",
+      "wifi_modal.type": "Security Encryption",
+      "wifi_modal.apply": "Apply to 3D QR",
+
+      "share.modal_title": "Share your 3D Design",
+      "share.modal_desc": "Share a high-quality snapshot of your custom 3D design on printing communities and social networks:",
+      "share.download_img": "💾 Download HD Render Snapshot",
+
+      "legal.terms_title": "Terms of Service",
+      "legal.terms_h1": "1. Usage License",
+      "legal.terms_p1": "The 3D geometric models generated in .3MF, .STL, PNG, and SVG formats are completely royalty-free. You are free to 3D print, share, and commercially sell the physical printed products to your customers with zero royalties.",
+      "legal.terms_h2": "2. Scanning Responsibility & Calibration",
+      "legal.terms_p2": "Physical optical scannability depends on external variables including 3D printer calibration, filament contrast, and ambient lighting. QR3D Studio provides real-time visual assistance tools but cannot guarantee scanning on miscalibrated prints.",
+
+      "legal.contact_title": "Contact & Feedback",
+      "legal.contact_p1": "Do you have feature suggestions, new 3D format ideas, or commercial inquiries?",
+      "legal.contact_p2": "Or open a ticket / issue on our open-source GitHub repository.",
+
       // Legal & Footer
       "legal.privacy": "Privacy Policy",
       "legal.terms": "Terms of Service",
@@ -611,7 +518,12 @@
     }
   };
 
-  let currentLang = localStorage.getItem('qr3d_lang') || (navigator.language && navigator.language.startsWith('en') ? 'en' : 'es');
+  let currentLang = 'es';
+  try {
+    currentLang = localStorage.getItem('qr3d_lang') || (navigator.language && navigator.language.startsWith('en') ? 'en' : 'es');
+  } catch (e) {
+    currentLang = 'es';
+  }
 
   function t(key) {
     const langDict = translations[currentLang] || translations.es;
@@ -620,33 +532,48 @@
 
   function setLanguage(lang) {
     currentLang = lang === 'en' ? 'en' : 'es';
-    localStorage.setItem('qr3d_lang', currentLang);
-    document.documentElement.lang = currentLang;
+    try {
+      localStorage.setItem('qr3d_lang', currentLang);
+    } catch (e) {}
 
-    // Update all elements with data-i18n
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      const val = t(key);
-      if (val) {
-        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-          if (el.getAttribute('placeholder')) el.setAttribute('placeholder', val);
-        } else {
-          el.innerHTML = val;
-        }
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = currentLang;
+
+      // Update Page Title and Meta Description for SEO
+      const pageTitle = t('meta.page_title');
+      if (pageTitle) document.title = pageTitle;
+
+      const metaDesc = document.querySelector ? document.querySelector('meta[name="description"]') : null;
+      if (metaDesc) {
+        const pageDesc = t('meta.page_desc');
+        if (pageDesc) metaDesc.setAttribute('content', pageDesc);
       }
-    });
 
-    // Update placeholders
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      const val = t(key);
-      if (val) el.setAttribute('placeholder', val);
-    });
+      // Update all elements with data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const val = t(key);
+        if (val) {
+          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            if (el.getAttribute('placeholder')) el.setAttribute('placeholder', val);
+          } else {
+            el.innerHTML = val;
+          }
+        }
+      });
 
-    // Update language switch button text
-    const switchBtn = document.getElementById('langSwitchBtn');
-    if (switchBtn) {
-      switchBtn.textContent = currentLang === 'es' ? '🇺🇸 English' : '🇪🇸 Español';
+      // Update placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        const val = t(key);
+        if (val) el.setAttribute('placeholder', val);
+      });
+
+      // Update language switch button text
+      const switchBtn = document.getElementById('langSwitchBtn');
+      if (switchBtn) {
+        switchBtn.textContent = currentLang === 'es' ? '🇺🇸 English' : '🇪🇸 Español';
+      }
     }
   }
 

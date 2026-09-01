@@ -649,7 +649,7 @@
             </div>
             <div class="gallery-info">
               <h3 class="gallery-title" data-i18n="gallery.item1_title">Menú Restaurante en Acero & Madera</h3>
-              <p class="gallery-desc">Diseño biselado con tenedor y cuchillo en relieve, ideal para cartas táctiles en terrazas y barras.</p>
+              <p class="gallery-desc" data-i18n="gallery.item1_desc">Diseño biselado con tenedor y cuchillo en relieve, ideal para cartas táctiles en terrazas y barras.</p>
               <button type="button" class="gallery-btn" data-i18n="gallery.item1_btn">⚡ Cargar este diseño</button>
             </div>
           </div>
@@ -662,7 +662,7 @@
             </div>
             <div class="gallery-info">
               <h3 class="gallery-title" data-i18n="gallery.item2_title">Placa de Reseñas Google 5★</h3>
-              <p class="gallery-desc">Contraste blanco y azul royal con estrellas decorativas para maximizar opiniones de 5 estrellas al cobrar.</p>
+              <p class="gallery-desc" data-i18n="gallery.item2_desc">Contraste blanco y azul royal con estrellas decorativas para maximizar opiniones de 5 estrellas al cobrar.</p>
               <button type="button" class="gallery-btn" data-i18n="gallery.item2_btn">⚡ Cargar este diseño</button>
             </div>
           </div>
@@ -675,7 +675,7 @@
             </div>
             <div class="gallery-info">
               <h3 class="gallery-title" data-i18n="gallery.item3_title">Llavero Portátil de Redes & Eventos</h3>
-              <p class="gallery-desc">Formato de bolsillo en negro y oro para compartir Instagram o tarjeta de contacto en ferias y networking.</p>
+              <p class="gallery-desc" data-i18n="gallery.item3_desc">Formato de bolsillo en negro y oro para compartir Instagram o tarjeta de contacto en ferias y networking.</p>
               <button type="button" class="gallery-btn" data-i18n="gallery.item3_btn">⚡ Cargar este diseño</button>
             </div>
           </div>
@@ -688,7 +688,7 @@
             </div>
             <div class="gallery-info">
               <h3 class="gallery-title" data-i18n="gallery.item4_title">Placa Magnética WiFi de Huéspedes</h3>
-              <p class="gallery-desc">Con cajeados para imanes de neodimio, listo para colocar en la nevera de alojamientos turísticos y Airbnb.</p>
+              <p class="gallery-desc" data-i18n="gallery.item4_desc">Con cajeados para imanes de neodimio, listo para colocar en la nevera de alojamientos turísticos y Airbnb.</p>
               <button type="button" class="gallery-btn" data-i18n="gallery.item4_btn">⚡ Cargar este diseño</button>
             </div>
           </div>
@@ -941,23 +941,23 @@
         <!-- Slicer Recommended Settings Bar -->
         <div class="slicer-params-bar">
           <div class="param-item">
-            <div class="param-name">Altura de Capa</div>
+            <div class="param-name" data-i18n="param.layer_height">Altura de Capa</div>
             <div class="param-val">0.16 - 0.20 mm</div>
           </div>
           <div class="param-item">
-            <div class="param-name">Boquilla</div>
+            <div class="param-name" data-i18n="param.nozzle">Boquilla</div>
             <div class="param-val">0.4 mm (o 0.2 mm)</div>
           </div>
           <div class="param-item">
-            <div class="param-name">Relleno (Infill)</div>
+            <div class="param-name" data-i18n="param.infill">Relleno (Infill)</div>
             <div class="param-val">15% - 20% Giroide</div>
           </div>
           <div class="param-item">
-            <div class="param-name">Paredes</div>
+            <div class="param-name" data-i18n="param.walls">Paredes</div>
             <div class="param-val">3 perímetros</div>
           </div>
           <div class="param-item">
-            <div class="param-name">Material</div>
+            <div class="param-name" data-i18n="param.material">Material</div>
             <div class="param-val">PLA / PETG</div>
           </div>
         </div>
@@ -1155,30 +1155,28 @@
               <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
             </svg>
           </span>
-          Configurar QR para Conexión WiFi
+          <span data-i18n="wifi_modal.title">Configurar QR para Conexión WiFi</span>
         </h3>
         <button type="button" class="modal-close-icon" id="closeWifiBtn">✕</button>
       </div>
-      <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:16px;">
-        Al escanear este código con la cámara del smartphone, los clientes o huéspedes se conectarán automáticamente a la red.
-      </p>
+      <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:16px;" data-i18n="wifi_modal.desc">Al escanear este código con la cámara del smartphone, los clientes o huéspedes se conectarán automáticamente a la red.</p>
       <div class="control-group">
-        <label class="control-label" for="wifiSsid">Nombre de la Red (SSID)</label>
+        <label class="control-label" for="wifiSsid" data-i18n="wifi_modal.ssid">Nombre de la Red (SSID)</label>
         <input type="text" id="wifiSsid" class="text-input" placeholder="Ej: WiFi_Restaurante_5G">
       </div>
       <div class="control-group">
-        <label class="control-label" for="wifiPass">Contraseña</label>
+        <label class="control-label" for="wifiPass" data-i18n="wifi_modal.pass">Contraseña</label>
         <input type="text" id="wifiPass" class="text-input" placeholder="Clave de seguridad">
       </div>
       <div class="control-group">
-        <label class="control-label" for="wifiType">Tipo de Cifrado</label>
+        <label class="control-label" for="wifiType" data-i18n="wifi_modal.type">Tipo de Cifrado</label>
         <select id="wifiType" class="text-input">
           <option value="WPA">WPA / WPA2 / WPA3 (Estándar)</option>
           <option value="WEP">WEP (Antiguo)</option>
           <option value="nopass">Red Abierta (Sin contraseña)</option>
         </select>
       </div>
-      <button type="button" id="applyWifiBtn" class="modal-action-btn">Aplicar a mi QR 3D</button>
+      <button type="button" id="applyWifiBtn" class="modal-action-btn" data-i18n="wifi_modal.apply">Aplicar a mi QR 3D</button>
     </div>
   </div>
 
@@ -1186,14 +1184,14 @@
   <div class="legal-modal-overlay" id="termsModal">
     <div class="legal-modal-box">
       <div class="legal-header">
-        <h3 class="legal-title">Términos de Uso</h3>
+        <h3 class="legal-title" data-i18n="legal.terms_title">Términos de Uso</h3>
         <button type="button" class="close-modal-btn" id="closeTermsBtn">✕</button>
       </div>
       <div class="legal-body">
-        <h4>1. Licencia de Uso</h4>
-        <p>Los modelos geométricos 3D generados en formatos .3MF, .STL, PNG y SVG son de libre disposición. Eres libre de imprimir, compartir y comercializar físicamente las piezas impresas a tus clientes sin abonar regalías.</p>
-        <h4>2. Responsabilidad de Escaneo y Calibración</h4>
-        <p>La legibilidad óptica del código QR físico depende de factores externos como la calibración de tu impresora 3D, el contraste de los filamentos seleccionados y la iluminación ambiental. QR3D Studio proporciona herramientas de ayuda visual pero no garantiza el escaneo en impresiones defectuosas.</p>
+        <h4 data-i18n="legal.terms_h1">1. Licencia de Uso</h4>
+        <p data-i18n="legal.terms_p1">Los modelos geométricos 3D generados en formatos .3MF, .STL, PNG y SVG son de libre disposición. Eres libre de imprimir, compartir y comercializar físicamente las piezas impresas a tus clientes sin abonar regalías.</p>
+        <h4 data-i18n="legal.terms_h2">2. Responsabilidad de Escaneo y Calibración</h4>
+        <p data-i18n="legal.terms_p2">La legibilidad óptica del código QR físico depende de factores externos como la calibración de tu impresora 3D, el contraste de los filamentos seleccionados y la iluminación ambiental. QR3D Studio proporciona herramientas de ayuda visual pero no garantiza el escaneo en impresiones defectuosas.</p>
       </div>
     </div>
   </div>
@@ -1202,13 +1200,13 @@
   <div class="legal-modal-overlay" id="contactModal">
     <div class="legal-modal-box">
       <div class="legal-header">
-        <h3 class="legal-title">Contacto y Feedback</h3>
+        <h3 class="legal-title" data-i18n="legal.contact_title">Contacto y Feedback</h3>
         <button type="button" class="close-modal-btn" id="closeContactBtn">✕</button>
       </div>
       <div class="legal-body">
-        <p>¿Tienes sugerencias, ideas de nuevos formatos para impresión 3D o consultas comerciales?</p>
+        <p data-i18n="legal.contact_p1">¿Tienes sugerencias, ideas de nuevos formatos para impresión 3D o consultas comerciales?</p>
         <p>Puedes escribirnos directamente a: <br><strong style="color:#fff;">contacto@qr3dstudio.online</strong></p>
-        <p>O abrir un ticket / issue en nuestro repositorio de código abierto en GitHub.</p>
+        <p data-i18n="legal.contact_p2">O abrir un ticket / issue en nuestro repositorio de código abierto en GitHub.</p>
       </div>
     </div>
   </div>
