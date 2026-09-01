@@ -1,7 +1,8 @@
 /**
- * QR3D Studio - Service Worker (Offline PWA Cache)
+ * QR3D Studio - Service Worker (Network-First with Offline Cache Fallback)
+ * Ensures desktop and mobile browsers always get the newest HTML/CSS immediately.
  */
-const CACHE_NAME = 'qr3d-v1.0.0';
+const CACHE_NAME = 'qr3d-v2.0.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -22,10 +23,11 @@ const ASSETS_TO_CACHE = [
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
@@ -39,18 +41,15 @@ self.addEventListener('activate', event => {
   );
 });
 
+// Network-First for HTML/CSS/JS, Cache Fallback if offline
 self.addEventListener('fetch', event => {
-  // Pass-through for analytics and external CDNs if online, fallback to cache
-  if (event.request.url.includes('google') || event.request.url.includes('adsbygoogle')) {
+  if (event.request.url.includes('google') || event.request.url.includes('adsbygoogle') || event.request.url.includes('amazon')) {
     return;
   }
 
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).then(networkResponse => {
+    fetch(event.request)
+      .then(networkResponse => {
         if (networkResponse && networkResponse.status === 200) {
           const responseClone = networkResponse.clone();
           caches.open(CACHE_NAME).then(cache => {
@@ -58,11 +57,14 @@ self.addEventListener('fetch', event => {
           });
         }
         return networkResponse;
-      }).catch(() => {
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
-      });
-    })
+      })
+      .catch(() => {
+        return caches.match(event.request).then(cachedResponse => {
+          if (cachedResponse) return cachedResponse;
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+        });
+      })
   );
 });
