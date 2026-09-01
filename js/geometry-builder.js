@@ -4,9 +4,13 @@
  * - Stand (Soporte de mesa)
  * - Keychain (Llavero con anilla)
  * - Plaque (Placa plana)
- * - Magnetic (Placa con cajeados para imanes de neodimio)
- * - Countersunk (Placa con agujeros avellanados para tornillos)
- * Supports dynamic base thickness, relief height, and intelligent auto-scaling/auto-wrapping 3D text.
+ * - Magnetic (Placa con cajeados para imanes 6x2mm o 10x2mm)
+ * - Countersunk (Placa con agujeros avellanados para tornillos M3/M4)
+ * Features:
+ * - Top Header Text & Multi-Line Bottom Footer Text
+ * - User-controlled Font Size Scale (50% to 150%)
+ * - Auto-centering & Auto-fitting boundaries
+ * - Dynamic Base Thickness (1.6mm - 6.0mm) & Relief Height (0.6mm - 3.0mm)
  */
 (function(window) {
   'use strict';
@@ -66,7 +70,8 @@
     'W': [0x3F,0x40,0x38,0x40,0x3F],
     'X': [0x63,0x14,0x08,0x14,0x63],
     'Y': [0x07,0x08,0x70,0x08,0x07],
-    'Z': [0x61,0x51,0x49,0x45,0x43]
+    'Z': [0x61,0x51,0x49,0x45,0x43],
+    '★': [0x38,0x3C,0x7F,0x3C,0x38]
   };
 
   class MeshBuilder {
@@ -281,12 +286,14 @@
   }
 
   function splitIntoLines(text, maxCharsPerLine) {
+    if (text.includes('\n')) {
+      return text.split('\n').map(s => s.trim()).filter(Boolean);
+    }
     const words = text.split(/\s+/);
     if (words.length <= 1) return [text];
     
     const lines = [];
     let currentLine = words[0];
-    
     for (let i = 1; i < words.length; i++) {
       const word = words[i];
       if ((currentLine + ' ' + word).length <= maxCharsPerLine) {
@@ -300,41 +307,27 @@
     return lines;
   }
 
-  function getFittedTextLayout(text, plateW, availableHeight) {
-    const clean = (text || '').trim();
-    if (!clean) return null;
+  function getFittedTextLayout(text, plateW, availableHeight, userScale = 1.0) {
+    const raw = (text || '').trim();
+    if (!raw) return null;
 
     const marginX = 4;
     const maxW = plateW - marginX * 2;
-
-    // Single line calculation
-    const singleCols = clean.length * 6 - 1;
-    let singleSize = Math.min(maxW / singleCols, availableHeight / 8.5, 0.95);
-
-    // If single line requires small font (< 0.65mm) and text has multiple words, split onto 2 lines
-    if (singleSize < 0.65 && clean.includes(' ') && availableHeight >= 14) {
-      const idealPerLine = Math.ceil(clean.length / 2);
-      const lines = splitIntoLines(clean, idealPerLine + 2);
-      
-      if (lines.length > 1) {
-        let maxCols = 0;
-        for (const l of lines) maxCols = Math.max(maxCols, l.length * 6 - 1);
-        
-        const lineCount = lines.length;
-        const multiSize = Math.min(maxW / maxCols, availableHeight / (lineCount * 8.5), 0.85);
-        
-        if (multiSize > singleSize) {
-          return {
-            lines: lines,
-            pixelSize: multiSize
-          };
-        }
-      }
-    }
+    const lines = splitIntoLines(raw, Math.max(8, Math.ceil(raw.length / 2) + 2));
+    
+    let maxCols = 0;
+    for (const l of lines) maxCols = Math.max(maxCols, l.length * 6 - 1);
+    
+    const lineCount = lines.length;
+    let autoSize = Math.min(maxW / maxCols, availableHeight / (lineCount * 8.5), 0.95);
+    
+    let scaledSize = autoSize * (userScale || 1.0);
+    scaledSize = Math.min(scaledSize, maxW / maxCols, availableHeight / (lineCount * 8.0));
+    scaledSize = Math.max(0.35, scaledSize);
 
     return {
-      lines: [clean],
-      pixelSize: singleSize
+      lines: lines,
+      pixelSize: scaledSize
     };
   }
 
@@ -350,32 +343,36 @@
       const baseThickness = Math.max(1.6, Math.min(6.0, options.baseThickness !== undefined ? options.baseThickness : 2.4));
       const reliefHeight = Math.max(0.6, Math.min(3.0, options.reliefHeight !== undefined ? options.reliefHeight : 1.4));
       const totalZ = baseThickness + reliefHeight;
-      const shape = options.moduleShape || 'square'; // 'square', 'rounded', 'dots'
+      const shape = options.moduleShape || 'square';
+      const textScale = options.textScale !== undefined ? options.textScale : 1.0;
+      const hasTopText = Boolean(options.topText && options.topText.trim().length > 0);
 
-      // Base dimensions based on format
+      // Base dimensions based on format & header presence
       let plateW = 72;
-      let plateH = 90;
       let qrAreaSize = 58;
       let qrMarginX = 7;
       let qrMarginY = 24;
+      let topMarginY = hasTopText ? 15 : 6;
+      let plateH = qrAreaSize + qrMarginY + topMarginY;
 
       if (format === 'keychain') {
         plateW = 46;
-        plateH = 58;
         qrAreaSize = 38;
         qrMarginX = 4;
         qrMarginY = 14;
+        topMarginY = hasTopText ? 13 : 5;
+        plateH = qrAreaSize + qrMarginY + topMarginY;
       } else if (format === 'plaque' || format === 'magnetic' || format === 'countersunk') {
         plateW = 75;
-        plateH = 92;
         qrAreaSize = 60;
         qrMarginX = 7.5;
         qrMarginY = 24;
+        topMarginY = hasTopText ? 16 : 6;
+        plateH = qrAreaSize + qrMarginY + topMarginY;
       }
 
       // 1. Build Base Mesh according to selected format
       if (format === 'keychain') {
-        // Keychain: Main plate + Ring tab
         baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
         const ringCenterX = plateW / 2;
         const ringCenterY = plateH + 7;
@@ -384,7 +381,6 @@
         baseMesh.addHollowCylinder(ringCenterX, ringCenterY, ringOuterR, ringInnerR, 0, baseThickness, 24);
         baseMesh.addBox(ringCenterX - ringOuterR, ringCenterX + ringOuterR, plateH - 2, plateH + 2, 0, baseThickness);
       } else if (format === 'stand') {
-        // Desk Stand: Front plate + integrated angled rear kickstand foot
         baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
         const footLength = 32;
         const legWidth = 14;
@@ -392,7 +388,6 @@
         baseMesh.addBox(plateW - 8 - legWidth, plateW - 8, 0, footLength, -footLength * 0.35, 0);
         baseMesh.addBox(8, plateW - 8, 0, 8, -footLength * 0.35, 0);
       } else if (format === 'magnetic') {
-        // Magnetic Fridge Plate: Flat plate with 4 rear pockets for 6x2mm neodymium magnets
         baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
         const borderWidth = 2.0;
         baseMesh.addBox(0, plateW, 0, borderWidth, baseThickness, baseThickness + 0.5);
@@ -400,14 +395,15 @@
         baseMesh.addBox(0, borderWidth, 0, plateH, baseThickness, baseThickness + 0.5);
         baseMesh.addBox(plateW - borderWidth, plateW, 0, plateH, baseThickness, baseThickness + 0.5);
 
-        const magR = 3.3;
-        const magMargin = 9;
-        baseMesh.addHollowCylinder(magMargin, magMargin, magR + 1.2, magR, -1.8, 0, 18);
-        baseMesh.addHollowCylinder(plateW - magMargin, magMargin, magR + 1.2, magR, -1.8, 0, 18);
-        baseMesh.addHollowCylinder(magMargin, plateH - magMargin, magR + 1.2, magR, -1.8, 0, 18);
-        baseMesh.addHollowCylinder(plateW - magMargin, plateH - magMargin, magR + 1.2, magR, -1.8, 0, 18);
+        // Neodymium magnet pocket rings on rear (6x2mm or 10x2mm)
+        const is10mm = (options.magnetSize === '10x2');
+        const magR = is10mm ? 5.3 : 3.3;
+        const magMargin = is10mm ? 12 : 9;
+        baseMesh.addHollowCylinder(magMargin, magMargin, magR + 1.2, magR, -1.8, 0, 20);
+        baseMesh.addHollowCylinder(plateW - magMargin, magMargin, magR + 1.2, magR, -1.8, 0, 20);
+        baseMesh.addHollowCylinder(magMargin, plateH - magMargin, magR + 1.2, magR, -1.8, 0, 20);
+        baseMesh.addHollowCylinder(plateW - magMargin, plateH - magMargin, magR + 1.2, magR, -1.8, 0, 20);
       } else if (format === 'countersunk') {
-        // Plaque with 4 Countersunk Screw Holes (M3/M4 flush mount)
         baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
         const borderWidth = 2.0;
         baseMesh.addBox(0, plateW, 0, borderWidth, baseThickness, baseThickness + 0.5);
@@ -423,7 +419,7 @@
         baseMesh.addHollowCylinder(screwMargin, plateH - screwMargin, chamferR, holeR, baseThickness, baseThickness + 0.6, 18);
         baseMesh.addHollowCylinder(plateW - screwMargin, plateH - screwMargin, chamferR, holeR, baseThickness, baseThickness + 0.6, 18);
       } else {
-        // Standard Wall Plaque
+        // Standard Plaque
         baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
         const borderWidth = 2.5;
         baseMesh.addBox(0, plateW, 0, borderWidth, baseThickness, baseThickness + 0.6);
@@ -432,7 +428,7 @@
         baseMesh.addBox(plateW - borderWidth, plateW, 0, plateH, baseThickness, baseThickness + 0.6);
       }
 
-      // 2. Build Relief Geometry (QR modules + Center Emblem + Bottom Text)
+      // 2. Build Relief Geometry (QR modules + Center Emblem + Top Text + Bottom Text)
       const matrixObj = options.matrixObj || window.QRGenerator.generateMatrix(options.text, options.centerEmoji ? 'H' : 'Q');
       const matrix = matrixObj.matrix;
       const count = matrixObj.size;
@@ -443,7 +439,7 @@
       const centerStart = Math.floor((count - centerReserve) / 2);
       const centerEnd = centerStart + centerReserve;
 
-      // Extrude QR dark modules with selected shape
+      // Extrude QR dark modules
       for (let r = 0; r < count; r++) {
         for (let c = 0; c < count; c++) {
           if (!matrix[r][c]) continue;
@@ -474,12 +470,9 @@
         const badgeRadius = (centerReserve * moduleSize) * 0.54;
         const emoji = options.centerEmoji.trim();
 
-        // Base circular pad
         baseMesh.addCylinder(qrCenterX, qrCenterY, badgeRadius + 0.8, baseThickness, baseThickness + 0.35, 24);
-        // Raised outer relief border ring
         reliefMesh.addHollowCylinder(qrCenterX, qrCenterY, badgeRadius, badgeRadius - 1.0, baseThickness, totalZ + 0.25, 24);
 
-        // 3D Embossed Icon
         if (emoji === '⭐') {
           reliefMesh.addStar(qrCenterX, qrCenterY, badgeRadius * 0.65, badgeRadius * 0.28, baseThickness, totalZ + 0.35);
         } else if (emoji === '🍽️') {
@@ -517,10 +510,35 @@
         }
       }
 
-      // 4. Custom Bottom Text with Intelligent Auto-Fitting & Auto-Centering
+      // 4. Custom Top Header Text (Above QR)
+      if (hasTopText) {
+        const topAvailableH = topMarginY - 4;
+        const topLayout = getFittedTextLayout(options.topText, plateW, topAvailableH, textScale);
+        if (topLayout && topLayout.lines && topLayout.lines.length > 0) {
+          const pSize = topLayout.pixelSize;
+          const lCount = topLayout.lines.length;
+          const lSpacing = 8.5 * pSize;
+          const totalH = 7 * pSize + (lCount - 1) * lSpacing;
+          
+          const topMinY = qrMarginY + qrAreaSize + 2;
+          const topMaxY = plateH - 2;
+          const topCenterY = (topMinY + topMaxY) / 2;
+          let lineTopY = topCenterY + totalH / 2;
+
+          for (let i = 0; i < lCount; i++) {
+            const line = topLayout.lines[i];
+            const lineWidth = (line.length * 6 - 1) * pSize;
+            const startX = (plateW - lineWidth) / 2;
+            reliefMesh.addText(line, startX, lineTopY, pSize, baseThickness, totalZ);
+            lineTopY -= lSpacing;
+          }
+        }
+      }
+
+      // 5. Custom Bottom Footer Text (Multi-Line / Renglones)
       if (options.bottomText && options.bottomText.trim().length > 0) {
         const availableHeight = (format === 'keychain') ? 11 : (qrMarginY - 4);
-        const layout = getFittedTextLayout(options.bottomText, plateW, availableHeight);
+        const layout = getFittedTextLayout(options.bottomText, plateW, availableHeight, textScale);
 
         if (layout && layout.lines && layout.lines.length > 0) {
           const pixelSize = layout.pixelSize;
@@ -529,7 +547,7 @@
           const totalTextH = 7 * pixelSize + (lineCount - 1) * lineSpacing;
 
           const areaMinY = (format === 'keychain') ? 2 : 3;
-          const areaMaxY = (format === 'keychain') ? (qrMarginY - 2) : (qrMarginY - 2);
+          const areaMaxY = qrMarginY - 2;
           const areaCenterY = (areaMinY + areaMaxY) / 2;
 
           let lineTopY = areaCenterY + totalTextH / 2;

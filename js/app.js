@@ -1,6 +1,7 @@
 /**
  * QR3D Studio - Main Application Controller
- * Coordinates UI inputs, 1-Click Quick Presets, Real-time Optical Contrast Checker,
+ * Coordinates UI inputs, Top/Bottom Multi-line Text, Text Size Scale,
+ * 1-Click Quick Presets, Real-time Optical Contrast Checker,
  * Dimension Sliders, i18n Language Toggle, 3D/2D Mesh Construction, Instant Downloads,
  * and Legal Modals.
  */
@@ -11,11 +12,14 @@
   const state = {
     text: 'https://ejemplo.com/menu',
     objectFormat: 'stand', // 'stand', 'keychain', 'plaque', 'magnetic', 'countersunk'
+    magnetSize: '6x2', // '6x2', '10x2'
     baseColor: '#FFFFFF',
     reliefColor: '#111827',
     moduleShape: 'square', // 'square', 'rounded', 'dots'
     centerEmoji: '🍽️',
+    topText: '',
     bottomText: 'MENU DIGITAL',
+    textScale: 1.0, // 0.5 to 1.5
     baseThickness: 2.4,
     reliefHeight: 1.4,
     currentModelData: null
@@ -39,6 +43,9 @@
     closeWifiBtn: document.getElementById('closeWifiBtn'),
 
     formatBtns: document.querySelectorAll('.format-card'),
+    magnetSizeGroup: document.getElementById('magnetSizeGroup'),
+    magnetSizeBtns: document.querySelectorAll('.magnet-size-btn'),
+
     baseColorInput: document.getElementById('baseColorInput'),
     baseColorHex: document.getElementById('baseColorHex'),
     reliefColorInput: document.getElementById('reliefColorInput'),
@@ -55,7 +62,12 @@
     baseThickVal: document.getElementById('baseThickVal'),
     reliefHeightSlider: document.getElementById('reliefHeightSlider'),
     reliefHeightVal: document.getElementById('reliefHeightVal'),
+
+    // Top & Bottom Text Controls
+    topTextInput: document.getElementById('topTextInput'),
     bottomTextInput: document.getElementById('bottomTextInput'),
+    textSizeSlider: document.getElementById('textSizeSlider'),
+    textSizeVal: document.getElementById('textSizeVal'),
 
     canvas3d: document.getElementById('qrCanvas3d'),
     canvas2dFull: document.getElementById('qrCanvas2dFull'),
@@ -84,13 +96,10 @@
     downloadToast: document.getElementById('downloadToast'),
 
     // Legal Modals
-    privacyModal: document.getElementById('privacyModal'),
     termsModal: document.getElementById('termsModal'),
     contactModal: document.getElementById('contactModal'),
-    openPrivacyBtn: document.getElementById('openPrivacyBtn'),
     openTermsBtn: document.getElementById('openTermsBtn'),
     openContactBtn: document.getElementById('openContactBtn'),
-    closePrivacyBtn: document.getElementById('closePrivacyBtn'),
     closeTermsBtn: document.getElementById('closeTermsBtn'),
     closeContactBtn: document.getElementById('closeContactBtn')
   };
@@ -135,42 +144,57 @@
           state.text = 'https://ejemplo.com/menu';
           state.objectFormat = 'stand';
           state.centerEmoji = '🍽️';
+          state.topText = '';
           state.bottomText = 'MENU DIGITAL';
+          state.textScale = 1.0;
           state.baseColor = '#FFFFFF';
           state.reliefColor = '#111827';
         } else if (preset === 'reviews') {
           state.text = 'https://g.page/r/tu-negocio/review';
           state.objectFormat = 'stand';
           state.centerEmoji = '⭐';
+          state.topText = 'ESCANÉAME';
           state.bottomText = 'VALORANOS EN GOOGLE';
+          state.textScale = 1.0;
           state.baseColor = '#FFFFFF';
           state.reliefColor = '#0071E3';
         } else if (preset === 'wifi') {
           state.text = 'WIFI:S:WiFi_Huespedes;T:WPA;P:clave123;;';
           state.objectFormat = 'plaque';
           state.centerEmoji = '📶';
+          state.topText = 'CONÉCTATE AL WIFI';
           state.bottomText = 'WIFI CLIENTES';
+          state.textScale = 1.0;
           state.baseColor = '#161B22';
           state.reliefColor = '#2997FF';
         } else if (preset === 'instagram') {
           state.text = 'https://instagram.com/tu_cuenta';
           state.objectFormat = 'keychain';
           state.centerEmoji = '📷';
-          state.bottomText = 'SIGUENOS';
+          state.topText = '';
+          state.bottomText = 'SÍGUENOS';
+          state.textScale = 1.0;
           state.baseColor = '#111827';
           state.reliefColor = '#F59E0B';
         } else if (preset === 'magnet') {
           state.text = 'https://ejemplo.com';
           state.objectFormat = 'magnetic';
           state.centerEmoji = '⭐';
+          state.topText = '';
           state.bottomText = 'ESCANEA AQUI';
+          state.textScale = 1.0;
           state.baseColor = '#FFFFFF';
           state.reliefColor = '#111827';
         }
 
         // Sync UI inputs with state
         el.qrInput.value = state.text;
+        if (el.topTextInput) el.topTextInput.value = state.topText;
         el.bottomTextInput.value = state.bottomText;
+        if (el.textSizeSlider) {
+          el.textSizeSlider.value = Math.round(state.textScale * 100);
+          if (el.textSizeVal) el.textSizeVal.textContent = Math.round(state.textScale * 100) + '%';
+        }
         el.baseColorInput.value = state.baseColor;
         el.baseColorHex.textContent = state.baseColor.toUpperCase();
         el.reliefColorInput.value = state.reliefColor;
@@ -180,6 +204,7 @@
         el.formatBtns.forEach(f => {
           f.classList.toggle('active', f.dataset.format === state.objectFormat);
         });
+        updateMagnetGroupVisibility();
 
         // Sync emblem buttons
         el.emblemBtns.forEach(e => {
@@ -211,7 +236,9 @@
         const wifiString = `WIFI:S:${ssid};T:${type};P:${pass};;`;
         el.qrInput.value = wifiString;
         state.text = wifiString;
-        state.bottomText = 'WIFI ' + ssid.toUpperCase();
+        state.topText = 'CONÉCTATE AL WIFI';
+        state.bottomText = 'RED: ' + ssid.toUpperCase();
+        if (el.topTextInput) el.topTextInput.value = state.topText;
         el.bottomTextInput.value = state.bottomText;
         state.centerEmoji = '📶';
         el.emblemBtns.forEach(b => b.classList.toggle('active', b.dataset.emoji === '📶'));
@@ -226,6 +253,17 @@
         el.formatBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         state.objectFormat = btn.dataset.format;
+        updateMagnetGroupVisibility();
+        update3D();
+      });
+    });
+
+    // Magnet size selection
+    el.magnetSizeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        el.magnetSizeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.magnetSize = btn.dataset.size;
         update3D();
       });
     });
@@ -306,11 +344,29 @@
       });
     }
 
-    // Bottom Text
-    el.bottomTextInput.addEventListener('input', e => {
-      state.bottomText = e.target.value;
-      update3D();
-    });
+    // Top & Bottom Text Inputs
+    if (el.topTextInput) {
+      el.topTextInput.addEventListener('input', e => {
+        state.topText = e.target.value;
+        update3D();
+      });
+    }
+    if (el.bottomTextInput) {
+      el.bottomTextInput.addEventListener('input', e => {
+        state.bottomText = e.target.value;
+        update3D();
+      });
+    }
+
+    // Font Size Scale Slider
+    if (el.textSizeSlider) {
+      el.textSizeSlider.addEventListener('input', e => {
+        const percent = parseInt(e.target.value, 10);
+        state.textScale = percent / 100;
+        if (el.textSizeVal) el.textSizeVal.textContent = percent + '%';
+        update3D();
+      });
+    }
 
     // 3D Viewport Controls
     if (el.reset3dBtn) {
@@ -370,7 +426,6 @@
     }
 
     // Legal Modals
-    setupModal(el.openPrivacyBtn, el.privacyModal, el.closePrivacyBtn);
     setupModal(el.openTermsBtn, el.termsModal, el.closeTermsBtn);
     setupModal(el.openContactBtn, el.contactModal, el.closeContactBtn);
 
@@ -381,6 +436,12 @@
         item.classList.toggle('active');
       });
     });
+  }
+
+  function updateMagnetGroupVisibility() {
+    if (el.magnetSizeGroup) {
+      el.magnetSizeGroup.style.display = (state.objectFormat === 'magnetic') ? 'block' : 'none';
+    }
   }
 
   function setupModal(openBtn, modalEl, closeBtn) {
@@ -447,12 +508,15 @@
   function update3D() {
     const modelData = window.GeometryBuilder.build3DModel({
       objectFormat: state.objectFormat,
+      magnetSize: state.magnetSize,
       matrixObj: qrMatrixObj,
       baseThickness: state.baseThickness,
       reliefHeight: state.reliefHeight,
       moduleShape: state.moduleShape,
       centerEmoji: state.centerEmoji,
-      bottomText: state.bottomText
+      topText: state.topText,
+      bottomText: state.bottomText,
+      textScale: state.textScale
     });
 
     state.currentModelData = modelData;
@@ -474,7 +538,8 @@
    * Direct 1-Click Instant Download Execution
    */
   function executeDirectDownload(type) {
-    const cleanName = (state.bottomText || 'QR3D').replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase();
+    const textLabel = (state.bottomText || state.topText || 'QR3D').split('\n')[0];
+    const cleanName = textLabel.replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase();
     const filename = `qr3d_${state.objectFormat}_${cleanName}`;
 
     // Google Ads conversion tracking

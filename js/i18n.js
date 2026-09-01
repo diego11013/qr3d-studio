@@ -21,7 +21,7 @@
       "hero.badge3": "Gestos táctiles & Trackpad",
 
       // Presets Bar
-      "presets.title": "⚡ Presets Rápidos en 1-Clic:",
+      "presets.title": "⚡ Presets Rápidos:",
       "preset.menu": "Menú Restaurante",
       "preset.reviews": "Reseñas Google",
       "preset.wifi": "WiFi Huéspedes",
@@ -46,6 +46,10 @@
       "format.countersunk": "Con Tornillos",
       "format.countersunk_sub": "Agujeros cónicos",
 
+      "label.magnet_size": "Tamaño de Imán:",
+      "magnet.6mm": "6×2 mm (Estándar)",
+      "magnet.10mm": "10×2 mm (Extra Fuerte)",
+
       "label.colors": "3. Colores de Filamento (Multicolor)",
       "label.base_color": "Color de la Base",
       "label.relief_color": "Color del QR / Relieve",
@@ -69,8 +73,12 @@
       "label.base_thick": "Grosor de la Base:",
       "label.relief_height": "Altura del Relieve:",
 
-      "label.bottom_text": "6. Texto en Relieve (Inferior)",
-      "placeholder.bottom_text": "Ej: MENU DIGITAL o VALORANOS EN GOOGLE",
+      "label.text_section": "6. Textos en Relieve 3D (Superior, Inferior y Renglones)",
+      "label.top_text": "Texto Superior (Arriba del QR):",
+      "placeholder.top_text": "Ej: ESCANÉAME o SÍGUENOS",
+      "label.bottom_text": "Texto Inferior (Abajo del QR - Puedes usar saltos de línea):",
+      "placeholder.bottom_text": "Ej: MENÚ DIGITAL\nRESTAURANTE",
+      "label.text_size": "Tamaño de Letra:",
 
       // Right Panel: 3D Viewport
       "panel.viewport": "Vista Previa 3D Interactiva",
@@ -99,11 +107,11 @@
       "supplies.title": "🛠️ Materiales Recomendados para Imprimir Códigos QR",
       "supplies.desc": "Selección de filamentos de alto contraste y accesorios ideales para acabados profesionales.",
       "supplies.card1_title": "Filamentos PLA+ Alta Opacidad",
-      "supplies.card1_desc": "Máximo contraste óptico entre blanco y negro para escaneo rápido con smartphones.",
-      "supplies.card2_title": "Imanes de Neodimio (6×2 mm)",
-      "supplies.card2_desc": "Ajuste perfecto para el formato de placa magnética en neveras o mostradores.",
+      "supplies.card1_desc": "Máximo contraste óptico entre blanco y negro para escaneo instantáneo con smartphones en cualquier condición de luz.",
+      "supplies.card2_title": "Imanes de Neodimio (6×2 mm / 10×2 mm)",
+      "supplies.card2_desc": "Ajuste perfecto a presión para el formato de placa magnética en neveras, pizarras o estanterías metálicas.",
       "supplies.card3_title": "Kits de Anillas para Llaveros",
-      "supplies.card3_desc": "Anillas de acero niquelado de 25 mm listas para montar tus llaveros QR 3D.",
+      "supplies.card3_desc": "Anillas de acero niquelado de 25 mm resistentes al desgaste diario listas para montar en tus llaveros QR 3D.",
 
       // 3 Steps
       "steps.heading": "Diseña y descarga tu QR 3D en 3 sencillos pasos",
@@ -111,7 +119,7 @@
       "step1.title": "Configura el contenido y el soporte",
       "step1.desc": "Pega tu enlace, menú de restaurante, reseña de Google o clave WiFi. Elige entre soporte de mesa, llavero, placa magnética o con tornillos.",
       "step2.title": "Personaliza colores y revisa en 3D",
-      "step2.desc": "Selecciona los dos colores de filamento para la base y el relieve. Ajusta dimensiones e inspecciona en el visor 3D en tiempo real.",
+      "step2.desc": "Selecciona los dos colores de filamento para la base y el relieve. Ajusta dimensiones, textos arriba/abajo e inspecciona en el visor 3D en tiempo real.",
       "step3.title": "Descarga en .3MF y manda a imprimir",
       "step3.desc": "Descarga el archivo .3MF listo para Bambu Studio, OrcaSlicer o PrusaSlicer con colores ya asignados, o el .STL universal.",
 
@@ -187,7 +195,7 @@
       "hero.badge3": "Touch Gestures & Trackpad",
 
       // Presets Bar
-      "presets.title": "⚡ 1-Click Quick Presets:",
+      "presets.title": "⚡ Quick Presets:",
       "preset.menu": "Restaurant Menu",
       "preset.reviews": "Google Reviews",
       "preset.wifi": "Guest WiFi",
@@ -212,6 +220,10 @@
       "format.countersunk": "Screw Mount",
       "format.countersunk_sub": "Countersunk holes",
 
+      "label.magnet_size": "Magnet Size:",
+      "magnet.6mm": "6×2 mm (Standard)",
+      "magnet.10mm": "10×2 mm (Heavy Duty)",
+
       "label.colors": "3. Filament Colors (Multi-Color)",
       "label.base_color": "Base Plate Color",
       "label.relief_color": "QR / Relief Color",
@@ -235,8 +247,12 @@
       "label.base_thick": "Base Thickness:",
       "label.relief_height": "Relief Height:",
 
-      "label.bottom_text": "6. Embossed Bottom Text",
-      "placeholder.bottom_text": "e.g. DIGITAL MENU or REVIEW US ON GOOGLE",
+      "label.text_section": "6. 3D Embossed Text (Top Header, Bottom & Multi-Line)",
+      "label.top_text": "Top Header Text (Above QR):",
+      "placeholder.top_text": "e.g. SCAN ME or FOLLOW US",
+      "label.bottom_text": "Bottom Footer Text (Below QR - Multi-line supported):",
+      "placeholder.bottom_text": "e.g. DIGITAL MENU\nRESTAURANT",
+      "label.text_size": "Font Size:",
 
       // Right Panel: 3D Viewport
       "panel.viewport": "Interactive 3D Preview",
@@ -266,7 +282,7 @@
       "supplies.desc": "High-contrast filaments and essential hardware for professional results.",
       "supplies.card1_title": "High-Opacity PLA+ Filaments",
       "supplies.card1_desc": "Maximum optical contrast between white and black for instant smartphone scanning.",
-      "supplies.card2_title": "Neodymium Magnets (6×2 mm)",
+      "supplies.card2_title": "Neodymium Magnets (6×2 mm / 10×2 mm)",
       "supplies.card2_desc": "Snug fit for the magnetic plate format on fridges, whiteboards, or metal counters.",
       "supplies.card3_title": "Keyring Hardware Kits",
       "supplies.card3_desc": "Durable 25 mm nickel-plated steel rings ready to attach to your 3D QR keychains.",
@@ -277,7 +293,7 @@
       "step1.title": "Set content and choose format",
       "step1.desc": "Paste your link, restaurant menu, Google review, or WiFi details. Choose between desk stand, keychain, magnetic plate, or screw plaque.",
       "step2.title": "Customize colors and inspect in 3D",
-      "step2.desc": "Select filament colors for the base and relief. Adjust dimensions and inspect your model in the real-time 3D viewport.",
+      "step2.desc": "Select filament colors for the base and relief. Adjust dimensions, top/bottom text, and inspect in real-time.",
       "step3.title": "Download in .3MF and print",
       "step3.desc": "Download the .3MF file ready for Bambu Studio, OrcaSlicer, or PrusaSlicer with colors pre-assigned, or universal .STL.",
 
