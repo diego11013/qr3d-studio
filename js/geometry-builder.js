@@ -1,21 +1,17 @@
 /**
- * QR3D Studio - 3D Geometry Builder
+ * QR3D Studio - High-End 3D Geometry Builder (Organic Contours & Architectural Detailing)
  * Generates solid, manifold 3D meshes for 3D printing:
- * - Stand (Soporte de mesa)
- * - Keychain (Llavero con anilla)
- * - Plaque (Placa plana)
- * - Magnetic (Placa con cajeados para imanes 6x2mm o 10x2mm)
- * - Countersunk (Placa con agujeros avellanados para tornillos M3/M4)
- * Features:
- * - Top Header Text & Multi-Line Bottom Footer Text
- * - User-controlled Font Size Scale (50% to 150%)
- * - Auto-centering & Auto-fitting boundaries
- * - Dynamic Base Thickness (1.6mm - 6.0mm) & Relief Height (0.6mm - 3.0mm)
+ * - Rounded base plates with smooth filleted corners
+ * - Organic, connected rounded QR module islands & continuous paths
+ * - Smooth squircle Finder Pattern eyes (Corner targets)
+ * - Ultra-high-detail 3D center emblems (Cutlery with tines & knife, 3D faceted star, WiFi waves, Coffee mug, Camera)
+ * - 4 Corner Allen Hex-Socket Hardware Screws
+ * - Multi-line Top and Bottom Text with auto-scaling & centering
  */
 (function(window) {
   'use strict';
 
-  // Basic 5x7 Dot-Matrix Font for clean 3D extruded lettering on 3D prints
+  // 5x7 Dot-Matrix Font with international characters (including accented vowels & symbols)
   const FONT_5X7 = {
     ' ': [0x00,0x00,0x00,0x00,0x00],
     '!': [0x00,0x00,0x5F,0x00,0x00],
@@ -46,26 +42,32 @@
     ':': [0x00,0x36,0x36,0x00,0x00],
     '@': [0x32,0x49,0x79,0x41,0x3E],
     'A': [0x7E,0x11,0x11,0x11,0x7E],
+    'Á': [0x7E,0x11,0x13,0x11,0x7E],
     'B': [0x7F,0x49,0x49,0x49,0x36],
     'C': [0x3E,0x41,0x41,0x41,0x22],
     'D': [0x7F,0x41,0x41,0x22,0x1C],
     'E': [0x7F,0x49,0x49,0x49,0x41],
+    'É': [0x7F,0x49,0x4B,0x49,0x41],
     'F': [0x7F,0x09,0x09,0x09,0x01],
     'G': [0x3E,0x41,0x49,0x49,0x7A],
     'H': [0x7F,0x08,0x08,0x08,0x7F],
     'I': [0x00,0x41,0x7F,0x41,0x00],
+    'Í': [0x00,0x41,0x7F,0x43,0x00],
     'J': [0x20,0x40,0x41,0x3F,0x01],
     'K': [0x7F,0x08,0x14,0x22,0x41],
     'L': [0x7F,0x40,0x40,0x40,0x40],
     'M': [0x7F,0x02,0x0C,0x02,0x7F],
     'N': [0x7F,0x04,0x08,0x10,0x7F],
+    'Ñ': [0x7F,0x05,0x0A,0x10,0x7F],
     'O': [0x3E,0x41,0x41,0x41,0x3E],
+    'Ó': [0x3E,0x41,0x43,0x41,0x3E],
     'P': [0x7F,0x09,0x09,0x09,0x06],
     'Q': [0x3E,0x41,0x51,0x21,0x5E],
     'R': [0x7F,0x09,0x19,0x29,0x46],
     'S': [0x46,0x49,0x49,0x49,0x31],
     'T': [0x01,0x01,0x7F,0x01,0x01],
     'U': [0x3F,0x40,0x40,0x40,0x3F],
+    'Ú': [0x3F,0x40,0x42,0x40,0x3F],
     'V': [0x1F,0x20,0x40,0x20,0x1F],
     'W': [0x3F,0x40,0x38,0x40,0x3F],
     'X': [0x63,0x14,0x08,0x14,0x63],
@@ -102,6 +104,7 @@
      * Adds an axis-aligned solid box
      */
     addBox(xMin, xMax, yMin, yMax, zMin, zMax) {
+      if (xMin >= xMax || yMin >= yMax || zMin >= zMax) return;
       const v0 = this.addVertex(xMin, yMin, zMin);
       const v1 = this.addVertex(xMax, yMin, zMin);
       const v2 = this.addVertex(xMax, yMax, zMin);
@@ -112,17 +115,11 @@
       const v6 = this.addVertex(xMax, yMax, zMax);
       const v7 = this.addVertex(xMin, yMax, zMax);
 
-      // Bottom face (zMin)
       this.addQuad(v0, v3, v2, v1);
-      // Top face (zMax)
       this.addQuad(v4, v5, v6, v7);
-      // Front face (yMin)
       this.addQuad(v0, v1, v5, v4);
-      // Back face (yMax)
       this.addQuad(v2, v3, v7, v6);
-      // Left face (xMin)
       this.addQuad(v3, v0, v4, v7);
-      // Right face (xMax)
       this.addQuad(v1, v2, v6, v5);
     }
 
@@ -130,7 +127,11 @@
      * Adds an 8-sided chamfered / rounded rectangular prism
      */
     addRoundedBox(xMin, xMax, yMin, yMax, chamfer, zMin, zMax) {
-      const c = Math.min(chamfer, (xMax - xMin) * 0.35);
+      const c = Math.min(chamfer, (xMax - xMin) * 0.38, (yMax - yMin) * 0.38);
+      if (c <= 0.05) {
+        this.addBox(xMin, xMax, yMin, yMax, zMin, zMax);
+        return;
+      }
       const x0 = xMin + c, x1 = xMax - c;
       const y0 = yMin + c, y1 = yMax - c;
 
@@ -188,8 +189,7 @@
     addCylinder(cx, cy, r, zMin, zMax, segments = 16) {
       const botCenter = this.addVertex(cx, cy, zMin);
       const topCenter = this.addVertex(cx, cy, zMax);
-      const botRing = [];
-      const topRing = [];
+      const botRing = [], topRing = [];
 
       for (let i = 0; i < segments; i++) {
         const theta = (i / segments) * Math.PI * 2;
@@ -233,12 +233,72 @@
     }
 
     /**
-     * Adds a 3D extruded 5-pointed star
+     * Adds an Allen Hex Socket Screw Head (with chamfered metallic bezel and hexagonal recess)
+     */
+    addScrewHead(cx, cy, rOuter, rHex, zMin, zMax) {
+      const bezelZ = zMax + 0.35;
+      const recessZ = zMax - 0.7;
+      this.addHollowCylinder(cx, cy, rOuter, rHex, zMin, bezelZ, 20);
+
+      const hexBotVerts = [];
+      for (let i = 0; i < 6; i++) {
+        const angle = (i / 6) * Math.PI * 2;
+        hexBotVerts.push(this.addVertex(cx + Math.cos(angle) * rHex, cy + Math.sin(angle) * rHex, recessZ));
+      }
+      const hexCenter = this.addVertex(cx, cy, recessZ);
+      for (let i = 0; i < 6; i++) {
+        const next = (i + 1) % 6;
+        this.addTriangle(hexCenter, hexBotVerts[next], hexBotVerts[i]);
+      }
+    }
+
+    /**
+     * Adds a rounded corner solid base plate with corner radius R
+     */
+    addRoundedPlate(w, h, r, zMin, zMax, cornerSegments = 6) {
+      const x0 = r, x1 = w - r;
+      const y0 = r, y1 = h - r;
+
+      this.addBox(x0, x1, y0, y1, zMin, zMax);
+      this.addBox(x0, x1, 0, y0, zMin, zMax);
+      this.addBox(x0, x1, y1, h, zMin, zMax);
+      this.addBox(0, x0, y0, y1, zMin, zMax);
+      this.addBox(x1, w, y0, y1, zMin, zMax);
+
+      const corners = [
+        { cx: x0, cy: y0, startAngle: Math.PI, endAngle: Math.PI * 1.5 },
+        { cx: x1, cy: y0, startAngle: Math.PI * 1.5, endAngle: Math.PI * 2 },
+        { cx: x1, cy: y1, startAngle: 0, endAngle: Math.PI * 0.5 },
+        { cx: x0, cy: y1, startAngle: Math.PI * 0.5, endAngle: Math.PI }
+      ];
+
+      for (const c of corners) {
+        const botC = this.addVertex(c.cx, c.cy, zMin);
+        const topC = this.addVertex(c.cx, c.cy, zMax);
+        const botR = [], topR = [];
+
+        for (let i = 0; i <= cornerSegments; i++) {
+          const theta = c.startAngle + (i / cornerSegments) * (c.endAngle - c.startAngle);
+          const x = c.cx + Math.cos(theta) * r;
+          const y = c.cy + Math.sin(theta) * r;
+          botR.push(this.addVertex(x, y, zMin));
+          topR.push(this.addVertex(x, y, zMax));
+        }
+
+        for (let i = 0; i < cornerSegments; i++) {
+          this.addTriangle(botC, botR[i + 1], botR[i]);
+          this.addTriangle(topC, topR[i], topR[i + 1]);
+          this.addQuad(botR[i], botR[i + 1], topR[i + 1], topR[i]);
+        }
+      }
+    }
+
+    /**
+     * Adds an extruded 3D faceted 5-pointed star with central ridge
      */
     addStar(cx, cy, rOuter, rInner, zMin, zMax) {
       const points = 5;
-      const botVerts = [];
-      const topVerts = [];
+      const botVerts = [], topVerts = [];
 
       for (let i = 0; i < points * 2; i++) {
         const r = (i % 2 === 0) ? rOuter : rInner;
@@ -250,15 +310,36 @@
       }
 
       const botCenter = this.addVertex(cx, cy, zMin);
-      const topCenter = this.addVertex(cx, cy, zMax);
+      const topApex = this.addVertex(cx, cy, zMax + 0.35);
       const n = points * 2;
 
       for (let i = 0; i < n; i++) {
         const next = (i + 1) % n;
         this.addTriangle(botCenter, botVerts[next], botVerts[i]);
-        this.addTriangle(topCenter, topVerts[i], topVerts[next]);
+        this.addTriangle(topApex, topVerts[i], topVerts[next]);
         this.addQuad(botVerts[i], botVerts[next], topVerts[next], topVerts[i]);
       }
+    }
+
+    /**
+     * Adds high-detail restaurant cutlery emblem (Tenedor + Cuchillo)
+     */
+    addCutleryIcon(cx, cy, scale, zMin, zMax) {
+      const s = scale;
+      // Tenedor (Left)
+      const fx = cx - 3.2 * s;
+      this.addBox(fx - 0.45 * s, fx + 0.45 * s, cy - 4.5 * s, cy + 0.2 * s, zMin, zMax);
+      this.addBox(fx - 1.3 * s, fx + 1.3 * s, cy + 0.2 * s, cy + 1.4 * s, zMin, zMax);
+      // 3 vertical tines with realistic gaps
+      this.addBox(fx - 1.3 * s, fx - 0.7 * s, cy + 1.4 * s, cy + 4.5 * s, zMin, zMax);
+      this.addBox(fx - 0.3 * s, fx + 0.3 * s, cy + 1.4 * s, cy + 4.5 * s, zMin, zMax);
+      this.addBox(fx + 0.7 * s, fx + 1.3 * s, cy + 1.4 * s, cy + 4.5 * s, zMin, zMax);
+
+      // Cuchillo (Right)
+      const kx = cx + 3.2 * s;
+      this.addBox(kx - 0.45 * s, kx + 0.45 * s, cy - 4.5 * s, cy + 0.2 * s, zMin, zMax);
+      this.addBox(kx - 0.45 * s, kx + 0.95 * s, cy + 0.2 * s, cy + 4.5 * s, zMin, zMax);
+      this.addBox(kx - 0.95 * s, kx - 0.45 * s, cy + 0.8 * s, cy + 3.8 * s, zMin, zMax);
     }
 
     /**
@@ -311,7 +392,7 @@
     const raw = (text || '').trim();
     if (!raw) return null;
 
-    const marginX = 4;
+    const marginX = 4.5;
     const maxW = plateW - marginX * 2;
     const lines = splitIntoLines(raw, Math.max(8, Math.ceil(raw.length / 2) + 2));
     
@@ -343,59 +424,67 @@
       const baseThickness = Math.max(1.6, Math.min(6.0, options.baseThickness !== undefined ? options.baseThickness : 2.4));
       const reliefHeight = Math.max(0.6, Math.min(3.0, options.reliefHeight !== undefined ? options.reliefHeight : 1.4));
       const totalZ = baseThickness + reliefHeight;
-      const shape = options.moduleShape || 'square';
+      const shape = options.moduleShape || 'rounded'; // default to high-end rounded
       const textScale = options.textScale !== undefined ? options.textScale : 1.0;
       const hasTopText = Boolean(options.topText && options.topText.trim().length > 0);
 
-      // Base dimensions based on format & header presence
-      let plateW = 72;
+      // Base dimensions with aesthetic proportions
+      let plateW = 75;
       let qrAreaSize = 58;
-      let qrMarginX = 7;
-      let qrMarginY = 24;
-      let topMarginY = hasTopText ? 15 : 6;
+      let qrMarginX = 8.5;
+      let qrMarginY = 25;
+      let topMarginY = hasTopText ? 16 : 7;
       let plateH = qrAreaSize + qrMarginY + topMarginY;
+      const cornerRadius = 4.5;
 
       if (format === 'keychain') {
-        plateW = 46;
+        plateW = 48;
         qrAreaSize = 38;
-        qrMarginX = 4;
-        qrMarginY = 14;
-        topMarginY = hasTopText ? 13 : 5;
+        qrMarginX = 5;
+        qrMarginY = 15;
+        topMarginY = hasTopText ? 14 : 6;
         plateH = qrAreaSize + qrMarginY + topMarginY;
       } else if (format === 'plaque' || format === 'magnetic' || format === 'countersunk') {
-        plateW = 75;
+        plateW = 76;
         qrAreaSize = 60;
-        qrMarginX = 7.5;
-        qrMarginY = 24;
-        topMarginY = hasTopText ? 16 : 6;
+        qrMarginX = 8;
+        qrMarginY = 25;
+        topMarginY = hasTopText ? 17 : 7;
         plateH = qrAreaSize + qrMarginY + topMarginY;
       }
 
-      // 1. Build Base Mesh according to selected format
+      // 1. Build Base Mesh with Smooth Rounded Corners & Hardware detailing
       if (format === 'keychain') {
-        baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
+        baseMesh.addRoundedPlate(plateW, plateH, 3.5, 0, baseThickness);
         const ringCenterX = plateW / 2;
         const ringCenterY = plateH + 7;
-        const ringOuterR = 7;
-        const ringInnerR = 3.5;
+        const ringOuterR = 7.5;
+        const ringInnerR = 3.8;
         baseMesh.addHollowCylinder(ringCenterX, ringCenterY, ringOuterR, ringInnerR, 0, baseThickness, 24);
         baseMesh.addBox(ringCenterX - ringOuterR, ringCenterX + ringOuterR, plateH - 2, plateH + 2, 0, baseThickness);
       } else if (format === 'stand') {
-        baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
+        baseMesh.addRoundedPlate(plateW, plateH, cornerRadius, 0, baseThickness);
         const footLength = 32;
         const legWidth = 14;
         baseMesh.addBox(8, 8 + legWidth, 0, footLength, -footLength * 0.35, 0);
         baseMesh.addBox(plateW - 8 - legWidth, plateW - 8, 0, footLength, -footLength * 0.35, 0);
         baseMesh.addBox(8, plateW - 8, 0, 8, -footLength * 0.35, 0);
-      } else if (format === 'magnetic') {
-        baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
-        const borderWidth = 2.0;
-        baseMesh.addBox(0, plateW, 0, borderWidth, baseThickness, baseThickness + 0.5);
-        baseMesh.addBox(0, plateW, plateH - borderWidth, plateH, baseThickness, baseThickness + 0.5);
-        baseMesh.addBox(0, borderWidth, 0, plateH, baseThickness, baseThickness + 0.5);
-        baseMesh.addBox(plateW - borderWidth, plateW, 0, plateH, baseThickness, baseThickness + 0.5);
 
-        // Neodymium magnet pocket rings on rear (6x2mm or 10x2mm)
+        // 4 Corner Allen Screws (Brass/Metallic hardware look)
+        reliefMesh.addScrewHead(6.5, 6.5, 3.2, 1.5, baseThickness, totalZ);
+        reliefMesh.addScrewHead(plateW - 6.5, 6.5, 3.2, 1.5, baseThickness, totalZ);
+        reliefMesh.addScrewHead(6.5, plateH - 6.5, 3.2, 1.5, baseThickness, totalZ);
+        reliefMesh.addScrewHead(plateW - 6.5, plateH - 6.5, 3.2, 1.5, baseThickness, totalZ);
+      } else if (format === 'magnetic') {
+        baseMesh.addRoundedPlate(plateW, plateH, cornerRadius, 0, baseThickness);
+
+        // 4 Corner Screws on front
+        reliefMesh.addScrewHead(6.5, 6.5, 3.2, 1.5, baseThickness, totalZ);
+        reliefMesh.addScrewHead(plateW - 6.5, 6.5, 3.2, 1.5, baseThickness, totalZ);
+        reliefMesh.addScrewHead(6.5, plateH - 6.5, 3.2, 1.5, baseThickness, totalZ);
+        reliefMesh.addScrewHead(plateW - 6.5, plateH - 6.5, 3.2, 1.5, baseThickness, totalZ);
+
+        // Neodymium magnet pocket rings on rear
         const is10mm = (options.magnetSize === '10x2');
         const magR = is10mm ? 5.3 : 3.3;
         const magMargin = is10mm ? 12 : 9;
@@ -404,13 +493,7 @@
         baseMesh.addHollowCylinder(magMargin, plateH - magMargin, magR + 1.2, magR, -1.8, 0, 20);
         baseMesh.addHollowCylinder(plateW - magMargin, plateH - magMargin, magR + 1.2, magR, -1.8, 0, 20);
       } else if (format === 'countersunk') {
-        baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
-        const borderWidth = 2.0;
-        baseMesh.addBox(0, plateW, 0, borderWidth, baseThickness, baseThickness + 0.5);
-        baseMesh.addBox(0, plateW, plateH - borderWidth, plateH, baseThickness, baseThickness + 0.5);
-        baseMesh.addBox(0, borderWidth, 0, plateH, baseThickness, baseThickness + 0.5);
-        baseMesh.addBox(plateW - borderWidth, plateW, 0, plateH, baseThickness, baseThickness + 0.5);
-
+        baseMesh.addRoundedPlate(plateW, plateH, cornerRadius, 0, baseThickness);
         const holeR = 2.1;
         const chamferR = 3.8;
         const screwMargin = 6.5;
@@ -420,15 +503,14 @@
         baseMesh.addHollowCylinder(plateW - screwMargin, plateH - screwMargin, chamferR, holeR, baseThickness, baseThickness + 0.6, 18);
       } else {
         // Standard Plaque
-        baseMesh.addBox(0, plateW, 0, plateH, 0, baseThickness);
-        const borderWidth = 2.5;
-        baseMesh.addBox(0, plateW, 0, borderWidth, baseThickness, baseThickness + 0.6);
-        baseMesh.addBox(0, plateW, plateH - borderWidth, plateH, baseThickness, baseThickness + 0.6);
-        baseMesh.addBox(0, borderWidth, 0, plateH, baseThickness, baseThickness + 0.6);
-        baseMesh.addBox(plateW - borderWidth, plateW, 0, plateH, baseThickness, baseThickness + 0.6);
+        baseMesh.addRoundedPlate(plateW, plateH, cornerRadius, 0, baseThickness);
+        reliefMesh.addScrewHead(6.5, 6.5, 3.2, 1.5, baseThickness, totalZ);
+        reliefMesh.addScrewHead(plateW - 6.5, 6.5, 3.2, 1.5, baseThickness, totalZ);
+        reliefMesh.addScrewHead(6.5, plateH - 6.5, 3.2, 1.5, baseThickness, totalZ);
+        reliefMesh.addScrewHead(plateW - 6.5, plateH - 6.5, 3.2, 1.5, baseThickness, totalZ);
       }
 
-      // 2. Build Relief Geometry (QR modules + Center Emblem + Top Text + Bottom Text)
+      // 2. Build Relief Geometry (QR Matrix with Organic/Rounded continuous modules)
       const matrixObj = options.matrixObj || window.QRGenerator.generateMatrix(options.text, options.centerEmoji ? 'H' : 'Q');
       const matrix = matrixObj.matrix;
       const count = matrixObj.size;
@@ -439,10 +521,39 @@
       const centerStart = Math.floor((count - centerReserve) / 2);
       const centerEnd = centerStart + centerReserve;
 
-      // Extrude QR dark modules
+      // Helper to identify the 3 Finder Pattern Eyes (7x7 corners)
+      function isFinder(r, c) {
+        if (r <= 6 && c <= 6) return true; // Top-Left
+        if (r <= 6 && c >= count - 7) return true; // Top-Right
+        if (r >= count - 7 && c <= 6) return true; // Bottom-Left
+        return false;
+      }
+
+      // Render the 3 Finder Patterns as Smooth Squircles
+      function renderFinderPattern(startCol, startRow) {
+        const originX = qrMarginX + startCol * moduleSize;
+        const originY = qrMarginY + (count - 7 - startRow) * moduleSize;
+        const outerSize = 7 * moduleSize;
+        const innerSize = 3 * moduleSize;
+        const rChamfer = moduleSize * 1.3;
+
+        // Outer 7x7 squircle ring
+        reliefMesh.addRoundedBox(originX, originX + outerSize, originY, originY + outerSize, rChamfer, baseThickness, totalZ);
+        baseMesh.addRoundedBox(originX + moduleSize, originX + outerSize - moduleSize, originY + moduleSize, originY + outerSize - moduleSize, rChamfer * 0.7, baseThickness, totalZ + 0.05);
+
+        // Inner 3x3 solid squircle core
+        reliefMesh.addRoundedBox(originX + 2 * moduleSize, originX + 5 * moduleSize, originY + 2 * moduleSize, originY + 5 * moduleSize, moduleSize * 0.85, baseThickness, totalZ);
+      }
+
+      renderFinderPattern(0, 0); // Top-Left
+      renderFinderPattern(count - 7, 0); // Top-Right
+      renderFinderPattern(0, count - 7); // Bottom-Left
+
+      // Render Data Modules with Connected Organic Ribbon Bridges
       for (let r = 0; r < count; r++) {
         for (let c = 0; c < count; c++) {
           if (!matrix[r][c]) continue;
+          if (isFinder(r, c)) continue; // Handled by renderFinderPattern
           if (centerReserve > 0 && r >= centerStart && r < centerEnd && c >= centerStart && c < centerEnd) {
             continue;
           }
@@ -453,60 +564,83 @@
           if (shape === 'dots') {
             const rad = moduleSize * 0.44;
             reliefMesh.addCylinder(mx + moduleSize / 2, my + moduleSize / 2, rad, baseThickness, totalZ, 12);
-          } else if (shape === 'rounded') {
-            const chamfer = moduleSize * 0.28;
-            reliefMesh.addRoundedBox(mx, mx + moduleSize, my, my + moduleSize, chamfer, baseThickness, totalZ);
-          } else {
-            const gap = moduleSize * 0.03;
+          } else if (shape === 'square') {
+            const gap = moduleSize * 0.02;
             reliefMesh.addBox(mx + gap, mx + moduleSize - gap, my + gap, my + moduleSize - gap, baseThickness, totalZ);
+          } else {
+            // High-End Organic Rounded Blended Modules
+            const chamfer = moduleSize * 0.32;
+            reliefMesh.addRoundedBox(mx, mx + moduleSize, my, my + moduleSize, chamfer, baseThickness, totalZ);
+
+            // Connect Right Neighbor
+            if (c < count - 1 && matrix[r][c + 1] && !isFinder(r, c + 1)) {
+              if (!(centerReserve > 0 && r >= centerStart && r < centerEnd && (c + 1) >= centerStart && (c + 1) < centerEnd)) {
+                reliefMesh.addBox(mx + moduleSize * 0.4, mx + moduleSize * 1.6, my + moduleSize * 0.1, my + moduleSize * 0.9, baseThickness, totalZ);
+              }
+            }
+
+            // Connect Bottom Neighbor
+            if (r < count - 1 && matrix[r + 1][c] && !isFinder(r + 1, c)) {
+              if (!(centerReserve > 0 && (r + 1) >= centerStart && (r + 1) < centerEnd && c >= centerStart && c < centerEnd)) {
+                const nextY = qrMarginY + (count - 1 - (r + 1)) * moduleSize;
+                reliefMesh.addBox(mx + moduleSize * 0.1, mx + moduleSize * 0.9, nextY + moduleSize * 0.4, my + moduleSize * 0.6, baseThickness, totalZ);
+              }
+            }
           }
         }
       }
 
-      // 3. Center 3D Embossed Emblem / Logo
+      // 3. Center 3D Embossed Emblem / Logo (High-Precision Vector Geometry)
       if (hasCenter) {
         const qrCenterX = qrMarginX + qrAreaSize / 2;
         const qrCenterY = qrMarginY + qrAreaSize / 2;
         const badgeRadius = (centerReserve * moduleSize) * 0.54;
         const emoji = options.centerEmoji.trim();
 
-        baseMesh.addCylinder(qrCenterX, qrCenterY, badgeRadius + 0.8, baseThickness, baseThickness + 0.35, 24);
-        reliefMesh.addHollowCylinder(qrCenterX, qrCenterY, badgeRadius, badgeRadius - 1.0, baseThickness, totalZ + 0.25, 24);
+        // Base circular pad
+        baseMesh.addCylinder(qrCenterX, qrCenterY, badgeRadius + 0.9, baseThickness, baseThickness + 0.4, 28);
+        // Raised outer relief border ring
+        reliefMesh.addHollowCylinder(qrCenterX, qrCenterY, badgeRadius, badgeRadius - 1.1, baseThickness, totalZ + 0.25, 28);
 
-        if (emoji === '⭐') {
-          reliefMesh.addStar(qrCenterX, qrCenterY, badgeRadius * 0.65, badgeRadius * 0.28, baseThickness, totalZ + 0.35);
-        } else if (emoji === '🍽️') {
-          const iconR = badgeRadius * 0.55;
-          reliefMesh.addBox(qrCenterX - iconR * 0.7, qrCenterX - iconR * 0.45, qrCenterY - iconR * 0.8, qrCenterY + iconR * 0.1, baseThickness, totalZ + 0.35);
-          reliefMesh.addBox(qrCenterX - iconR * 0.85, qrCenterX - iconR * 0.3, qrCenterY + iconR * 0.1, qrCenterY + iconR * 0.8, baseThickness, totalZ + 0.35);
-          reliefMesh.addBox(qrCenterX + iconR * 0.45, qrCenterX + iconR * 0.7, qrCenterY - iconR * 0.8, qrCenterY + iconR * 0.8, baseThickness, totalZ + 0.35);
+        // High-Precision 3D Emblem Model
+        if (emoji === '🍽️') {
+          reliefMesh.addCutleryIcon(qrCenterX, qrCenterY, badgeRadius / 8.5, baseThickness, totalZ + 0.35);
+        } else if (emoji === '⭐') {
+          reliefMesh.addStar(qrCenterX, qrCenterY, badgeRadius * 0.68, badgeRadius * 0.30, baseThickness, totalZ + 0.35);
         } else if (emoji === '📶') {
           const iconR = badgeRadius * 0.65;
-          reliefMesh.addCylinder(qrCenterX, qrCenterY - iconR * 0.4, iconR * 0.16, baseThickness, totalZ + 0.35, 12);
-          reliefMesh.addHollowCylinder(qrCenterX, qrCenterY - iconR * 0.4, iconR * 0.5, iconR * 0.36, baseThickness, totalZ + 0.35, 16);
-          reliefMesh.addHollowCylinder(qrCenterX, qrCenterY - iconR * 0.4, iconR * 0.85, iconR * 0.71, baseThickness, totalZ + 0.35, 18);
+          reliefMesh.addCylinder(qrCenterX, qrCenterY - iconR * 0.4, iconR * 0.18, baseThickness, totalZ + 0.35, 14);
+          reliefMesh.addHollowCylinder(qrCenterX, qrCenterY - iconR * 0.4, iconR * 0.52, iconR * 0.36, baseThickness, totalZ + 0.35, 18);
+          reliefMesh.addHollowCylinder(qrCenterX, qrCenterY - iconR * 0.4, iconR * 0.88, iconR * 0.72, baseThickness, totalZ + 0.35, 20);
         } else if (emoji === '☕') {
-          const iconR = badgeRadius * 0.55;
-          reliefMesh.addBox(qrCenterX - iconR * 0.6, qrCenterX + iconR * 0.4, qrCenterY - iconR * 0.6, qrCenterY + iconR * 0.4, baseThickness, totalZ + 0.35);
-          reliefMesh.addBox(qrCenterX + iconR * 0.35, qrCenterX + iconR * 0.75, qrCenterY - iconR * 0.3, qrCenterY + iconR * 0.2, baseThickness, totalZ + 0.35);
+          const s = badgeRadius / 8.0;
+          // Cup body
+          reliefMesh.addBox(qrCenterX - 3.8 * s, qrCenterX + 2.5 * s, qrCenterY - 3.8 * s, qrCenterY + 2.5 * s, baseThickness, totalZ + 0.35);
+          // Handle
+          reliefMesh.addHollowCylinder(qrCenterX + 2.5 * s, qrCenterY - 0.6 * s, 2.4 * s, 1.4 * s, baseThickness, totalZ + 0.35, 16);
+          // Steam waves
+          reliefMesh.addBox(qrCenterX - 2.2 * s, qrCenterX - 1.2 * s, qrCenterY + 3.2 * s, qrCenterY + 5.2 * s, baseThickness, totalZ + 0.35);
+          reliefMesh.addBox(qrCenterX + 0.2 * s, qrCenterX + 1.2 * s, qrCenterY + 3.2 * s, qrCenterY + 5.2 * s, baseThickness, totalZ + 0.35);
         } else if (emoji === '📷') {
-          const iconR = badgeRadius * 0.55;
-          reliefMesh.addBox(qrCenterX - iconR * 0.75, qrCenterX + iconR * 0.75, qrCenterY - iconR * 0.5, qrCenterY + iconR * 0.4, baseThickness, totalZ + 0.35);
-          reliefMesh.addCylinder(qrCenterX, qrCenterY, iconR * 0.32, baseThickness, totalZ + 0.45, 16);
+          const s = badgeRadius / 8.0;
+          reliefMesh.addRoundedBox(qrCenterX - 4.5 * s, qrCenterX + 4.5 * s, qrCenterY - 3.5 * s, qrCenterY + 3.5 * s, 1.2 * s, baseThickness, totalZ + 0.35);
+          reliefMesh.addHollowCylinder(qrCenterX, qrCenterY, 2.6 * s, 1.6 * s, baseThickness, totalZ + 0.45, 20);
+          reliefMesh.addCylinder(qrCenterX, qrCenterY, 0.9 * s, baseThickness, totalZ + 0.45, 12);
         } else if (emoji === '📍') {
-          const iconR = badgeRadius * 0.55;
-          reliefMesh.addCylinder(qrCenterX, qrCenterY + iconR * 0.2, iconR * 0.5, baseThickness, totalZ + 0.35, 16);
-          reliefMesh.addBox(qrCenterX - iconR * 0.25, qrCenterX + iconR * 0.25, qrCenterY - iconR * 0.7, qrCenterY + iconR * 0.2, baseThickness, totalZ + 0.35);
+          const s = badgeRadius / 8.0;
+          reliefMesh.addCylinder(qrCenterX, qrCenterY + 1.2 * s, 3.8 * s, baseThickness, totalZ + 0.35, 20);
+          baseMesh.addCylinder(qrCenterX, qrCenterY + 1.2 * s, 1.6 * s, baseThickness, totalZ + 0.4, 16);
+          reliefMesh.addBox(qrCenterX - 1.4 * s, qrCenterX + 1.4 * s, qrCenterY - 4.5 * s, qrCenterY + 1.2 * s, baseThickness, totalZ + 0.35);
         } else if (emoji === '🛍️') {
-          const iconR = badgeRadius * 0.55;
-          reliefMesh.addBox(qrCenterX - iconR * 0.65, qrCenterX + iconR * 0.65, qrCenterY - iconR * 0.7, qrCenterY + iconR * 0.3, baseThickness, totalZ + 0.35);
-          reliefMesh.addHollowCylinder(qrCenterX, qrCenterY + iconR * 0.3, iconR * 0.35, iconR * 0.22, baseThickness, totalZ + 0.35, 16);
+          const s = badgeRadius / 8.0;
+          reliefMesh.addRoundedBox(qrCenterX - 4.0 * s, qrCenterX + 4.0 * s, qrCenterY - 4.2 * s, qrCenterY + 2.0 * s, 1.0 * s, baseThickness, totalZ + 0.35);
+          reliefMesh.addHollowCylinder(qrCenterX, qrCenterY + 2.0 * s, 2.4 * s, 1.4 * s, baseThickness, totalZ + 0.35, 16);
         } else if (emoji === '🔗') {
-          const iconR = badgeRadius * 0.55;
-          reliefMesh.addHollowCylinder(qrCenterX - iconR * 0.25, qrCenterY, iconR * 0.45, iconR * 0.25, baseThickness, totalZ + 0.35, 16);
-          reliefMesh.addHollowCylinder(qrCenterX + iconR * 0.25, qrCenterY, iconR * 0.45, iconR * 0.25, baseThickness, totalZ + 0.35, 16);
+          const s = badgeRadius / 8.0;
+          reliefMesh.addHollowCylinder(qrCenterX - 1.8 * s, qrCenterY, 3.0 * s, 1.8 * s, baseThickness, totalZ + 0.35, 18);
+          reliefMesh.addHollowCylinder(qrCenterX + 1.8 * s, qrCenterY, 3.0 * s, 1.8 * s, baseThickness, totalZ + 0.35, 18);
         } else {
-          reliefMesh.addStar(qrCenterX, qrCenterY, badgeRadius * 0.58, badgeRadius * 0.26, baseThickness, totalZ + 0.35);
+          reliefMesh.addStar(qrCenterX, qrCenterY, badgeRadius * 0.65, badgeRadius * 0.28, baseThickness, totalZ + 0.35);
         }
       }
 

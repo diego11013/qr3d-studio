@@ -109,7 +109,7 @@
     }
   `;
 
-  const FS_SOURCE = `
+    const FS_SOURCE = `
     precision mediump float;
     uniform vec3 uColor;
     varying vec3 vNormal;
@@ -117,22 +117,33 @@
 
     void main() {
       vec3 normal = normalize(vNormal);
-      vec3 lightDir1 = normalize(vec3(0.4, 0.7, 1.0));
-      vec3 lightDir2 = normalize(vec3(-0.4, -0.2, 0.6));
       vec3 viewDir = normalize(-vPosition);
 
-      // Ambient
-      float ambient = 0.42;
+      // Key light (Top-Left elevated)
+      vec3 lightDir1 = normalize(vec3(0.5, 0.75, 0.9));
+      // Fill light (Bottom-Right soft bounce)
+      vec3 lightDir2 = normalize(vec3(-0.5, -0.3, 0.7));
+      // Top ambient sky light
+      vec3 skyDir = vec3(0.0, 1.0, 0.0);
+
+      // Hemisphere Ambient
+      float hemi = 0.5 * dot(normal, skyDir) + 0.5;
+      vec3 ambient = mix(vec3(0.18, 0.22, 0.28), vec3(0.55, 0.58, 0.65), hemi);
 
       // Diffuse lights
-      float diff1 = max(dot(normal, lightDir1), 0.0) * 0.48;
-      float diff2 = max(dot(normal, lightDir2), 0.0) * 0.16;
+      float diff1 = max(dot(normal, lightDir1), 0.0) * 0.55;
+      float diff2 = max(dot(normal, lightDir2), 0.0) * 0.20;
 
-      // Specular highlight
-      vec3 halfDir = normalize(lightDir1 + viewDir);
-      float spec = pow(max(dot(normal, halfDir), 0.0), 32.0) * 0.22;
+      // Blinn-Phong Specular
+      vec3 halfDir1 = normalize(lightDir1 + viewDir);
+      float spec = pow(max(dot(normal, halfDir1), 0.0), 38.0) * 0.38;
 
-      vec3 finalColor = uColor * (ambient + diff1 + diff2) + vec3(spec);
+      // Fresnel Rim Reflection for crisp 3D bevels
+      float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 3.0) * 0.22;
+
+      vec3 lighting = ambient + vec3(diff1 + diff2);
+      vec3 finalColor = uColor * lighting + vec3(spec + fresnel * 0.8);
+
       gl_FragColor = vec4(finalColor, 1.0);
     }
   `;
