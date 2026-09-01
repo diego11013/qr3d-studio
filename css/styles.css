@@ -1401,19 +1401,18 @@ header {
   inset: 0;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(15px);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 200;
   opacity: 0;
-  visibility: hidden;
   transition: all 0.25s ease-out;
   padding: 20px;
 }
 
 .legal-modal-overlay.active {
+  display: flex;
   opacity: 1;
-  visibility: visible;
 }
 
 .legal-modal-box {
@@ -1649,4 +1648,76 @@ footer {
   text-align: center;
   margin-top: 22px;
   font-style: italic;
+}
+
+/* Modal Overlay Base Styling */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-box {
+  background: #161b22;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  max-width: 480px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-close-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.modal-action-btn {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 14px;
+  transition: background 0.2s;
+}
+
+.modal-action-btn:hover {
+  background: var(--primary-hover);
 }
