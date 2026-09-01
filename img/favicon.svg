@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2997ff"/>
+      <stop offset="100%" stop-color="#0071e3"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0071e3" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <!-- Background Rounded Squircle -->
+  <rect width="128" height="128" rx="28" fill="#000000"/>
+  <rect x="2" y="2" width="124" height="124" rx="26" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2.5"/>
+  
+  <!-- Isometric 3D Layered QR Cube Icon -->
+  <g transform="translate(24, 24) scale(3.33)" filter="url(#shadow)">
+    <!-- Top Face -->
+    <polygon points="12 2 2 7 12 12 22 7" fill="url(#glow)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- Middle Layer Relief -->
+    <polyline points="2 12 12 17 22 12" fill="none" stroke="#2997ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Bottom Base Layer -->
+    <polyline points="2 17 12 22 22 17" fill="none" stroke="#0071e3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
