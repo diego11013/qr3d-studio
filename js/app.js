@@ -415,6 +415,137 @@
       el.btnZoomInSlider.addEventListener('click', () => viewer.zoomBy(-35));
     }
 
+    
+    // Hero CTA Smooth Scroll
+    const heroCtaBtn = document.getElementById('heroCtaBtn');
+    if (heroCtaBtn) {
+      heroCtaBtn.addEventListener('click', () => {
+        const target = document.getElementById('studioConfigurator');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    // Inspiration Gallery Cards (1-Click Auto Load)
+    document.querySelectorAll('.gallery-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const design = card.dataset.design;
+        if (design === 'menu-steel') {
+          state.text = 'https://tu-restaurante.com/menu';
+          state.objectFormat = 'stand';
+          state.centerEmoji = '🍽️';
+          state.topText = 'ESCANÉAME';
+          state.bottomText = 'MENÚ DIGITAL\nRESTAURANTE';
+          state.baseColor = '#D1D5DB';
+          state.reliefColor = '#1F2937';
+          state.moduleShape = 'rounded';
+        } else if (design === 'google-reviews') {
+          state.text = 'https://g.page/r/tu-negocio/review';
+          state.objectFormat = 'plaque';
+          state.centerEmoji = '⭐';
+          state.topText = 'VALÓRANOS';
+          state.bottomText = '5 ESTRELLAS EN GOOGLE\n★ ★ ★ ★ ★';
+          state.baseColor = '#FFFFFF';
+          state.reliefColor = '#0071E3';
+          state.moduleShape = 'rounded';
+        } else if (design === 'keychain-gold') {
+          state.text = 'https://instagram.com/tu_cuenta';
+          state.objectFormat = 'keychain';
+          state.centerEmoji = '📷';
+          state.topText = 'SÍGUENOS';
+          state.bottomText = 'EN INSTAGRAM';
+          state.baseColor = '#111827';
+          state.reliefColor = '#F59E0B';
+          state.moduleShape = 'square';
+        } else if (design === 'wifi-magnetic') {
+          state.text = 'WIFI:S:WiFi_Huespedes;T:WPA;P:clave2026;;';
+          state.objectFormat = 'magnetic';
+          state.centerEmoji = '📶';
+          state.topText = 'CONÉCTATE AL WIFI';
+          state.bottomText = 'RED: HUESPEDES_5G';
+          state.baseColor = '#1E293B';
+          state.reliefColor = '#2997FF';
+          state.moduleShape = 'rounded';
+        }
+
+        // Sync inputs
+        el.qrInput.value = state.text;
+        if (el.topTextInput) el.topTextInput.value = state.topText;
+        if (el.bottomTextInput) el.bottomTextInput.value = state.bottomText;
+        el.baseColorInput.value = state.baseColor;
+        el.baseColorHex.textContent = state.baseColor.toUpperCase();
+        el.reliefColorInput.value = state.reliefColor;
+        el.reliefColorHex.textContent = state.reliefColor.toUpperCase();
+
+        el.formatBtns.forEach(f => f.classList.toggle('active', f.dataset.format === state.objectFormat));
+        el.emblemBtns.forEach(e => e.classList.toggle('active', e.dataset.emoji === state.centerEmoji));
+        el.shapeBtns.forEach(s => s.classList.toggle('active', s.dataset.shape === state.moduleShape));
+
+        updateAll();
+
+        const target = document.getElementById('studioConfigurator');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Viral Share & Snapshot Modal
+    const btnShareSnapshot = document.getElementById('btnShareSnapshot');
+    const shareModal = document.getElementById('shareModal');
+    const closeShareBtn = document.getElementById('closeShareBtn');
+    const shareImgPreview = document.getElementById('shareImgPreview');
+    const btnDownloadSnapshotImg = document.getElementById('btnDownloadSnapshotImg');
+    let currentSnapshotBlob = null;
+
+    if (btnShareSnapshot && shareModal) {
+      btnShareSnapshot.addEventListener('click', () => {
+        viewer.captureSnapshot(blob => {
+          currentSnapshotBlob = blob;
+          if (shareImgPreview && blob) {
+            shareImgPreview.src = URL.createObjectURL(blob);
+          }
+          shareModal.classList.add('active');
+        });
+      });
+
+      if (closeShareBtn) {
+        closeShareBtn.addEventListener('click', () => shareModal.classList.remove('active'));
+      }
+      shareModal.addEventListener('click', e => {
+        if (e.target === shareModal) shareModal.classList.remove('active');
+      });
+
+      if (btnDownloadSnapshotImg) {
+        btnDownloadSnapshotImg.addEventListener('click', () => {
+          if (currentSnapshotBlob) {
+            saveBlob(currentSnapshotBlob, 'qr3d_render_snapshot.png');
+          }
+        });
+      }
+
+      // Social Share Links
+      const btnShareReddit = document.getElementById('btnShareReddit');
+      const btnShareX = document.getElementById('btnShareX');
+      const btnShareWhatsApp = document.getElementById('btnShareWhatsApp');
+
+      if (btnShareReddit) {
+        btnShareReddit.addEventListener('click', e => {
+          e.preventDefault();
+          window.open('https://www.reddit.com/r/3Dprinting/submit?title=Custom%203D%20Printed%20QR%20Design%20(3MF%20Multicolor)&url=https://qr3dstudio.online', '_blank');
+        });
+      }
+      if (btnShareX) {
+        btnShareX.addEventListener('click', e => {
+          e.preventDefault();
+          window.open('https://twitter.com/intent/tweet?text=Generador%20de%20C%C3%B3digos%20QR%20para%20Impresi%C3%B3n%203D%20Multicolor%20(.3MF%20y%20.STL)%20gratis%20en%20el%20navegador:%20https://qr3dstudio.online', '_blank');
+        });
+      }
+      if (btnShareWhatsApp) {
+        btnShareWhatsApp.addEventListener('click', e => {
+          e.preventDefault();
+          window.open('https://api.whatsapp.com/send?text=Mira%20este%20generador%20de%20c%C3%B3digos%20QR%20para%20impresi%C3%B3n%203D%20multicolor:%20https://qr3dstudio.online', '_blank');
+        });
+      }
+    }
+
     // Direct 1-Click Instant Downloads (Zero-Friction)
     el.btnDownload3MF.addEventListener('click', () => executeDirectDownload('3mf'));
     el.btnDownloadSTL.addEventListener('click', () => executeDirectDownload('stl'));

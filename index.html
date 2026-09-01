@@ -100,7 +100,7 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+    <!-- Hero Section (High-Impact & Clean) -->
   <section class="hero-section">
     <div class="container">
       <h1 class="hero-title" data-i18n="hero.title">Generador de Códigos QR para Impresión 3D</h1>
@@ -109,32 +109,27 @@
         Exportación nativa en <strong>.3MF multicolor con dos cuerpos</strong> para Bambu Lab AMS y Prusa MMU, o en <strong>.STL universal</strong>.
       </p>
       
+      <!-- Primary High-Contrast Call to Action -->
+      <div style="margin-bottom: 24px;">
+        <button type="button" id="heroCtaBtn" class="hero-cta-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          <span data-i18n="hero.cta_btn">⚡ Crear mi QR 3D ahora</span>
+        </button>
+      </div>
+
       <div class="trust-badges">
         <div class="trust-item">
-          <span class="trust-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-          </span>
+          <span class="trust-icon">✓</span>
           <span data-i18n="hero.badge1">Sin registros ni esperas</span>
         </div>
         <div class="trust-item">
-          <span class="trust-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
-              <path d="M2 12h20"/>
-            </svg>
-          </span>
+          <span class="trust-icon">🎨</span>
           <span data-i18n="hero.badge2">Color embebido en el archivo</span>
         </div>
         <div class="trust-item">
-          <span class="trust-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-              <line x1="12" y1="18" x2="12.01" y2="18"/>
-            </svg>
-          </span>
+          <span class="trust-icon">📱</span>
           <span data-i18n="hero.badge3">Gestos táctiles & Trackpad</span>
         </div>
       </div>
@@ -163,7 +158,7 @@
   </section>
 
   <!-- Main Tool Workspace (Above the fold) -->
-  <main class="container">
+  <main class="container" id="studioConfigurator">
     <div class="studio-grid">
       
       <!-- Left Panel: Customization Controls -->
@@ -540,7 +535,7 @@
           </button>
         </div>
 
-        <!-- Direct 1-Click Instant 3D Download Buttons -->
+                <!-- Direct 1-Click Instant 3D Download Buttons -->
         <div class="download-section">
           <button type="button" id="btnDownload3MF" class="btn-primary-download">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -548,19 +543,38 @@
             </svg>
             <span data-i18n="btn.download_3mf">Descargar .3MF (Multicolor con Color Nativo)</span>
           </button>
+
+          <!-- Slicer Native Compatibility Badges -->
+          <div class="slicer-compat-row">
+            <span class="slicer-compat-label" data-i18n="compat.heading">Compatibilidad Nativa:</span>
+            <div class="slicer-compat-pills">
+              <span class="compat-pill">✓ Bambu Studio (AMS)</span>
+              <span class="compat-pill">✓ OrcaSlicer</span>
+              <span class="compat-pill">✓ PrusaSlicer (MMU)</span>
+              <span class="compat-pill">✓ Cura</span>
+            </div>
+          </div>
           
-          <button type="button" id="btnDownloadSTL" class="btn-secondary-download" style="padding: 12px;" title="Descargar modelo 3D combinado para cambio de filamento por pausa de capa">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-              <line x1="12" y1="22.08" x2="12" y2="12"/>
-            </svg>
-            <span data-i18n="btn.download_stl">Descargar .STL (Universal para cualquier impresora)</span>
-          </button>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+            <button type="button" id="btnDownloadSTL" class="btn-secondary-download" title="Descargar modelo 3D combinado para cambio de filamento por pausa de capa">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                <line x1="12" y1="22.08" x2="12" y2="12"/>
+              </svg>
+              <span data-i18n="btn.download_stl">Descargar .STL</span>
+            </button>
+
+            <button type="button" id="btnShareSnapshot" class="btn-secondary-download" style="border-color:rgba(41,151,255,0.4); color:#2997ff;" title="Compartir render en foros o Reddit">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+              <span data-i18n="btn.share_snapshot">📸 Compartir Render</span>
+            </button>
+          </div>
         </div>
-
       </div>
-
     </div>
 
     <!-- NEW SECTION: Dedicated 2D QR Code View & Vector Export -->
@@ -617,6 +631,70 @@
         </div>
       </div>
     </div>
+
+        <!-- Inspiration Gallery Section -->
+    <section class="gallery-section">
+      <div class="container">
+        <div class="section-header" style="margin-bottom: 24px; text-align: center;">
+          <h2 class="section-title" style="font-size: 1.8rem;" data-i18n="gallery.title">🎨 Galería de Inspiración: Diseños Profesionales</h2>
+          <p class="section-subtitle" style="font-size: 1rem;" data-i18n="gallery.desc">Explora acabados de impresión 3D reales. Haz clic en cualquier diseño para cargarlo automáticamente en el configurador interactivo.</p>
+        </div>
+
+        <div class="gallery-grid">
+          <!-- Card 1: Restaurant Menu -->
+          <div class="gallery-card" data-design="menu-steel">
+            <div class="gallery-img-box" style="background: radial-gradient(circle at center, #2d3748 0%, #111827 100%);">
+              <div class="gallery-qr-icon">🍽️</div>
+              <span class="gallery-chip" data-i18n="gallery.item1_badge">Soporte de Mesa</span>
+            </div>
+            <div class="gallery-info">
+              <h3 class="gallery-title" data-i18n="gallery.item1_title">Menú Restaurante en Acero & Madera</h3>
+              <p class="gallery-desc">Diseño biselado con tenedor y cuchillo en relieve, ideal para cartas táctiles en terrazas y barras.</p>
+              <button type="button" class="gallery-btn" data-i18n="gallery.item1_btn">⚡ Cargar este diseño</button>
+            </div>
+          </div>
+
+          <!-- Card 2: Google Reviews -->
+          <div class="gallery-card" data-design="google-reviews">
+            <div class="gallery-img-box" style="background: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 100%);">
+              <div class="gallery-qr-icon">⭐</div>
+              <span class="gallery-chip" data-i18n="gallery.item2_badge">Mostrador & TPV</span>
+            </div>
+            <div class="gallery-info">
+              <h3 class="gallery-title" data-i18n="gallery.item2_title">Placa de Reseñas Google 5★</h3>
+              <p class="gallery-desc">Contraste blanco y azul royal con estrellas decorativas para maximizar opiniones de 5 estrellas al cobrar.</p>
+              <button type="button" class="gallery-btn" data-i18n="gallery.item2_btn">⚡ Cargar este diseño</button>
+            </div>
+          </div>
+
+          <!-- Card 3: Event Keychain -->
+          <div class="gallery-card" data-design="keychain-gold">
+            <div class="gallery-img-box" style="background: radial-gradient(circle at center, #451a03 0%, #0a0c10 100%);">
+              <div class="gallery-qr-icon">📷</div>
+              <span class="gallery-chip" data-i18n="gallery.item3_badge">Llavero con Anilla</span>
+            </div>
+            <div class="gallery-info">
+              <h3 class="gallery-title" data-i18n="gallery.item3_title">Llavero Portátil de Redes & Eventos</h3>
+              <p class="gallery-desc">Formato de bolsillo en negro y oro para compartir Instagram o tarjeta de contacto en ferias y networking.</p>
+              <button type="button" class="gallery-btn" data-i18n="gallery.item3_btn">⚡ Cargar este diseño</button>
+            </div>
+          </div>
+
+          <!-- Card 4: Guest WiFi -->
+          <div class="gallery-card" data-design="wifi-magnetic">
+            <div class="gallery-img-box" style="background: radial-gradient(circle at center, #064e3b 0%, #080a0e 100%);">
+              <div class="gallery-qr-icon">📶</div>
+              <span class="gallery-chip" data-i18n="gallery.item4_badge">Imán para Nevera</span>
+            </div>
+            <div class="gallery-info">
+              <h3 class="gallery-title" data-i18n="gallery.item4_title">Placa Magnética WiFi de Huéspedes</h3>
+              <p class="gallery-desc">Con cajeados para imanes de neodimio, listo para colocar en la nevera de alojamientos turísticos y Airbnb.</p>
+              <button type="button" class="gallery-btn" data-i18n="gallery.item4_btn">⚡ Cargar este diseño</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Recommended 3D Hardware & High-Contrast Supplies -->
         <!-- Recommended 3D Printers, Filaments & Hardware Showcase (Affiliate Ready) -->
@@ -887,6 +965,36 @@
     </div>
   </section>
 
+    <!-- SEO Tutorials & 3D Knowledge Hub -->
+  <section class="content-section" style="background: rgba(18, 24, 32, 0.5);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" data-i18n="tutorials.title">📚 Guías Rápidas y Tutoriales de Impresión 3D</h2>
+        <p class="section-subtitle" data-i18n="tutorials.desc">Aprende a optimizar tus tiempos de impresión, cambios de filamento y calibración para escaneo perfecto.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">📖</div>
+          <h3 class="step-title" data-i18n="tut1.title">Cómo imprimir códigos QR en 2 colores con Bambu Lab AMS</h3>
+          <p class="step-desc" data-i18n="tut1.desc">Paso a paso para importar archivos .3MF multicolor sin colorear caras manualmente y configurar el orden de capas.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">📖</div>
+          <h3 class="step-title" data-i18n="tut2.title">Cambio de filamento manual por pausa de capa (Comando M600)</h3>
+          <p class="step-desc" data-i18n="tut2.desc">Imprime códigos QR profesionales en cualquier impresora monocromática tradicional (Ender 3, Neptune, Kobra).</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">📖</div>
+          <h3 class="step-title" data-i18n="tut3.title">Guía de montaje de imanes de neodimio en placas 3D</h3>
+          <p class="step-desc" data-i18n="tut3.desc">Consejos de tolerancia y pegado para imanes de 6×2 mm y 10×2 mm en neveras, pizarras y expositores metálicos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Section: FAQ -->
   <section class="content-section" style="background: rgba(22, 27, 34, 0.3);">
     <div class="container">
@@ -1002,6 +1110,39 @@
       </svg>
     </span>
     <span data-i18n="download.toast">¡Descarga iniciada con éxito! Ya puedes abrir el archivo en tu laminador.</span>
+  </div>
+
+    <!-- Viral Share Modal -->
+  <div class="modal-overlay" id="shareModal">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+          <span data-i18n="share.modal_title">Compartir tu Diseño 3D</span>
+        </h3>
+        <button type="button" class="modal-close-icon" id="closeShareBtn">✕</button>
+      </div>
+      <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;" data-i18n="share.modal_desc">
+        Comparte una captura de alta calidad de tu diseño en foros y comunidades de impresión 3D:
+      </p>
+      
+      <div style="background:#0a0c10; border:1px solid var(--border); border-radius:12px; padding:12px; text-align:center; margin-bottom:16px;">
+        <img id="shareImgPreview" src="" alt="Render 3D Snapshot" style="max-width:100%; max-height:220px; border-radius:8px; display:inline-block;">
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <button type="button" id="btnDownloadSnapshotImg" class="modal-action-btn" style="margin-top:0; background:var(--primary);" data-i18n="share.download_img">
+          💾 Descargar Imagen del Render HD
+        </button>
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
+          <button type="button" id="btnShareReddit" class="action-btn-sm" style="padding:10px; justify-content:center;">Reddit</button>
+          <button type="button" id="btnShareX" class="action-btn-sm" style="padding:10px; justify-content:center;">X (Twitter)</button>
+          <button type="button" id="btnShareWhatsApp" class="action-btn-sm" style="padding:10px; justify-content:center;">WhatsApp</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Modal: WiFi QR Helper -->
